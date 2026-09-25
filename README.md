@@ -6,7 +6,7 @@ repository requires one entry in `catalog.json`; `generate.py` produces the matc
 Claude and Codex marketplace files. The `core` release catalog remains the owner of
 exact package versions and project locks.
 
-Once published, add the marketplace and select plugins explicitly:
+Add the marketplace and select plugins explicitly:
 
 ```text
 Claude: /plugin marketplace add tj-agents/marketplace
