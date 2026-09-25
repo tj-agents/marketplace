@@ -1,0 +1,16 @@
+{
+  "name": "tj-agents",
+  "description": "Shared engineering, machine, C++, .NET, and React agent capabilities.",
+  "owner": "Tommy Seery",
+  "plugins": [
+    { "name": "base", "repository": "core" },
+    { "name": "engineering", "repository": "core" },
+    { "name": "machine", "repository": "core" },
+    { "name": "cpp", "repository": "cpp" },
+    { "name": "gpp", "repository": "cpp" },
+    { "name": "msvc", "repository": "cpp" },
+    { "name": "win32", "repository": "cpp" },
+    { "name": "dotnet", "repository": "dotnet" },
+    { "name": "react", "repository": "react" }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "name": "tj-agents",
+  "interface": {
+    "displayName": "TJ Agents"
+  },
+  "plugins": [
+    {
+      "name": "base",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/base",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "engineering",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/engineering",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "machine",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/machine",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "cpp",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/cpp.git",
+        "path": "./plugins/cpp",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "gpp",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/cpp.git",
+        "path": "./plugins/gpp",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "msvc",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/cpp.git",
+        "path": "./plugins/msvc",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "win32",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/cpp.git",
+        "path": "./plugins/win32",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "dotnet",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/dotnet.git",
+        "path": "./plugins/dotnet",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "react",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/react.git",
+        "path": "./plugins/react",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

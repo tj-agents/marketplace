@@ -1,0 +1,90 @@
+{
+  "name": "tj-agents",
+  "description": "Shared engineering, machine, C++, .NET, and React agent capabilities.",
+  "owner": {
+    "name": "Tommy Seery"
+  },
+  "plugins": [
+    {
+      "name": "base",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/base",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "engineering",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/engineering",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "machine",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/machine",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "cpp",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/cpp.git",
+        "path": "./plugins/cpp",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "gpp",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/cpp.git",
+        "path": "./plugins/gpp",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "msvc",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/cpp.git",
+        "path": "./plugins/msvc",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "win32",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/cpp.git",
+        "path": "./plugins/win32",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "dotnet",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/dotnet.git",
+        "path": "./plugins/dotnet",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "react",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/react.git",
+        "path": "./plugins/react",
+        "ref": "main"
+      }
+    }
+  ]
+}
