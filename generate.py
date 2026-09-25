@@ -15,9 +15,27 @@ OUTPUTS = {
     "claude": ROOT / ".claude-plugin" / "marketplace.json",
     "codex": ROOT / ".agents" / "plugins" / "marketplace.json",
 }
+IGNORED_DIRS = {".git", ".worktrees", "node_modules", "bin", "obj", "dist"}
+
+
+def validate_instruction_pairs() -> None:
+    def included(path: Path) -> bool:
+        return not IGNORED_DIRS.intersection(path.relative_to(ROOT).parts[:-1])
+
+    agents = {path.parent for path in ROOT.rglob("AGENTS.md") if included(path)}
+    claude = {path.parent for path in ROOT.rglob("CLAUDE.md") if included(path)}
+    for directory in sorted(agents | claude):
+        relative = directory.relative_to(ROOT)
+        if directory not in agents:
+            raise ValueError(f"{relative}/CLAUDE.md needs a sibling AGENTS.md")
+        if directory not in claude:
+            raise ValueError(f"{relative}/AGENTS.md needs a sibling CLAUDE.md")
+        if (directory / "CLAUDE.md").read_text(encoding="utf-8").strip() != "@AGENTS.md":
+            raise ValueError(f"{relative}/CLAUDE.md must contain only @AGENTS.md")
 
 
 def build() -> dict[str, bytes]:
+    validate_instruction_pairs()
     catalog = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
     if catalog["name"] != "tj-agents":
         raise ValueError("The shared marketplace identity must remain tj-agents")
