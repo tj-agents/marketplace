@@ -1,6 +1,6 @@
 {
   "name": "tj-agents",
-  "description": "Shared engineering, machine, C++, .NET, React, and Neovim agent capabilities.",
+  "description": "Shared engineering, machine, C++, .NET, React, Neovim, and Rust agent capabilities.",
   "owner": {
     "name": "Tommy Seery"
   },
@@ -92,6 +92,15 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/nvim.git",
         "path": "./plugins/nvim",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "rust",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/rust.git",
+        "path": "./plugins/rust",
         "ref": "main"
       }
     }
