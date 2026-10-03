@@ -1,6 +1,6 @@
 {
   "name": "tj-agents",
-  "description": "Shared engineering, machine, C++, .NET, React, Neovim, and Rust agent capabilities.",
+  "description": "Shared engineering, machine, C++, .NET, React, Neovim, and Rust agent capabilities, and kit for building plugin repositories.",
   "owner": {
     "name": "Tommy Seery"
   },
@@ -101,6 +101,15 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/rust",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "kit",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/kit.git",
+        "path": "./plugins/kit",
         "ref": "main"
       }
     }
