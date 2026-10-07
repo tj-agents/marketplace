@@ -1,7 +1,7 @@
 # TJ Agents marketplace
 
 One install and discovery catalog for the current plugins in `tj-agents/core`, `cpp`,
-`dotnet`, `react`, `nvim`, `rust`, and `kit`. The packages remain in their source repositories. Adding another
+`dotnet`, `react`, `nvim`, `rust`, `kit`, and private `work`. The packages remain in their source repositories. Adding another
 repository requires one entry in `catalog.json`; `generate.py` produces the matching
 Claude and Codex marketplace files. The `core` release catalog remains the owner of
 exact package versions and project locks.
@@ -16,9 +16,14 @@ Codex:  codex plugin add cpp@tj-agents
 ```
 
 Available canonical plugins are `base`, `engineering`, `machine`, `cpp`, `gpp`, `msvc`,
-`win32`, `dotnet`, `react`, `nvim`, `rust`, and `kit`. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
+`win32`, `dotnet`, `react`, `nvim`, `rust`, `kit`, and private `work`. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. Select `base`, `engineering`, and `machine` together
 for the common agent workflow.
+
+Private `work` requires access to `tj-agents/work` and applies only in work repositories.
+Select it through repository-local capability settings with its native `work-agents/work`
+identity (`work@work-agents` in host settings). The shared catalog provides discovery;
+do not enable a second `work@tj-agents` copy or enable work at user scope.
 
 The existing `base-agents`, `cpp-agents`, `dotagents`, and `react-agents` marketplaces
 remain available to installed consumers. When migrating, disable or uninstall an old

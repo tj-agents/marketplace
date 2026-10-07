@@ -1,6 +1,6 @@
 {
   "name": "tj-agents",
-  "description": "Shared engineering, machine, C++, .NET, React, Neovim, and Rust agent capabilities, and kit for building plugin repositories.",
+  "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, and employer-agnostic work capabilities, and kit for building plugin repositories.",
   "owner": "Tommy Seery",
   "plugins": [
     { "name": "base", "repository": "core" },
@@ -14,6 +14,7 @@
     { "name": "react", "repository": "react" },
     { "name": "nvim", "repository": "nvim" },
     { "name": "rust", "repository": "rust" },
-    { "name": "kit", "repository": "kit" }
+    { "name": "kit", "repository": "kit" },
+    { "name": "work", "repository": "work" }
   ]
 }
