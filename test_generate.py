@@ -111,6 +111,16 @@ class ValidationErrorTests(CatalogFixtureTests):
         with self.assertRaisesRegex(ValueError, "Invalid revision"):
             generate.build()
 
+    def test_zero_padded_release_fails(self):
+        self.write_catalog([{
+            "name": "base",
+            "repository": "core",
+            "revision": "0" * 40,
+            "release": "base-agents@2.01.15",
+        }])
+        with self.assertRaisesRegex(ValueError, "Invalid release"):
+            generate.build()
+
     def test_requires_must_be_a_list(self):
         self.write_catalog([
             {"name": "base", "repository": "core", "revision": "main"},
