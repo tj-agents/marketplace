@@ -10,7 +10,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/base",
-        "ref": "main"
+        "ref": "v2.1.15"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -24,7 +24,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/engineering",
-        "ref": "main"
+        "ref": "v2.1.15"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -38,7 +38,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/machine",
-        "ref": "main"
+        "ref": "v2.1.15"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -52,7 +52,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/cpp",
-        "ref": "main"
+        "ref": "v0.3.2"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -66,7 +66,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/gpp",
-        "ref": "main"
+        "ref": "v0.3.2"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -80,7 +80,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/msvc",
-        "ref": "main"
+        "ref": "v0.3.2"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -94,7 +94,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/win32",
-        "ref": "main"
+        "ref": "v0.3.2"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -108,7 +108,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/dotnet.git",
         "path": "./plugins/dotnet",
-        "ref": "main"
+        "ref": "v1.1.1"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -122,7 +122,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/react.git",
         "path": "./plugins/react",
-        "ref": "main"
+        "ref": "v1.0.1"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -164,7 +164,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/kit.git",
         "path": "./plugins/kit",
-        "ref": "main"
+        "ref": "v1.2.0"
       },
       "policy": {
         "installation": "AVAILABLE",
