@@ -11,8 +11,9 @@ import re
 
 ROOT = Path(__file__).resolve().parent
 NAME = re.compile(r"[a-z][a-z0-9-]*\Z")
-REVISION = re.compile(r"main|v\d+\.\d+\.\d+|[0-9a-f]{40}")
-RELEASE = re.compile(r"[a-z][a-z0-9-]*@\d+\.\d+\.\d+")
+VERSION = r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)"
+REVISION = re.compile(rf"main|v{VERSION}|[0-9a-f]{{40}}")
+RELEASE = re.compile(rf"[a-z][a-z0-9-]*@{VERSION}")
 OUTPUTS = {
     "claude": ROOT / ".claude-plugin" / "marketplace.json",
     "codex": ROOT / ".agents" / "plugins" / "marketplace.json",
@@ -61,7 +62,7 @@ def build() -> dict[str, bytes]:
         name, repository = plugin["name"], plugin["repository"]
         revision = plugin.get("revision")
         if not revision or not REVISION.fullmatch(revision):
-            raise ValueError(f"Invalid revision: {revision!r}")
+            raise ValueError(f"Invalid revision in {name}: {revision!r}")
         release = plugin.get("release")
         if release is not None and not RELEASE.fullmatch(release):
             raise ValueError(f"Invalid release: {release!r}")
@@ -74,7 +75,10 @@ def build() -> dict[str, bytes]:
         if repository in repositories and repositories[repository] != pair:
             raise ValueError(f"repository {repository!r} has mismatched release/revision: {plugin}")
         repositories[repository] = pair
-        for required in plugin.get("requires", []):
+        requires = plugin.get("requires", [])
+        if not isinstance(requires, list) or any(not isinstance(required, str) for required in requires):
+            raise ValueError(f"requires must be a list of plugin names in {name}")
+        for required in requires:
             if required == name:
                 raise ValueError(f"Plugin cannot require itself: {name}")
             if required not in names:
@@ -92,6 +96,14 @@ def build() -> dict[str, bytes]:
             "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
             "category": "Productivity",
         })
+    graph = {plugin["name"]: plugin.get("requires", []) for plugin in plugins}
+    resolved: set[str] = set()
+    while len(resolved) < len(graph):
+        ready = {name for name, requires in graph.items()
+                 if name not in resolved and all(required in resolved for required in requires)}
+        if not ready:
+            raise ValueError("Required plugins form a cycle: " + ", ".join(sorted(set(graph) - resolved)))
+        resolved.update(ready)
     manifests = {
         "claude": {
             "name": catalog["name"],
