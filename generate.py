@@ -11,6 +11,8 @@ import re
 
 ROOT = Path(__file__).resolve().parent
 NAME = re.compile(r"[a-z][a-z0-9-]*\Z")
+REVISION = re.compile(r"main|v\d+\.\d+\.\d+|[0-9a-f]{40}")
+RELEASE = re.compile(r"[a-z][a-z0-9-]*@\d+\.\d+\.\d+")
 OUTPUTS = {
     "claude": ROOT / ".claude-plugin" / "marketplace.json",
     "codex": ROOT / ".agents" / "plugins" / "marketplace.json",
@@ -45,8 +47,6 @@ def build() -> dict[str, bytes]:
     if not plugins:
         raise ValueError("The marketplace has no plugins")
     names: set[str] = set()
-    claude_entries = []
-    codex_entries = []
     for plugin in plugins:
         name, repository = plugin["name"], plugin["repository"]
         if not NAME.fullmatch(name) or not NAME.fullmatch(repository):
@@ -54,11 +54,36 @@ def build() -> dict[str, bytes]:
         if name in names:
             raise ValueError(f"Duplicate plugin: {name}")
         names.add(name)
+    repositories: dict[str, tuple[str | None, str]] = {}
+    claude_entries = []
+    codex_entries = []
+    for plugin in plugins:
+        name, repository = plugin["name"], plugin["repository"]
+        revision = plugin.get("revision")
+        if not revision or not REVISION.fullmatch(revision):
+            raise ValueError(f"Invalid revision: {revision!r}")
+        release = plugin.get("release")
+        if release is not None and not RELEASE.fullmatch(release):
+            raise ValueError(f"Invalid release: {release!r}")
+        if release is not None and revision == "main":
+            raise ValueError(f"release is not allowed with revision main: {plugin}")
+        if release is not None and revision.startswith("v"):
+            if revision[1:] != release.split("@", 1)[1]:
+                raise ValueError(f"revision {revision!r} does not match release version in {release!r}")
+        pair = (release, revision)
+        if repository in repositories and repositories[repository] != pair:
+            raise ValueError(f"repository {repository!r} has mismatched release/revision: {plugin}")
+        repositories[repository] = pair
+        for required in plugin.get("requires", []):
+            if required == name:
+                raise ValueError(f"Plugin cannot require itself: {name}")
+            if required not in names:
+                raise ValueError(f"Unknown required plugin: {required!r}")
         source = {
             "source": "git-subdir",
             "url": f"https://github.com/tj-agents/{repository}.git",
             "path": f"./plugins/{name}",
-            "ref": "main",
+            "ref": revision,
         }
         claude_entries.append({"name": name, "source": source})
         codex_entries.append({

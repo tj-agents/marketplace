@@ -3,17 +3,17 @@
   "description": "Shared engineering, machine, C++, .NET, React, Neovim, and Rust agent capabilities, and kit for building plugin repositories.",
   "owner": "Tommy Seery",
   "plugins": [
-    { "name": "base", "repository": "core" },
-    { "name": "engineering", "repository": "core" },
-    { "name": "machine", "repository": "core" },
-    { "name": "cpp", "repository": "cpp" },
-    { "name": "gpp", "repository": "cpp" },
-    { "name": "msvc", "repository": "cpp" },
-    { "name": "win32", "repository": "cpp" },
-    { "name": "dotnet", "repository": "dotnet" },
-    { "name": "react", "repository": "react" },
-    { "name": "nvim", "repository": "nvim" },
-    { "name": "rust", "repository": "rust" },
-    { "name": "kit", "repository": "kit" }
+    { "name": "base", "repository": "core", "release": "base-agents@2.1.15", "revision": "v2.1.15" },
+    { "name": "engineering", "repository": "core", "release": "base-agents@2.1.15", "revision": "v2.1.15", "requires": ["base"] },
+    { "name": "machine", "repository": "core", "release": "base-agents@2.1.15", "revision": "v2.1.15", "requires": ["base"] },
+    { "name": "cpp", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2" },
+    { "name": "gpp", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "requires": ["cpp"] },
+    { "name": "msvc", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "requires": ["cpp"] },
+    { "name": "win32", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "requires": ["cpp"] },
+    { "name": "dotnet", "repository": "dotnet", "release": "dotagents@1.1.1", "revision": "v1.1.1" },
+    { "name": "react", "repository": "react", "release": "react-agents@1.0.1", "revision": "v1.0.1" },
+    { "name": "nvim", "repository": "nvim", "revision": "main" },
+    { "name": "rust", "repository": "rust", "revision": "main" },
+    { "name": "kit", "repository": "kit", "revision": "v1.2.0" }
   ]
 }
