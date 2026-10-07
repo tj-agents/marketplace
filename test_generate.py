@@ -108,7 +108,7 @@ class ValidationErrorTests(CatalogFixtureTests):
             "revision": "v2.01.15",
             "release": "base-agents@2.01.15",
         }])
-        with self.assertRaisesRegex(ValueError, "Invalid revision"):
+        with self.assertRaisesRegex(ValueError, "Invalid revision in base"):
             generate.build()
 
     def test_zero_padded_release_fails(self):
@@ -118,7 +118,7 @@ class ValidationErrorTests(CatalogFixtureTests):
             "revision": "0" * 40,
             "release": "base-agents@2.01.15",
         }])
-        with self.assertRaisesRegex(ValueError, "Invalid release"):
+        with self.assertRaisesRegex(ValueError, "Invalid release in base"):
             generate.build()
 
     def test_requires_must_be_a_list(self):

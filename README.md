@@ -38,10 +38,9 @@ claude plugin validate .
 Each roster entry pins its plugin to the producer's latest published release; a
 `revision: main` entry is an explicit, declared exception for a producer with no
 published release yet, not a default. A producer that publishes tags but no release
-record pins its published tag without a `release` id. Serving a
-new version means the producer
-publishes a release and this roster is then edited to bump the pin — an authored,
-reviewed change, never an automatic follow of `main`.
+record pins its published tag without a `release` id. Serving a new version means the
+producer publishes a release and this roster is then edited to bump the pin — an
+authored, reviewed change, never an automatic follow of `main`.
 
 Exact project adoption never resolves through this aggregate. It is owned entirely by
 producer release records plus a project's own capability locks

@@ -102,7 +102,7 @@ def build() -> dict[str, bytes]:
     try:
         graphlib.TopologicalSorter(graph).prepare()
     except graphlib.CycleError as error:
-        raise ValueError("Required plugins form a cycle: " + ", ".join(error.args[1])) from None
+        raise ValueError("Required plugins form a cycle: " + ", ".join(dict.fromkeys(error.args[1]))) from None
     manifests = {
         "claude": {
             "name": catalog["name"],
