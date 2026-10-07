@@ -7,7 +7,7 @@ from unittest.mock import patch
 import generate
 
 
-class InstructionPairTests(unittest.TestCase):
+class RootFixtureTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
@@ -16,6 +16,8 @@ class InstructionPairTests(unittest.TestCase):
         root_patch.start()
         self.addCleanup(root_patch.stop)
 
+
+class InstructionPairTests(RootFixtureTests):
     def test_agents_without_claude_fails(self):
         (self.root / "AGENTS.md").write_text("# Instructions\n", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "sibling CLAUDE.md"):
@@ -38,15 +40,7 @@ class InstructionPairTests(unittest.TestCase):
         generate.validate_instruction_pairs()
 
 
-class CatalogFixtureTests(unittest.TestCase):
-    def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
-        self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
-        root_patch = patch.object(generate, "ROOT", self.root)
-        root_patch.start()
-        self.addCleanup(root_patch.stop)
-
+class CatalogFixtureTests(RootFixtureTests):
     def write_catalog(self, plugins):
         catalog = {
             "name": "tj-agents",
@@ -107,6 +101,32 @@ class ValidationErrorTests(CatalogFixtureTests):
         with self.assertRaisesRegex(ValueError, "Unknown required plugin"):
             generate.build()
 
+    def test_zero_padded_version_fails(self):
+        self.write_catalog([{
+            "name": "base",
+            "repository": "core",
+            "revision": "v2.01.15",
+            "release": "base-agents@2.01.15",
+        }])
+        with self.assertRaisesRegex(ValueError, "Invalid revision"):
+            generate.build()
+
+    def test_requires_must_be_a_list(self):
+        self.write_catalog([
+            {"name": "base", "repository": "core", "revision": "main"},
+            {"name": "engineering", "repository": "core", "revision": "main", "requires": "base"},
+        ])
+        with self.assertRaisesRegex(ValueError, "requires must be a list"):
+            generate.build()
+
+    def test_requires_cycle_fails(self):
+        self.write_catalog([
+            {"name": "base", "repository": "core", "revision": "main", "requires": ["machine"]},
+            {"name": "machine", "repository": "core", "revision": "main", "requires": ["base"]},
+        ])
+        with self.assertRaisesRegex(ValueError, "form a cycle"):
+            generate.build()
+
 
 class OutputShapeTests(CatalogFixtureTests):
     def setUp(self):
@@ -141,6 +161,9 @@ class OutputShapeTests(CatalogFixtureTests):
     def test_marketplace_name_is_tj_agents(self):
         self.assertEqual(self.claude["name"], "tj-agents")
         self.assertEqual(self.codex["name"], "tj-agents")
+
+    def test_emission_is_byte_stable(self):
+        self.assertEqual(generate.build(), self.outputs)
 
 
 class RealRosterTests(unittest.TestCase):
