@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import graphlib
 import json
 from pathlib import Path
 import re
@@ -56,6 +57,7 @@ def build() -> dict[str, bytes]:
             raise ValueError(f"Duplicate plugin: {name}")
         names.add(name)
     repositories: dict[str, tuple[str | None, str]] = {}
+    graph: dict[str, list[str]] = {}
     claude_entries = []
     codex_entries = []
     for plugin in plugins:
@@ -65,7 +67,7 @@ def build() -> dict[str, bytes]:
             raise ValueError(f"Invalid revision in {name}: {revision!r}")
         release = plugin.get("release")
         if release is not None and not RELEASE.fullmatch(release):
-            raise ValueError(f"Invalid release: {release!r}")
+            raise ValueError(f"Invalid release in {name}: {release!r}")
         if release is not None and revision == "main":
             raise ValueError(f"release is not allowed with revision main: {plugin}")
         if release is not None and revision.startswith("v"):
@@ -83,6 +85,7 @@ def build() -> dict[str, bytes]:
                 raise ValueError(f"Plugin cannot require itself: {name}")
             if required not in names:
                 raise ValueError(f"Unknown required plugin: {required!r}")
+        graph[name] = requires
         source = {
             "source": "git-subdir",
             "url": f"https://github.com/tj-agents/{repository}.git",
@@ -96,14 +99,10 @@ def build() -> dict[str, bytes]:
             "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
             "category": "Productivity",
         })
-    graph = {plugin["name"]: plugin.get("requires", []) for plugin in plugins}
-    resolved: set[str] = set()
-    while len(resolved) < len(graph):
-        ready = {name for name, requires in graph.items()
-                 if name not in resolved and all(required in resolved for required in requires)}
-        if not ready:
-            raise ValueError("Required plugins form a cycle: " + ", ".join(sorted(set(graph) - resolved)))
-        resolved.update(ready)
+    try:
+        graphlib.TopologicalSorter(graph).prepare()
+    except graphlib.CycleError as error:
+        raise ValueError("Required plugins form a cycle: " + ", ".join(error.args[1])) from None
     manifests = {
         "claude": {
             "name": catalog["name"],
