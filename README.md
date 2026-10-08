@@ -35,5 +35,24 @@ python -B generate.py --check
 claude plugin validate .
 ```
 
-All plugin entries point to `main` in their source repository. Publish a source
-package there before expecting this catalog to serve its new version.
+Each roster entry pins its plugin to the producer's latest published release; a
+`revision: main` entry is an explicit, declared exception for a producer with no
+published release yet, not a default. A producer that publishes tags but no release
+record pins its published tag without a `release` id. Serving a new version means the
+producer publishes a release and this roster is then edited to bump the pin — an
+authored, reviewed change, never an automatic follow of `main`.
+
+Exact project adoption never resolves through this aggregate. It is owned entirely by
+producer release records plus a project's own capability locks
+(`bootstrap-capabilities` / `repo_config`), which pin producer marketplaces such as
+`base-agents` at immutable revisions directly from the selected release; no producer
+release record names `tj-agents`, so a harness requirement naming it fails closed.
+
+Adding this marketplace installs nothing on either host. Migrating an installed
+legacy identity (`base-agents`, `cpp-agents`, `dotagents`, `react-agents`) requires
+disabling or uninstalling it before enabling the `@tj-agents` copy. Project-scope
+locked settings that enable a producer identity do **not** disable a user-scope
+`@tj-agents` install of the same plugin — the user removes that explicitly.
+
+Neither registering this catalog nor listing its plugins proves any hooks are
+active; verifying that remains a separate, native host acceptance step.

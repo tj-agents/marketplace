@@ -1,0 +1,11 @@
+{
+  "harness": "claude-code",
+  "model": "claude-fable-5",
+  "session": "ad2a7ed0-622d-4a90-a640-2f9f3aee24b4",
+  "branch": "Feature/CoreCatalogAdoption",
+  "head": "62b527449045991582ebd44ac9b4e3005f2c2b8c",
+  "timestamp": "2026-10-07T21:19:51Z",
+  "firstObservedAction": "Read plans/core-catalog-adoption/GOAL.md via catalog-owner.txt handoff; recorded pickup before design work.",
+  "goal": "plans/core-catalog-adoption/GOAL.md",
+  "scope": "marketplace slice C only; parent Codex session 01a11794-26f3-7fb2-accb-0df87faa5180 retains the whole goal"
+}
