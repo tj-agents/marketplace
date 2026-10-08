@@ -54,12 +54,12 @@ class CatalogFixtureTests(RootFixtureTests):
 class ValidationErrorTests(CatalogFixtureTests):
     def test_missing_revision_fails(self):
         self.write_catalog([{"name": "base", "repository": "core"}])
-        with self.assertRaisesRegex(ValueError, "Invalid revision"):
+        with self.assertRaisesRegex(ValueError, "Invalid revision in base"):
             generate.build()
 
     def test_invalid_revision_string_fails(self):
         self.write_catalog([{"name": "base", "repository": "core", "revision": "develop"}])
-        with self.assertRaisesRegex(ValueError, "Invalid revision"):
+        with self.assertRaisesRegex(ValueError, "Invalid revision in base"):
             generate.build()
 
     def test_release_with_main_revision_fails(self):
