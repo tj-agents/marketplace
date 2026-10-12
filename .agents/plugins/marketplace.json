@@ -173,6 +173,20 @@
       "category": "Productivity"
     },
     {
+      "name": "azure",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/azure.git",
+        "path": "./plugins/azure",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "kit",
       "source": {
         "source": "git-subdir",

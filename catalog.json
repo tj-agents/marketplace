@@ -1,6 +1,6 @@
 {
   "name": "tj-agents",
-  "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, and GitHub Actions agent capabilities, and kit for building plugin repositories.",
+  "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, GitHub Actions, and Azure agent capabilities, and kit for building plugin repositories.",
   "owner": "Tommy Seery",
   "plugins": [
     { "name": "base", "repository": "core", "release": "base-agents@2.1.15", "revision": "v2.1.15" },
@@ -15,6 +15,7 @@
     { "name": "nvim", "repository": "nvim", "revision": "main" },
     { "name": "rust", "repository": "rust", "revision": "main" },
     { "name": "github-actions", "repository": "github-actions", "revision": "main" },
+    { "name": "azure", "repository": "azure", "revision": "main" },
     { "name": "kit", "repository": "kit", "revision": "v1.2.0" }
   ]
 }
