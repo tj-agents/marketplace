@@ -159,6 +159,20 @@
       "category": "Productivity"
     },
     {
+      "name": "github-actions",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/github-actions.git",
+        "path": "./plugins/github-actions",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "kit",
       "source": {
         "source": "git-subdir",
