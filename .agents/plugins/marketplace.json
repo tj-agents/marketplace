@@ -192,7 +192,21 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/kit.git",
         "path": "./plugins/kit",
-        "ref": "v1.2.0"
+        "ref": "v1.4.0"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "template",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/kit.git",
+        "path": "./plugins/template",
+        "ref": "v1.4.0"
       },
       "policy": {
         "installation": "AVAILABLE",

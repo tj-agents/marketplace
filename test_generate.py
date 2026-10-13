@@ -52,6 +52,14 @@ class CatalogFixtureTests(RootFixtureTests):
 
 
 class ValidationErrorTests(CatalogFixtureTests):
+    def test_duplicate_plugin_name_fails(self):
+        self.write_catalog([
+            {"name": "base", "repository": "core", "revision": "main"},
+            {"name": "base", "repository": "other", "revision": "main"},
+        ])
+        with self.assertRaisesRegex(ValueError, "Duplicate plugin: base"):
+            generate.build()
+
     def test_missing_revision_fails(self):
         self.write_catalog([{"name": "base", "repository": "core"}])
         with self.assertRaisesRegex(ValueError, "Invalid revision in base"):
@@ -182,6 +190,7 @@ class RealRosterTests(unittest.TestCase):
         catalog = json.loads((generate.ROOT / "catalog.json").read_text(encoding="utf-8"))
         plugins = catalog["plugins"]
         names = {plugin["name"] for plugin in plugins}
+        self.assertEqual(len(names), len(plugins))
         for plugin in plugins:
             for required in plugin.get("requires", []):
                 self.assertIn(required, names)
@@ -197,6 +206,21 @@ class RealRosterTests(unittest.TestCase):
         self.assertEqual(set(core_entries), {"base", "engineering", "machine"})
         for plugin in core_entries.values():
             self.assertNotEqual(plugin["revision"], "main")
+        expected_sources = {
+            "azure": ("azure", "main"),
+            "github-actions": ("github-actions", "main"),
+            "kit": ("kit", "v1.4.0"),
+            "template": ("kit", "v1.4.0"),
+        }
+        by_name = {plugin["name"]: plugin for plugin in plugins}
+        for name, (repository, revision) in expected_sources.items():
+            self.assertEqual(by_name[name]["repository"], repository)
+            self.assertEqual(by_name[name]["revision"], revision)
+            for output in outputs.values():
+                manifest = json.loads(output)
+                entry = next(entry for entry in manifest["plugins"] if entry["name"] == name)
+                self.assertEqual(entry["source"]["path"], f"./plugins/{name}")
+                self.assertEqual(entry["source"]["ref"], revision)
         self.assertIn("claude", outputs)
         self.assertIn("codex", outputs)
 
