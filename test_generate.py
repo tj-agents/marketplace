@@ -121,6 +121,13 @@ class ValidationErrorTests(CatalogFixtureTests):
                 with self.assertRaisesRegex(ValueError, "Invalid commit in base"):
                     generate.build()
 
+    def test_sha_revision_with_a_different_commit_fails(self):
+        self.write_catalog([{"name": "base", "repository": "core", "revision": "a" * 40, "commit": "b" * 40}])
+        with self.assertRaisesRegex(ValueError, "does not match sha revision"):
+            generate.build()
+        self.write_catalog([{"name": "base", "repository": "core", "revision": "a" * 40, "commit": "a" * 40}])
+        generate.build()
+
     def test_commit_with_main_revision_fails(self):
         self.write_catalog([{"name": "nvim", "repository": "nvim", "revision": "main", "commit": "a" * 40}])
         with self.assertRaisesRegex(ValueError, "commit is not allowed with revision main"):
