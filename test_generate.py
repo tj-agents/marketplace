@@ -85,6 +85,7 @@ class ValidationErrorTests(CatalogFixtureTests):
             "name": "base",
             "repository": "core",
             "revision": "v2.1.15",
+            "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "release": "base-agents@2.1.16",
         }])
         with self.assertRaisesRegex(ValueError, "does not match release version"):
@@ -92,8 +93,8 @@ class ValidationErrorTests(CatalogFixtureTests):
 
     def test_mismatched_revisions_in_same_repository_fails(self):
         self.write_catalog([
-            {"name": "base", "repository": "core", "revision": "v2.1.15", "release": "base-agents@2.1.15"},
-            {"name": "engineering", "repository": "core", "revision": "v2.1.16", "release": "base-agents@2.1.16"},
+            {"name": "base", "repository": "core", "revision": "v2.1.15", "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "release": "base-agents@2.1.15"},
+            {"name": "engineering", "repository": "core", "revision": "v2.1.16", "commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "release": "base-agents@2.1.16"},
         ])
         with self.assertRaisesRegex(ValueError, "mismatched release/revision"):
             generate.build()
@@ -103,10 +104,33 @@ class ValidationErrorTests(CatalogFixtureTests):
             "name": "engineering",
             "repository": "core",
             "revision": "v2.1.15",
+            "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "release": "base-agents@2.1.15",
             "requires": ["base"],
         }])
         with self.assertRaisesRegex(ValueError, "Unknown required plugin"):
+            generate.build()
+
+    def test_tagged_entry_requires_a_full_commit(self):
+        for commit in (None, "abc123", "A" * 40):
+            with self.subTest(commit=commit):
+                entry = {"name": "base", "repository": "core", "revision": "v2.1.15"}
+                if commit is not None:
+                    entry["commit"] = commit
+                self.write_catalog([entry])
+                with self.assertRaisesRegex(ValueError, "Invalid commit in base"):
+                    generate.build()
+
+    def test_sha_revision_with_a_different_commit_fails(self):
+        self.write_catalog([{"name": "base", "repository": "core", "revision": "a" * 40, "commit": "b" * 40}])
+        with self.assertRaisesRegex(ValueError, "does not match sha revision"):
+            generate.build()
+        self.write_catalog([{"name": "base", "repository": "core", "revision": "a" * 40, "commit": "a" * 40}])
+        generate.build()
+
+    def test_commit_with_main_revision_fails(self):
+        self.write_catalog([{"name": "nvim", "repository": "nvim", "revision": "main", "commit": "a" * 40}])
+        with self.assertRaisesRegex(ValueError, "commit is not allowed with revision main"):
             generate.build()
 
     def test_zero_padded_version_fails(self):
@@ -150,8 +174,8 @@ class OutputShapeTests(CatalogFixtureTests):
     def setUp(self):
         super().setUp()
         self.write_catalog([
-            {"name": "base", "repository": "core", "revision": "v2.1.15", "release": "base-agents@2.1.15"},
-            {"name": "engineering", "repository": "core", "revision": "v2.1.15", "release": "base-agents@2.1.15", "requires": ["base"]},
+            {"name": "base", "repository": "core", "revision": "v2.1.15", "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "release": "base-agents@2.1.15"},
+            {"name": "engineering", "repository": "core", "revision": "v2.1.15", "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "release": "base-agents@2.1.15", "requires": ["base"]},
             {"name": "nvim", "repository": "nvim", "revision": "main"},
         ])
         self.outputs = generate.build()
@@ -162,6 +186,16 @@ class OutputShapeTests(CatalogFixtureTests):
         for manifest in (self.claude, self.codex):
             entry = next(p for p in manifest["plugins"] if p["name"] == "base")
             self.assertEqual(entry["source"]["ref"], "v2.1.15")
+
+    def test_pinned_entry_carries_its_commit_as_sha_in_both_manifests(self):
+        for manifest in (self.claude, self.codex):
+            entry = next(p for p in manifest["plugins"] if p["name"] == "base")
+            self.assertEqual(entry["source"]["sha"], "a" * 40)
+
+    def test_main_entry_has_no_sha(self):
+        for manifest in (self.claude, self.codex):
+            entry = next(p for p in manifest["plugins"] if p["name"] == "nvim")
+            self.assertNotIn("sha", entry["source"])
 
     def test_main_entry_ref_is_main_in_both_manifests(self):
         for manifest in (self.claude, self.codex):
