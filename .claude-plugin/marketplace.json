@@ -11,8 +11,8 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/base",
-        "ref": "v2.1.16",
-        "sha": "b3df5bac15abb918f28e5a11c16b6e8073421a83"
+        "ref": "v2.1.17",
+        "sha": "6be8c45a211d6a673ae69025263e787ff7a4895e"
       }
     },
     {
@@ -21,8 +21,8 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/engineering",
-        "ref": "v2.1.16",
-        "sha": "b3df5bac15abb918f28e5a11c16b6e8073421a83"
+        "ref": "v2.1.17",
+        "sha": "6be8c45a211d6a673ae69025263e787ff7a4895e"
       }
     },
     {
@@ -31,8 +31,8 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/machine",
-        "ref": "v2.1.16",
-        "sha": "b3df5bac15abb918f28e5a11c16b6e8073421a83"
+        "ref": "v2.1.17",
+        "sha": "6be8c45a211d6a673ae69025263e787ff7a4895e"
       }
     },
     {
