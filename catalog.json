@@ -3,20 +3,20 @@
   "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, GitHub Actions, and Azure agent capabilities, plus kit and its template for building plugin repositories.",
   "owner": "Tommy Seery",
   "plugins": [
-    { "name": "base", "repository": "core", "release": "base-agents@2.1.15", "revision": "v2.1.15" },
-    { "name": "engineering", "repository": "core", "release": "base-agents@2.1.15", "revision": "v2.1.15", "requires": ["base"] },
-    { "name": "machine", "repository": "core", "release": "base-agents@2.1.15", "revision": "v2.1.15", "requires": ["base"] },
-    { "name": "cpp", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2" },
-    { "name": "gpp", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "requires": ["cpp"] },
-    { "name": "msvc", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "requires": ["cpp"] },
-    { "name": "win32", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "requires": ["cpp"] },
-    { "name": "dotnet", "repository": "dotnet", "release": "dotagents@1.1.1", "revision": "v1.1.1" },
-    { "name": "react", "repository": "react", "release": "react-agents@1.0.1", "revision": "v1.0.1" },
+    { "name": "base", "repository": "core", "release": "base-agents@2.1.16", "revision": "v2.1.16", "commit": "b3df5bac15abb918f28e5a11c16b6e8073421a83" },
+    { "name": "engineering", "repository": "core", "release": "base-agents@2.1.16", "revision": "v2.1.16", "commit": "b3df5bac15abb918f28e5a11c16b6e8073421a83", "requires": ["base"] },
+    { "name": "machine", "repository": "core", "release": "base-agents@2.1.16", "revision": "v2.1.16", "commit": "b3df5bac15abb918f28e5a11c16b6e8073421a83", "requires": ["base"] },
+    { "name": "cpp", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "commit": "2047acfd559126ae35452b394317bbd800ad8685" },
+    { "name": "gpp", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "commit": "2047acfd559126ae35452b394317bbd800ad8685", "requires": ["cpp"] },
+    { "name": "msvc", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "commit": "2047acfd559126ae35452b394317bbd800ad8685", "requires": ["cpp"] },
+    { "name": "win32", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "commit": "2047acfd559126ae35452b394317bbd800ad8685", "requires": ["cpp"] },
+    { "name": "dotnet", "repository": "dotnet", "release": "dotagents@1.1.1", "revision": "v1.1.1", "commit": "7ec0ffa1a38c530017a0cd42fa8e5175566fc9b9" },
+    { "name": "react", "repository": "react", "release": "react-agents@1.0.1", "revision": "v1.0.1", "commit": "4ea8acb4beefecf373f01d4c4e0bc007cfb61c91" },
     { "name": "nvim", "repository": "nvim", "revision": "main" },
     { "name": "rust", "repository": "rust", "revision": "main" },
     { "name": "github-actions", "repository": "github-actions", "revision": "main" },
     { "name": "azure", "repository": "azure", "revision": "main" },
-    { "name": "kit", "repository": "kit", "revision": "v1.4.0" },
-    { "name": "template", "repository": "kit", "revision": "v1.4.0" }
+    { "name": "kit", "repository": "kit", "revision": "v1.4.0", "commit": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273" },
+    { "name": "template", "repository": "kit", "revision": "v1.4.0", "commit": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273" }
   ]
 }

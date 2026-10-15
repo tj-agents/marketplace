@@ -58,3 +58,8 @@ locked settings that enable a producer identity do **not** disable a user-scope
 
 Neither registering this catalog nor listing its plugins proves any hooks are
 active; verifying that remains a separate, native host acceptance step.
+
+Every tagged entry also carries the full `commit` its tag resolves to, emitted as the source's
+`sha`, so a moved or re-created tag cannot change what a pin installs. Resolve it with
+`git rev-parse <tag>^{commit}` (the peeled commit, not an annotated tag object). A `main` entry
+has no `commit`. A repository's marketplace tag is the single pin a project lock selects.

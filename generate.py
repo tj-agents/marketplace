@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parent
 NAME = re.compile(r"[a-z][a-z0-9-]*\Z")
 VERSION = r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)"
 REVISION = re.compile(rf"main|v{VERSION}|[0-9a-f]{{40}}")
+COMMIT = re.compile(r"[0-9a-f]{40}\Z")
 RELEASE = re.compile(rf"[a-z][a-z0-9-]*@{VERSION}")
 OUTPUTS = {
     "claude": ROOT / ".claude-plugin" / "marketplace.json",
@@ -56,7 +57,7 @@ def build() -> dict[str, bytes]:
         if name in names:
             raise ValueError(f"Duplicate plugin: {name}")
         names.add(name)
-    repositories: dict[str, tuple[str | None, str]] = {}
+    repositories: dict[str, tuple[str | None, str, str | None]] = {}
     graph: dict[str, list[str]] = {}
     claude_entries = []
     codex_entries = []
@@ -73,7 +74,15 @@ def build() -> dict[str, bytes]:
         if release is not None and revision.startswith("v"):
             if revision[1:] != release.split("@", 1)[1]:
                 raise ValueError(f"revision {revision!r} does not match release version in {release!r}")
-        pair = (release, revision)
+        commit = plugin.get("commit")
+        if revision == "main":
+            if commit is not None:
+                raise ValueError(f"commit is not allowed with revision main: {plugin}")
+        elif commit is None or not COMMIT.fullmatch(commit):
+            raise ValueError(f"Invalid commit in {name}: {commit!r}")
+        elif COMMIT.fullmatch(revision) and commit != revision:
+            raise ValueError(f"commit {commit!r} does not match sha revision {revision!r} in {name}")
+        pair = (release, revision, commit)
         if repository in repositories and repositories[repository] != pair:
             raise ValueError(f"repository {repository!r} has mismatched release/revision: {plugin}")
         repositories[repository] = pair
@@ -92,6 +101,8 @@ def build() -> dict[str, bytes]:
             "path": f"./plugins/{name}",
             "ref": revision,
         }
+        if commit is not None:
+            source["sha"] = commit
         claude_entries.append({"name": name, "source": source})
         codex_entries.append({
             "name": name,
