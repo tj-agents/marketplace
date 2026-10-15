@@ -3,9 +3,9 @@
   "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, GitHub Actions, and Azure agent capabilities, plus kit and its template for building plugin repositories.",
   "owner": "Tommy Seery",
   "plugins": [
-    { "name": "base", "repository": "core", "release": "base-agents@2.1.15", "revision": "v2.1.15", "commit": "61b5b1ee19f7660ad881839525693fa7387809be" },
-    { "name": "engineering", "repository": "core", "release": "base-agents@2.1.15", "revision": "v2.1.15", "commit": "61b5b1ee19f7660ad881839525693fa7387809be", "requires": ["base"] },
-    { "name": "machine", "repository": "core", "release": "base-agents@2.1.15", "revision": "v2.1.15", "commit": "61b5b1ee19f7660ad881839525693fa7387809be", "requires": ["base"] },
+    { "name": "base", "repository": "core", "release": "base-agents@2.1.16", "revision": "v2.1.16", "commit": "b3df5bac15abb918f28e5a11c16b6e8073421a83" },
+    { "name": "engineering", "repository": "core", "release": "base-agents@2.1.16", "revision": "v2.1.16", "commit": "b3df5bac15abb918f28e5a11c16b6e8073421a83", "requires": ["base"] },
+    { "name": "machine", "repository": "core", "release": "base-agents@2.1.16", "revision": "v2.1.16", "commit": "b3df5bac15abb918f28e5a11c16b6e8073421a83", "requires": ["base"] },
     { "name": "cpp", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "commit": "2047acfd559126ae35452b394317bbd800ad8685" },
     { "name": "gpp", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "commit": "2047acfd559126ae35452b394317bbd800ad8685", "requires": ["cpp"] },
     { "name": "msvc", "repository": "cpp", "release": "cpp-agents@0.3.2", "revision": "v0.3.2", "commit": "2047acfd559126ae35452b394317bbd800ad8685", "requires": ["cpp"] },
