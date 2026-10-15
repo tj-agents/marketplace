@@ -80,6 +80,8 @@ def build() -> dict[str, bytes]:
                 raise ValueError(f"commit is not allowed with revision main: {plugin}")
         elif commit is None or not COMMIT.fullmatch(commit):
             raise ValueError(f"Invalid commit in {name}: {commit!r}")
+        elif COMMIT.fullmatch(revision) and commit != revision:
+            raise ValueError(f"commit {commit!r} does not match sha revision {revision!r} in {name}")
         pair = (release, revision, commit)
         if repository in repositories and repositories[repository] != pair:
             raise ValueError(f"repository {repository!r} has mismatched release/revision: {plugin}")
