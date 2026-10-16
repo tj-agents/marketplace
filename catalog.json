@@ -1,6 +1,6 @@
 {
   "name": "tj-agents",
-  "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, GitHub Actions, and Azure agent capabilities, plus kit and its template for building plugin repositories.",
+  "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, GitHub Actions, and Azure agent capabilities, plus Template for building plugin repositories.",
   "owner": "Tommy Seery",
   "plugins": [
     { "name": "base", "repository": "core", "release": "base-agents@2.1.17", "revision": "v2.1.17", "commit": "6be8c45a211d6a673ae69025263e787ff7a4895e" },
@@ -17,7 +17,7 @@
     { "name": "github-actions", "repository": "github-actions", "revision": "main" },
     { "name": "azure", "repository": "azure", "revision": "main" },
     { "name": "kit", "repository": "kit", "revision": "v1.4.0", "commit": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273" },
-    { "name": "template", "repository": "kit", "revision": "v1.4.0", "commit": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273" },
+    { "name": "template", "repository": "template", "revision": "v1.6.2", "commit": "d3f032149f5ffbec2ada01d87b4075eebd37f4da" },
     { "name": "work-items", "repository": "work-items", "revision": "v0.1.0", "commit": "7c4dcd2147a46005020ee4f2b68db563d71a52a5", "requires": ["base"] }
   ]
 }
