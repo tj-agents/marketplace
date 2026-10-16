@@ -1,6 +1,6 @@
 {
   "name": "tj-agents",
-  "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, GitHub Actions, and Azure agent capabilities, plus kit and its template for building plugin repositories.",
+  "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, GitHub Actions, and Azure agent capabilities, plus Template for building plugin repositories.",
   "owner": {
     "name": "Tommy Seery"
   },
@@ -145,10 +145,10 @@
       "name": "template",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/tj-agents/kit.git",
+        "url": "https://github.com/tj-agents/template.git",
         "path": "./plugins/template",
-        "ref": "v1.4.0",
-        "sha": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273"
+        "ref": "v1.6.2",
+        "sha": "d3f032149f5ffbec2ada01d87b4075eebd37f4da"
       }
     },
     {
