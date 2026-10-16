@@ -65,7 +65,7 @@ has no `commit`. A repository's marketplace tag is the single pin a project lock
 
 
 `work-items` is optional personal GitHub tracking tooling for features, tasks, bugs, mistakes and debt.
-Install `base` together with `work-items`: the catalog validates this dependency, but native marketplace discovery does not install it automatically. Fresh project locks select the complete Core triplet (`base`, `engineering`, `machine`) plus `work-items`. Existing producer installations retain their Core identities and select `work-items@work-items-agents`; project locks select that producer marketplace
+Install `base` together with `work-items`: the catalog validates this dependency, but native marketplace discovery does not install it automatically. Fresh project locks select the complete Core triplet (`base`, `engineering`, `machine`) plus `work-items@work-items-agents` pinned to `tj-agents/work-items` at an immutable release revision. Existing producer installations retain their Core identities and select `work-items@work-items-agents`; project locks select that producer marketplace
 at an immutable release revision. Commit explicit tracker adoption only in the intended source project.
 Adding this catalog or installing the utility does not change a repository's tracker. Employer repositories
 keep their existing tracking policy. Enable one installed copy; avoid enabling both producer and aggregate
