@@ -196,28 +196,13 @@
       "category": "Productivity"
     },
     {
-      "name": "kit",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/tj-agents/kit.git",
-        "path": "./plugins/kit",
-        "ref": "v1.4.0",
-        "sha": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Productivity"
-    },
-    {
       "name": "template",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/template.git",
         "path": "./plugins/template",
-        "ref": "v1.6.2",
-        "sha": "d3f032149f5ffbec2ada01d87b4075eebd37f4da"
+        "ref": "v2.0.0",
+        "sha": "84277e7260a2fac3f16b30046569e4e0f77c79a7"
       },
       "policy": {
         "installation": "AVAILABLE",

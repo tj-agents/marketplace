@@ -16,8 +16,7 @@
     { "name": "rust", "repository": "rust", "revision": "main" },
     { "name": "github-actions", "repository": "github-actions", "revision": "main" },
     { "name": "azure", "repository": "azure", "revision": "main" },
-    { "name": "kit", "repository": "kit", "revision": "v1.4.0", "commit": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273" },
-    { "name": "template", "repository": "template", "revision": "v1.6.2", "commit": "d3f032149f5ffbec2ada01d87b4075eebd37f4da" },
+    { "name": "template", "repository": "template", "revision": "v2.0.0", "commit": "84277e7260a2fac3f16b30046569e4e0f77c79a7" },
     { "name": "work-items", "repository": "work-items", "revision": "v0.1.0", "commit": "7c4dcd2147a46005020ee4f2b68db563d71a52a5", "requires": ["base"] }
   ]
 }
