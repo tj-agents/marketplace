@@ -243,8 +243,7 @@ class RealRosterTests(unittest.TestCase):
         expected_sources = {
             "azure": ("azure", "main"),
             "github-actions": ("github-actions", "main"),
-            "kit": ("kit", "v1.4.0"),
-            "template": ("template", "v1.6.2"),
+            "template": ("template", "v2.0.0"),
         }
         by_name = {plugin["name"]: plugin for plugin in plugins}
         for name, (repository, revision) in expected_sources.items():
