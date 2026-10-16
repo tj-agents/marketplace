@@ -17,6 +17,7 @@
     { "name": "github-actions", "repository": "github-actions", "revision": "main" },
     { "name": "azure", "repository": "azure", "revision": "main" },
     { "name": "kit", "repository": "kit", "revision": "v1.4.0", "commit": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273" },
-    { "name": "template", "repository": "kit", "revision": "v1.4.0", "commit": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273" }
+    { "name": "template", "repository": "kit", "revision": "v1.4.0", "commit": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273" },
+    { "name": "work-items", "repository": "work-items", "revision": "v0.1.0", "commit": "7c4dcd2147a46005020ee4f2b68db563d71a52a5", "requires": ["base"] }
   ]
 }

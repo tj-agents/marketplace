@@ -150,6 +150,16 @@
         "ref": "v1.4.0",
         "sha": "2d2b8855113adb0b6bc9d108e67fa2e2d31d2273"
       }
+    },
+    {
+      "name": "work-items",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/work-items.git",
+        "path": "./plugins/work-items",
+        "ref": "v0.1.0",
+        "sha": "7c4dcd2147a46005020ee4f2b68db563d71a52a5"
+      }
     }
   ]
 }
