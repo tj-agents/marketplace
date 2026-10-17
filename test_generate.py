@@ -54,117 +54,36 @@ class CatalogFixtureTests(RootFixtureTests):
 class ValidationErrorTests(CatalogFixtureTests):
     def test_duplicate_plugin_name_fails(self):
         self.write_catalog([
-            {"name": "base", "repository": "core", "revision": "main"},
-            {"name": "base", "repository": "other", "revision": "main"},
+            {"name": "base", "repository": "core"},
+            {"name": "base", "repository": "other"},
         ])
         with self.assertRaisesRegex(ValueError, "Duplicate plugin: base"):
             generate.build()
 
-    def test_missing_revision_fails(self):
-        self.write_catalog([{"name": "base", "repository": "core"}])
-        with self.assertRaisesRegex(ValueError, "Invalid revision in base"):
-            generate.build()
-
-    def test_invalid_revision_string_fails(self):
-        self.write_catalog([{"name": "base", "repository": "core", "revision": "develop"}])
-        with self.assertRaisesRegex(ValueError, "Invalid revision in base"):
-            generate.build()
-
-    def test_release_with_main_revision_fails(self):
-        self.write_catalog([{
-            "name": "base",
-            "repository": "core",
-            "revision": "main",
-            "release": "base-agents@2.1.15",
-        }])
-        with self.assertRaisesRegex(ValueError, "release is not allowed with revision main"):
-            generate.build()
-
-    def test_vtag_release_version_mismatch_fails(self):
-        self.write_catalog([{
-            "name": "base",
-            "repository": "core",
-            "revision": "v2.1.15",
-            "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "release": "base-agents@2.1.16",
-        }])
-        with self.assertRaisesRegex(ValueError, "does not match release version"):
-            generate.build()
-
-    def test_mismatched_revisions_in_same_repository_fails(self):
-        self.write_catalog([
-            {"name": "base", "repository": "core", "revision": "v2.1.15", "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "release": "base-agents@2.1.15"},
-            {"name": "engineering", "repository": "core", "revision": "v2.1.16", "commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "release": "base-agents@2.1.16"},
-        ])
-        with self.assertRaisesRegex(ValueError, "mismatched release/revision"):
-            generate.build()
-
-    def test_unknown_requires_name_fails(self):
-        self.write_catalog([{
-            "name": "engineering",
-            "repository": "core",
-            "revision": "v2.1.15",
-            "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "release": "base-agents@2.1.15",
-            "requires": ["base"],
-        }])
-        with self.assertRaisesRegex(ValueError, "Unknown required plugin"):
-            generate.build()
-
-    def test_tagged_entry_requires_a_full_commit(self):
-        for commit in (None, "abc123", "A" * 40):
-            with self.subTest(commit=commit):
-                entry = {"name": "base", "repository": "core", "revision": "v2.1.15"}
-                if commit is not None:
-                    entry["commit"] = commit
-                self.write_catalog([entry])
-                with self.assertRaisesRegex(ValueError, "Invalid commit in base"):
+    def test_legacy_release_fields_are_rejected(self):
+        for field, value in (("revision", "main"), ("release", "pkg@1.2.3"), ("commit", "a" * 40), ("version", "1.2.3")):
+            with self.subTest(field=field, value=value):
+                self.write_catalog([{"name": "base", "repository": "core", field: value}])
+                with self.assertRaisesRegex(ValueError, f"Unknown fields in plugin entry.*{field}"):
                     generate.build()
 
-    def test_sha_revision_with_a_different_commit_fails(self):
-        self.write_catalog([{"name": "base", "repository": "core", "revision": "a" * 40, "commit": "b" * 40}])
-        with self.assertRaisesRegex(ValueError, "does not match sha revision"):
-            generate.build()
-        self.write_catalog([{"name": "base", "repository": "core", "revision": "a" * 40, "commit": "a" * 40}])
-        generate.build()
-
-    def test_commit_with_main_revision_fails(self):
-        self.write_catalog([{"name": "nvim", "repository": "nvim", "revision": "main", "commit": "a" * 40}])
-        with self.assertRaisesRegex(ValueError, "commit is not allowed with revision main"):
-            generate.build()
-
-    def test_zero_padded_version_fails(self):
-        self.write_catalog([{
-            "name": "base",
-            "repository": "core",
-            "revision": "v2.01.15",
-            "release": "base-agents@2.01.15",
-        }])
-        with self.assertRaisesRegex(ValueError, "Invalid revision in base"):
-            generate.build()
-
-    def test_zero_padded_release_fails(self):
-        self.write_catalog([{
-            "name": "base",
-            "repository": "core",
-            "revision": "0" * 40,
-            "release": "base-agents@2.01.15",
-        }])
-        with self.assertRaisesRegex(ValueError, "Invalid release in base"):
+    def test_unknown_requires_name_fails(self):
+        self.write_catalog([{"name": "engineering", "repository": "core", "requires": ["base"]}])
+        with self.assertRaisesRegex(ValueError, "Unknown required plugin"):
             generate.build()
 
     def test_requires_must_be_a_list(self):
         self.write_catalog([
-            {"name": "base", "repository": "core", "revision": "main"},
-            {"name": "engineering", "repository": "core", "revision": "main", "requires": "base"},
+            {"name": "base", "repository": "core"},
+            {"name": "engineering", "repository": "core", "requires": "base"},
         ])
         with self.assertRaisesRegex(ValueError, "requires must be a list"):
             generate.build()
 
     def test_requires_cycle_fails(self):
         self.write_catalog([
-            {"name": "base", "repository": "core", "revision": "main", "requires": ["machine"]},
-            {"name": "machine", "repository": "core", "revision": "main", "requires": ["base"]},
+            {"name": "base", "repository": "core", "requires": ["machine"]},
+            {"name": "machine", "repository": "core", "requires": ["base"]},
         ])
         with self.assertRaisesRegex(ValueError, "form a cycle"):
             generate.build()
@@ -174,33 +93,19 @@ class OutputShapeTests(CatalogFixtureTests):
     def setUp(self):
         super().setUp()
         self.write_catalog([
-            {"name": "base", "repository": "core", "revision": "v2.1.15", "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "release": "base-agents@2.1.15"},
-            {"name": "engineering", "repository": "core", "revision": "v2.1.15", "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "release": "base-agents@2.1.15", "requires": ["base"]},
-            {"name": "nvim", "repository": "nvim", "revision": "main"},
+            {"name": "base", "repository": "core"},
+            {"name": "engineering", "repository": "core", "requires": ["base"]},
+            {"name": "nvim", "repository": "nvim"},
         ])
         self.outputs = generate.build()
         self.claude = json.loads(self.outputs["claude"])
         self.codex = json.loads(self.outputs["codex"])
 
-    def test_pinned_entry_ref_equals_revision_in_both_manifests(self):
+    def test_every_entry_uses_main_without_sha_in_both_manifests(self):
         for manifest in (self.claude, self.codex):
-            entry = next(p for p in manifest["plugins"] if p["name"] == "base")
-            self.assertEqual(entry["source"]["ref"], "v2.1.15")
-
-    def test_pinned_entry_carries_its_commit_as_sha_in_both_manifests(self):
-        for manifest in (self.claude, self.codex):
-            entry = next(p for p in manifest["plugins"] if p["name"] == "base")
-            self.assertEqual(entry["source"]["sha"], "a" * 40)
-
-    def test_main_entry_has_no_sha(self):
-        for manifest in (self.claude, self.codex):
-            entry = next(p for p in manifest["plugins"] if p["name"] == "nvim")
-            self.assertNotIn("sha", entry["source"])
-
-    def test_main_entry_ref_is_main_in_both_manifests(self):
-        for manifest in (self.claude, self.codex):
-            entry = next(p for p in manifest["plugins"] if p["name"] == "nvim")
-            self.assertEqual(entry["source"]["ref"], "main")
+            for entry in manifest["plugins"]:
+                self.assertEqual(entry["source"]["ref"], "main")
+                self.assertNotIn("sha", entry["source"])
 
     def test_every_codex_entry_is_available(self):
         for entry in self.codex["plugins"]:
@@ -223,37 +128,25 @@ class RealRosterTests(unittest.TestCase):
         outputs = generate.build()
         catalog = json.loads((generate.ROOT / "catalog.json").read_text(encoding="utf-8"))
         plugins = catalog["plugins"]
-        names = {plugin["name"] for plugin in plugins}
-        self.assertEqual(len(names), len(plugins))
-        for plugin in plugins:
-            for required in plugin.get("requires", []):
-                self.assertIn(required, names)
-        by_repository: dict[str, tuple] = {}
-        for plugin in plugins:
-            pair = (plugin.get("release"), plugin["revision"])
-            repository = plugin["repository"]
-            if repository in by_repository:
-                self.assertEqual(by_repository[repository], pair)
-            else:
-                by_repository[repository] = pair
-        core_entries = {plugin["name"]: plugin for plugin in plugins if plugin["repository"] == "core"}
-        self.assertEqual(set(core_entries), {"base", "engineering", "machine"})
-        for plugin in core_entries.values():
-            self.assertNotEqual(plugin["revision"], "main")
-        expected_sources = {
-            "azure": ("azure", "main"),
-            "github-actions": ("github-actions", "main"),
-            "template": ("template", "v2.0.0"),
+        expected_requires = {
+            "engineering": ["base"], "machine": ["base"], "gpp": ["cpp"],
+            "msvc": ["cpp"], "win32": ["cpp"], "work-items": ["base"],
+        }
+        expected_names = {
+            "base", "engineering", "machine", "cpp", "gpp", "msvc", "win32",
+            "dotnet", "react", "nvim", "rust", "github-actions", "azure",
+            "template", "work-items",
         }
         by_name = {plugin["name"]: plugin for plugin in plugins}
-        for name, (repository, revision) in expected_sources.items():
-            self.assertEqual(by_name[name]["repository"], repository)
-            self.assertEqual(by_name[name]["revision"], revision)
-            for output in outputs.values():
-                manifest = json.loads(output)
-                entry = next(entry for entry in manifest["plugins"] if entry["name"] == name)
-                self.assertEqual(entry["source"]["path"], f"./plugins/{name}")
-                self.assertEqual(entry["source"]["ref"], revision)
+        self.assertEqual(expected_names, set(by_name))
+        self.assertEqual(expected_requires, {name: plugin["requires"] for name, plugin in by_name.items() if "requires" in plugin})
+        for output in outputs.values():
+            manifest = json.loads(output)
+            self.assertEqual({entry["name"] for entry in manifest["plugins"]}, expected_names)
+            for entry in manifest["plugins"]:
+                self.assertEqual(entry["source"]["ref"], "main")
+                self.assertNotIn("sha", entry["source"])
+                self.assertEqual(entry["source"]["path"], f"./plugins/{entry['name']}")
         self.assertIn("claude", outputs)
         self.assertIn("codex", outputs)
 
