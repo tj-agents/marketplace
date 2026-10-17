@@ -1,10 +1,10 @@
 # TJ Agents marketplace
 
-One install and discovery catalog for the current plugins in `tj-agents/core`, `cpp`,
+One shared discovery catalog for the current plugins in `tj-agents/core`, `cpp`,
 `dotnet`, `react`, `nvim`, `rust`, `github-actions`, `azure`, and `template`.
 Packages stay in their source repositories. Adding another
 repository requires one entry in `catalog.json`; `generate.py` produces the matching
-Claude and Codex marketplace files. Producer repositories own package versions; a consumer's plugin lock owns its marketplace pins and selected identities.
+Core launch refresh updates selected plugin content from these source repositories.
 
 Add the marketplace and select plugins explicitly:
 
@@ -36,39 +36,22 @@ python -B generate.py --check
 claude plugin validate .
 ```
 
-Each roster entry pins its plugin to the producer's latest published release; a
-`revision: main` entry is an explicit, declared exception for a producer with no
-published release yet, not a default. A producer that publishes tags but no release
-record pins its published tag without a `release` id. Serving a new version means the
-producer publishes a release and this roster is then edited to bump the pin — an
-authored, reviewed change, never an automatic follow of `main`.
+All catalog entries use the producer repository's current main branch. The catalog makes current publisher content
+available to hosts. Core's launch refresh updates the plugin content consumed by a project from those main branches.
 
-Project adoption uses Core's `machine:plugin-lock` and the consumer's `.agents/plugins.lock.json`,
-with an immutable revision for each selected marketplace. Existing schema-3 locks select the aggregate
-Core triplet by default. Producer identities such as `base-agents` and `work-items-agents` require an
-injector that supports their explicit selection; the work-items rollout includes that generic Core
-compatibility support. The removed `bootstrap-capabilities` interface is historical.
+Project selection is explicit in the repository's `.agents/plugins.json`. Use `machine:plugin-selection` to select
+the desired plugins. Refreshing the project brings selected content up to date; adding the catalog alone does not
+select plugins, install them or activate hooks.
 
-Adding this marketplace installs nothing on either host. Migrating an installed
-legacy identity (`base-agents`, `cpp-agents`, `dotagents`, `react-agents`) requires
-disabling or uninstalling it before enabling the `@tj-agents` copy. Project-scope
-locked settings that enable a producer identity do **not** disable a user-scope
-`@tj-agents` install of the same plugin — the user removes that explicitly.
+Adding this marketplace installs nothing on either host. When migrating an installed legacy identity, disable or
+uninstall the old copy before enabling its `@tj-agents` copy. Do not enable both producer and aggregate identities
+for the same plugin. Neither registering this catalog nor selecting plugins proves that hooks are active; verify
+that separately with native host acceptance.
 
-Neither registering this catalog nor listing its plugins proves any hooks are
-active; verifying that remains a separate, native host acceptance step.
-
-Every tagged entry also carries the full `commit` its tag resolves to, emitted as the source's
-`sha`, so a moved or re-created tag cannot change what a pin installs. Resolve it with
-`git rev-parse <tag>^{commit}` (the peeled commit, not an annotated tag object). A `main` entry
-has no `commit`. A repository's marketplace tag is the single pin a project lock selects.
-
-
-`work-items` is optional personal GitHub tracking tooling for features, tasks, bugs, mistakes and debt.
-Install `base` together with `work-items`: the catalog validates this dependency, but native marketplace discovery does not install it automatically. Fresh project locks select the complete Core triplet (`base`, `engineering`, `machine`) plus `work-items@work-items-agents` pinned to `tj-agents/work-items` at an immutable release revision. Existing producer installations retain their Core identities and select `work-items@work-items-agents`; project locks select that producer marketplace
-at an immutable release revision. Commit explicit tracker adoption only in the intended source project.
-Adding this catalog or installing the utility does not change a repository's tracker. Employer repositories
-keep their existing tracking policy. Enable one installed copy; avoid enabling both producer and aggregate
-identities for the same plugin. The work-items v0.1.0 release is pinned to its verified peeled commit. Its Core record integration
-requires a Core revision containing the generic problem-provider protocol; native host acceptance
-remains a separate check before personal rollout.
+`work-items` is optional personal GitHub tracking tooling for features, tasks, bugs, mistakes and debt. Install `base` together
+with `work-items`: the catalog validates this dependency, but native marketplace discovery does not install it automatically.
+Explicitly select it only in the intended personal source project using `.agents/plugins.json` and `machine:plugin-selection`.
+Adding the catalog or installing the utility does not change a repository's tracker. Employer repositories keep their
+existing tracking policy. Enable one installed copy and avoid enabling both producer and aggregate identities for the
+same plugin. Core record integration requires a Core revision containing the generic problem-provider protocol;
+native host acceptance remains a separate check before personal rollout.

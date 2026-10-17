@@ -12,10 +12,6 @@ import re
 
 ROOT = Path(__file__).resolve().parent
 NAME = re.compile(r"[a-z][a-z0-9-]*\Z")
-VERSION = r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)"
-REVISION = re.compile(rf"main|v{VERSION}|[0-9a-f]{{40}}")
-COMMIT = re.compile(r"[0-9a-f]{40}\Z")
-RELEASE = re.compile(rf"[a-z][a-z0-9-]*@{VERSION}")
 OUTPUTS = {
     "claude": ROOT / ".claude-plugin" / "marketplace.json",
     "codex": ROOT / ".agents" / "plugins" / "marketplace.json",
@@ -51,41 +47,24 @@ def build() -> dict[str, bytes]:
         raise ValueError("The marketplace has no plugins")
     names: set[str] = set()
     for plugin in plugins:
+        if not isinstance(plugin, dict):
+            raise ValueError(f"Plugin entries must be objects: {plugin!r}")
+        unknown = set(plugin) - {"name", "repository", "requires"}
+        if unknown:
+            raise ValueError(f"Unknown fields in plugin entry: {sorted(unknown)}")
+        if "name" not in plugin or "repository" not in plugin:
+            raise ValueError("Plugin entries require name and repository")
         name, repository = plugin["name"], plugin["repository"]
-        if not NAME.fullmatch(name) or not NAME.fullmatch(repository):
+        if not isinstance(name, str) or not NAME.fullmatch(name) or not isinstance(repository, str) or not NAME.fullmatch(repository):
             raise ValueError(f"Invalid plugin or repository name: {plugin}")
         if name in names:
             raise ValueError(f"Duplicate plugin: {name}")
         names.add(name)
-    repositories: dict[str, tuple[str | None, str, str | None]] = {}
     graph: dict[str, list[str]] = {}
     claude_entries = []
     codex_entries = []
     for plugin in plugins:
         name, repository = plugin["name"], plugin["repository"]
-        revision = plugin.get("revision")
-        if not revision or not REVISION.fullmatch(revision):
-            raise ValueError(f"Invalid revision in {name}: {revision!r}")
-        release = plugin.get("release")
-        if release is not None and not RELEASE.fullmatch(release):
-            raise ValueError(f"Invalid release in {name}: {release!r}")
-        if release is not None and revision == "main":
-            raise ValueError(f"release is not allowed with revision main: {plugin}")
-        if release is not None and revision.startswith("v"):
-            if revision[1:] != release.split("@", 1)[1]:
-                raise ValueError(f"revision {revision!r} does not match release version in {release!r}")
-        commit = plugin.get("commit")
-        if revision == "main":
-            if commit is not None:
-                raise ValueError(f"commit is not allowed with revision main: {plugin}")
-        elif commit is None or not COMMIT.fullmatch(commit):
-            raise ValueError(f"Invalid commit in {name}: {commit!r}")
-        elif COMMIT.fullmatch(revision) and commit != revision:
-            raise ValueError(f"commit {commit!r} does not match sha revision {revision!r} in {name}")
-        pair = (release, revision, commit)
-        if repository in repositories and repositories[repository] != pair:
-            raise ValueError(f"repository {repository!r} has mismatched release/revision: {plugin}")
-        repositories[repository] = pair
         requires = plugin.get("requires", [])
         if not isinstance(requires, list) or any(not isinstance(required, str) for required in requires):
             raise ValueError(f"requires must be a list of plugin names in {name}")
@@ -99,10 +78,8 @@ def build() -> dict[str, bytes]:
             "source": "git-subdir",
             "url": f"https://github.com/tj-agents/{repository}.git",
             "path": f"./plugins/{name}",
-            "ref": revision,
+            "ref": "main",
         }
-        if commit is not None:
-            source["sha"] = commit
         claude_entries.append({"name": name, "source": source})
         codex_entries.append({
             "name": name,
