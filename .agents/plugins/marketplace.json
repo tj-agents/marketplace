@@ -10,8 +10,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/base",
-        "ref": "v2.1.17",
-        "sha": "6be8c45a211d6a673ae69025263e787ff7a4895e"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -25,8 +24,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/engineering",
-        "ref": "v2.1.17",
-        "sha": "6be8c45a211d6a673ae69025263e787ff7a4895e"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -40,8 +38,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/machine",
-        "ref": "v2.1.17",
-        "sha": "6be8c45a211d6a673ae69025263e787ff7a4895e"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -55,8 +52,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/cpp",
-        "ref": "v0.3.2",
-        "sha": "2047acfd559126ae35452b394317bbd800ad8685"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -70,8 +66,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/gpp",
-        "ref": "v0.3.2",
-        "sha": "2047acfd559126ae35452b394317bbd800ad8685"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -85,8 +80,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/msvc",
-        "ref": "v0.3.2",
-        "sha": "2047acfd559126ae35452b394317bbd800ad8685"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -100,8 +94,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/win32",
-        "ref": "v0.3.2",
-        "sha": "2047acfd559126ae35452b394317bbd800ad8685"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -115,8 +108,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/dotnet.git",
         "path": "./plugins/dotnet",
-        "ref": "v1.1.1",
-        "sha": "7ec0ffa1a38c530017a0cd42fa8e5175566fc9b9"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -130,8 +122,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/react.git",
         "path": "./plugins/react",
-        "ref": "v1.0.1",
-        "sha": "4ea8acb4beefecf373f01d4c4e0bc007cfb61c91"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -201,8 +192,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/template.git",
         "path": "./plugins/template",
-        "ref": "v2.0.0",
-        "sha": "84277e7260a2fac3f16b30046569e4e0f77c79a7"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -216,8 +206,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/work-items.git",
         "path": "./plugins/work-items",
-        "ref": "v0.1.0",
-        "sha": "7c4dcd2147a46005020ee4f2b68db563d71a52a5"
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
