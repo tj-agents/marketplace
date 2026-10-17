@@ -1,7 +1,7 @@
 # TJ Agents marketplace
 
 One shared discovery catalog for the current plugins in `tj-agents/core`, `cpp`,
-`dotnet`, `react`, `nvim`, `rust`, `github-actions`, `azure`, and `template`.
+`dotnet`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and `template`.
 Packages stay in their source repositories. Adding another
 repository requires one entry in `catalog.json`; `generate.py` produces the matching
 Core launch refresh updates selected plugin content from these source repositories.
@@ -16,7 +16,7 @@ Codex:  codex plugin add cpp@tj-agents
 ```
 
 Available canonical plugins are `base`, `engineering`, `machine`, `cpp`, `gpp`, `msvc`,
-`win32`, `dotnet`, `react`, `nvim`, `rust`, `github-actions`, `azure`, and
+`win32`, `dotnet`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
 `template`, and optional `work-items`. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. Select `base`, `engineering`, and `machine` together
 for the common agent workflow.
