@@ -11,6 +11,7 @@
     { "name": "msvc", "repository": "cpp", "requires": ["cpp"] },
     { "name": "win32", "repository": "cpp", "requires": ["cpp"] },
     { "name": "dotnet", "repository": "dotnet" },
+    { "name": "efcore", "repository": "dotnet", "requires": ["dotnet"] },
     { "name": "react", "repository": "react" },
     { "name": "nvim", "repository": "nvim" },
     { "name": "rust", "repository": "rust" },
