@@ -117,6 +117,20 @@
       "category": "Productivity"
     },
     {
+      "name": "efcore",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/dotnet.git",
+        "path": "./plugins/efcore",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "react",
       "source": {
         "source": "git-subdir",
