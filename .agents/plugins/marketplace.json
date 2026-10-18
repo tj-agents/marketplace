@@ -227,6 +227,20 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Productivity"
+    },
+    {
+      "name": "personal",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/personal.git",
+        "path": "./plugins/personal",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
     }
   ]
 }
