@@ -17,9 +17,14 @@ Codex:  codex plugin add cpp@tj-agents
 
 Available canonical plugins are `base`, `engineering`, `machine`, `cpp`, `gpp`, `msvc`,
 `win32`, `dotnet`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
-`template`, and optional `work-items`. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
+`template`, optional `work-items`, and the explicitly adopted `personal` profile. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. Select `base`, `engineering`, and `machine` together
 for the common agent workflow.
+
+Select `personal`, `base` and `machine` for projects Tommy explicitly identifies as personal, then run
+`personal:adopt` to generate and check mandatory native instructions for Claude and Codex. Selection alone
+does not establish that the policy loaded. Employer projects remain outside this profile. The policy and
+adoption procedure are authored in [tj-agents/personal](https://github.com/tj-agents/personal).
 
 The existing `base-agents`, `cpp-agents`, `dotagents`, and `react-agents` marketplaces
 remain available to installed consumers. When migrating, disable or uninstall an old
