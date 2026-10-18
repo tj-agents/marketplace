@@ -157,6 +157,15 @@
         "path": "./plugins/work-items",
         "ref": "main"
       }
+    },
+    {
+      "name": "personal",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/personal.git",
+        "path": "./plugins/personal",
+        "ref": "main"
+      }
     }
   ]
 }
