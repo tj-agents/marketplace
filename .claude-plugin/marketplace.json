@@ -78,6 +78,15 @@
       }
     },
     {
+      "name": "efcore",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/dotnet.git",
+        "path": "./plugins/efcore",
+        "ref": "main"
+      }
+    },
+    {
       "name": "react",
       "source": {
         "source": "git-subdir",
