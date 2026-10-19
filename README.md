@@ -4,7 +4,7 @@ One shared discovery catalog for the current plugins in `tj-agents/core`, `cpp`,
 `dotnet`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and `template`.
 Packages stay in their source repositories. Adding another
 repository requires one entry in `catalog.json`; `generate.py` produces the matching
-Core launch refresh updates selected plugin content from these source repositories.
+Claude and Codex catalogs. Core launch refresh updates selected plugin content from these source repositories.
 
 Add the marketplace and select plugins explicitly:
 
@@ -16,7 +16,7 @@ Codex:  codex plugin add cpp@tj-agents
 ```
 
 Available canonical plugins are `base`, `engineering`, `machine`, `cpp`, `gpp`, `msvc`,
-`win32`, `dotnet`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
+`win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
 `template`, optional `work-items`, and the explicitly adopted `personal` profile. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. Select `base`, `engineering`, and `machine` together
 for the common agent workflow.
@@ -26,12 +26,9 @@ Select `personal`, `base` and `machine` for projects Tommy explicitly identifies
 does not establish that the policy loaded. Employer projects remain outside this profile. The policy and
 adoption procedure are authored in [tj-agents/personal](https://github.com/tj-agents/personal).
 
-The existing `base-agents`, `cpp-agents`, `dotagents`, and `react-agents` marketplaces
-remain available to installed consumers. When migrating, disable or uninstall an old
-plugin before enabling its `@tj-agents` copy so duplicate skills and hooks do not load.
-The legacy C++ compatibility packages remain only in `cpp-agents` through their
-published compatibility window. Codex entries in this marketplace are `AVAILABLE`,
-so adding the catalog does not automatically install second copies.
+Project declarations and installed registrations use the shared `@tj-agents` identities. Remove
+superseded registrations in the same migration so duplicate skills and hooks do not load. Codex entries
+in this marketplace are `AVAILABLE`, so adding the catalog does not automatically install copies.
 
 Edit `catalog.json`, then run:
 
