@@ -131,12 +131,12 @@ class RealRosterTests(unittest.TestCase):
         expected_requires = {
             "engineering": ["base"], "machine": ["base"], "gpp": ["cpp"],
             "msvc": ["cpp"], "win32": ["cpp"], "efcore": ["dotnet"], "work-items": ["base"],
-            "personal": ["base", "machine"],
+            "personal": ["base", "machine"], "work": ["base"], "infonetica": ["work"],
         }
         expected_names = {
             "base", "engineering", "machine", "cpp", "gpp", "msvc", "win32",
             "dotnet", "efcore", "react", "nvim", "rust", "python", "github-actions", "azure",
-            "template", "work-items", "personal",
+            "template", "work-items", "personal", "work", "infonetica",
         }
         by_name = {plugin["name"]: plugin for plugin in plugins}
         self.assertEqual(expected_names, set(by_name))

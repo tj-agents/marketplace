@@ -20,6 +20,8 @@
     { "name": "azure", "repository": "azure" },
     { "name": "template", "repository": "template" },
     { "name": "work-items", "repository": "work-items", "requires": ["base"] },
-    { "name": "personal", "repository": "personal", "requires": ["base", "machine"] }
+    { "name": "personal", "repository": "personal", "requires": ["base", "machine"] },
+    { "name": "work", "repository": "work", "requires": ["base"] },
+    { "name": "infonetica", "repository": "infonetica", "requires": ["work"] }
   ]
 }
