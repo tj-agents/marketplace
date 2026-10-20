@@ -255,6 +255,34 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Productivity"
+    },
+    {
+      "name": "work",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/work.git",
+        "path": "./plugins/work",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "infonetica",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/infonetica.git",
+        "path": "./plugins/infonetica",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
     }
   ]
 }
