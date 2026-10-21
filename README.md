@@ -17,7 +17,7 @@ Codex:  codex plugin add cpp@tj-agents
 
 Available canonical plugins are `base`, `engineering`, `machine`, `cpp`, `gpp`, `msvc`,
 `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
-`template`, optional `work-items`, and the explicitly adopted `personal` profile. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
+`template`, the explicitly adopted `personal` profile, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. Select `base`, `engineering`, and `machine` together
 for the common agent workflow.
 
@@ -50,10 +50,7 @@ uninstall the old copy before enabling its `@tj-agents` copy. Do not enable both
 for the same plugin. Neither registering this catalog nor selecting plugins proves that hooks are active; verify
 that separately with native host acceptance.
 
-`work-items` is optional personal GitHub tracking tooling for features, tasks, bugs, mistakes and debt. Install `base` together
-with `work-items`: the catalog validates this dependency, but native marketplace discovery does not install it automatically.
-Explicitly select it only in the intended personal source project using `.agents/plugins.json` and `machine:plugin-selection`.
-Adding the catalog or installing the utility does not change a repository's tracker. Employer repositories keep their
-existing tracking policy. Enable one installed copy and avoid enabling both producer and aggregate identities for the
-same plugin. Core record integration requires a Core revision containing the generic problem-provider protocol;
-native host acceptance remains a separate check before personal rollout.
+Personal owns GitHub work items; Infonetica owns Azure Boards work items and employer type policy.
+Each profile supplies `work-item`, `create-work-item` and `address-work-item` under its qualified namespace.
+Core owns the shared agent execution/session registry and Engineering workflows. Work supplies employer-neutral
+communication tools. Select the intended profile explicitly; installing Core does not select a tracker.
