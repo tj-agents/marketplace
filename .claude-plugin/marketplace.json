@@ -150,15 +150,6 @@
       }
     },
     {
-      "name": "work-items",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/tj-agents/work-items.git",
-        "path": "./plugins/work-items",
-        "ref": "main"
-      }
-    },
-    {
       "name": "personal",
       "source": {
         "source": "git-subdir",
