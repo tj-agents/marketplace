@@ -229,20 +229,6 @@
       "category": "Productivity"
     },
     {
-      "name": "work-items",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/tj-agents/work-items.git",
-        "path": "./plugins/work-items",
-        "ref": "main"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Productivity"
-    },
-    {
       "name": "personal",
       "source": {
         "source": "git-subdir",
