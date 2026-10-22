@@ -42,6 +42,10 @@ claude plugin validate .
 All catalog entries use the producer repository's current main branch. The catalog makes current publisher content
 available to hosts. Core's launch refresh updates the plugin content consumed by a project from those main branches.
 
+When adding a package, publish its producer payload and catalog before activating repository selections.
+Keep the complete selection changes in a dependent delivery slice, then verify native admission and
+the selected packages after publication.
+
 Project selection is explicit in the repository's `.agents/plugins.json`. Use `machine:plugin-selection` to select
 the desired plugins. Refreshing the project brings selected content up to date; adding the marketplace does not
 install or select plugins, and it does not prove activation.
