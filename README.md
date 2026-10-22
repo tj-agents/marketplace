@@ -22,7 +22,7 @@ optionally `win32` for C++ work. Select `base`, `engineering`, and `machine` tog
 for the common agent workflow.
 
 Select `personal`, `base` and `machine` for projects Tommy explicitly identifies as personal, then run
-`personal:adopt` to generate and check mandatory native instructions for Claude and Codex. Selection alone
+`personal:setup-repo` to generate and check mandatory native instructions for Claude and Codex. Selection alone
 does not establish that the policy loaded. Employer projects remain outside this profile. The policy and
 adoption procedure are authored in [tj-agents/personal](https://github.com/tj-agents/personal).
 
