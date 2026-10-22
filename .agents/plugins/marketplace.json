@@ -19,11 +19,11 @@
       "category": "Productivity"
     },
     {
-      "name": "engineering",
+      "name": "agent-store",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
-        "path": "./plugins/engineering",
+        "path": "./plugins/agent-store",
         "ref": "main"
       },
       "policy": {
@@ -38,6 +38,34 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/machine",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "workflow",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/workflow",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "engineering",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/engineering",
         "ref": "main"
       },
       "policy": {
