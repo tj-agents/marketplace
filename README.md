@@ -15,16 +15,17 @@ Codex:  codex plugin marketplace add tj-agents/marketplace
 Codex:  codex plugin add cpp@tj-agents
 ```
 
-Available canonical plugins are `base`, `engineering`, `machine`, `cpp`, `gpp`, `msvc`,
+Available canonical plugins are `base`, `agent-store`, `machine`, `workflow`, `engineering`, `cpp`, `gpp`, `msvc`,
 `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
 `template`, the explicitly adopted `personal` profile, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
-optionally `win32` for C++ work. Select `base`, `engineering`, and `machine` together
-for the common agent workflow.
+optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
+`machine`, and `workflow` closure. For software work, select `engineering` plus that closure.
 
-Select `personal`, `base` and `machine` for projects Tommy explicitly identifies as personal, then run
-`personal:adopt` to generate and check mandatory native instructions for Claude and Codex. Selection alone
-does not establish that the policy loaded. Employer projects remain outside this profile. The policy and
-adoption procedure are authored in [tj-agents/personal](https://github.com/tj-agents/personal).
+For projects Tommy explicitly identifies as personal, select `personal` and its actual requirement closure:
+`engineering`, `machine`, `base`, `agent-store`, and `workflow`. Then run `personal:adopt` to generate and
+check mandatory native instructions for Claude and Codex. Selection alone does not establish that the policy
+loaded. Employer projects remain outside this profile. The policy and adoption procedure are authored in
+[tj-agents/personal](https://github.com/tj-agents/personal).
 
 Project declarations and installed registrations use the shared `@tj-agents` identities. Remove
 superseded registrations in the same migration so duplicate skills and hooks do not load. Codex entries
@@ -42,8 +43,8 @@ All catalog entries use the producer repository's current main branch. The catal
 available to hosts. Core's launch refresh updates the plugin content consumed by a project from those main branches.
 
 Project selection is explicit in the repository's `.agents/plugins.json`. Use `machine:plugin-selection` to select
-the desired plugins. Refreshing the project brings selected content up to date; adding the catalog alone does not
-select plugins, install them or activate hooks.
+the desired plugins. Refreshing the project brings selected content up to date; adding the marketplace does not
+install or select plugins, and it does not prove activation.
 
 Adding this marketplace installs nothing on either host. When migrating an installed legacy identity, disable or
 uninstall the old copy before enabling its `@tj-agents` copy. Do not enable both producer and aggregate identities
