@@ -30,7 +30,11 @@
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/machine",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "base",
+        "agent-store"
+      ]
     },
     {
       "name": "workflow",
@@ -39,7 +43,12 @@
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/workflow",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "base",
+        "agent-store",
+        "machine"
+      ]
     },
     {
       "name": "engineering",
@@ -48,7 +57,13 @@
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/engineering",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "base",
+        "workflow",
+        "agent-store",
+        "machine"
+      ]
     },
     {
       "name": "cpp",
@@ -57,7 +72,10 @@
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/cpp",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering"
+      ]
     },
     {
       "name": "gpp",
@@ -66,7 +84,10 @@
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/gpp",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "cpp"
+      ]
     },
     {
       "name": "msvc",
@@ -75,7 +96,10 @@
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/msvc",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "cpp"
+      ]
     },
     {
       "name": "win32",
@@ -84,7 +108,10 @@
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/win32",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "cpp"
+      ]
     },
     {
       "name": "dotnet",
@@ -93,7 +120,10 @@
         "url": "https://github.com/tj-agents/dotnet.git",
         "path": "./plugins/dotnet",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering"
+      ]
     },
     {
       "name": "efcore",
@@ -102,7 +132,10 @@
         "url": "https://github.com/tj-agents/dotnet.git",
         "path": "./plugins/efcore",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "dotnet"
+      ]
     },
     {
       "name": "react",
@@ -111,7 +144,10 @@
         "url": "https://github.com/tj-agents/react.git",
         "path": "./plugins/react",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering"
+      ]
     },
     {
       "name": "nvim",
@@ -120,7 +156,10 @@
         "url": "https://github.com/tj-agents/nvim.git",
         "path": "./plugins/nvim",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering"
+      ]
     },
     {
       "name": "rust",
@@ -129,7 +168,10 @@
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/rust",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering"
+      ]
     },
     {
       "name": "python",
@@ -138,7 +180,10 @@
         "url": "https://github.com/tj-agents/python.git",
         "path": "./plugins/python",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering"
+      ]
     },
     {
       "name": "github-actions",
@@ -147,7 +192,10 @@
         "url": "https://github.com/tj-agents/github-actions.git",
         "path": "./plugins/github-actions",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering"
+      ]
     },
     {
       "name": "azure",
@@ -156,7 +204,10 @@
         "url": "https://github.com/tj-agents/azure.git",
         "path": "./plugins/azure",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering"
+      ]
     },
     {
       "name": "template",
@@ -165,7 +216,10 @@
         "url": "https://github.com/tj-agents/template.git",
         "path": "./plugins/template",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering"
+      ]
     },
     {
       "name": "personal",
@@ -174,7 +228,11 @@
         "url": "https://github.com/tj-agents/personal.git",
         "path": "./plugins/personal",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering",
+        "machine"
+      ]
     },
     {
       "name": "work",
@@ -183,7 +241,10 @@
         "url": "https://github.com/tj-agents/work.git",
         "path": "./plugins/work",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "engineering"
+      ]
     },
     {
       "name": "infonetica",
@@ -192,7 +253,12 @@
         "url": "https://github.com/tj-agents/infonetica.git",
         "path": "./plugins/infonetica",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "work",
+        "base",
+        "engineering"
+      ]
     }
   ]
 }

@@ -80,6 +80,23 @@ class ValidationErrorTests(CatalogFixtureTests):
         with self.assertRaisesRegex(ValueError, "requires must be a list"):
             generate.build()
 
+    def test_non_core_plugin_without_engineering_fails(self):
+        self.write_catalog([
+            {"name": "base", "repository": "core"},
+            {"name": "engineering", "repository": "core", "requires": ["base"]},
+            {"name": "dotnet", "repository": "dotnet", "requires": ["base"]},
+        ])
+        with self.assertRaisesRegex(ValueError, "dotnet must require engineering"):
+            generate.build()
+
+    def test_transitive_engineering_requirement_is_accepted(self):
+        self.write_catalog([
+            {"name": "engineering", "repository": "core"},
+            {"name": "dotnet", "repository": "dotnet", "requires": ["engineering"]},
+            {"name": "efcore", "repository": "dotnet", "requires": ["dotnet"]},
+        ])
+        generate.build()
+
     def test_requires_cycle_fails(self):
         self.write_catalog([
             {"name": "base", "repository": "core", "requires": ["machine"]},
@@ -95,7 +112,7 @@ class OutputShapeTests(CatalogFixtureTests):
         self.write_catalog([
             {"name": "base", "repository": "core"},
             {"name": "engineering", "repository": "core", "requires": ["base"]},
-            {"name": "nvim", "repository": "nvim"},
+            {"name": "nvim", "repository": "nvim", "requires": ["engineering"]},
         ])
         self.outputs = generate.build()
         self.claude = json.loads(self.outputs["claude"])
@@ -114,6 +131,14 @@ class OutputShapeTests(CatalogFixtureTests):
     def test_claude_entries_have_no_policy_key(self):
         for entry in self.claude["plugins"]:
             self.assertNotIn("policy", entry)
+
+    def test_claude_entries_declare_requires_as_dependencies(self):
+        dependencies = {entry["name"]: entry.get("dependencies") for entry in self.claude["plugins"]}
+        self.assertEqual({"base": None, "engineering": ["base"], "nvim": ["engineering"]}, dependencies)
+
+    def test_codex_entries_have_no_dependencies_key(self):
+        for entry in self.codex["plugins"]:
+            self.assertNotIn("dependencies", entry)
 
     def test_marketplace_name_is_tj_agents(self):
         self.assertEqual(self.claude["name"], "tj-agents")
@@ -134,7 +159,10 @@ class RealRosterTests(unittest.TestCase):
             "engineering": ["base", "workflow", "agent-store", "machine"],
             "gpp": ["cpp"],
             "msvc": ["cpp"], "win32": ["cpp"], "efcore": ["dotnet"],
-            "personal": ["engineering", "machine"], "work": ["base"],
+            "cpp": ["engineering"], "dotnet": ["engineering"], "react": ["engineering"], "nvim": ["engineering"],
+            "rust": ["engineering"], "python": ["engineering"], "github-actions": ["engineering"],
+            "azure": ["engineering"], "template": ["engineering"],
+            "personal": ["engineering", "machine"], "work": ["engineering"],
             "infonetica": ["work", "base", "engineering"],
         }
         expected_names = {
