@@ -19,6 +19,8 @@ Available canonical plugins are `base`, `agent-store`, `machine`, `workflow`, `e
 `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
 optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
 `machine`, and `workflow` closure. For software work, select `engineering` plus that closure.
+Every non-core plugin requires `engineering`. Claude installs each entry's `requires` as `dependencies`; Codex
+does not resolve dependencies, so a selection still lists the closure.
 
 For projects Tommy explicitly identifies as personal, select `personal` and its actual requirement closure:
 `engineering`, `machine`, `base`, `agent-store`, and `workflow`. Then run `personal:adopt` to generate and
