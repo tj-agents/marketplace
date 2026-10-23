@@ -1,11 +1,13 @@
 {
   "name": "tj-agents",
-  "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, Python, GitHub Actions, and Azure agent capabilities, plus Template for building plugin repositories.",
+  "description": "Shared base, Agent Store, machine, workflow, engineering, C++, .NET, React, Neovim, Rust, Python, GitHub Actions, and Azure agent capabilities, plus Template for building plugin repositories.",
   "owner": "Tommy Seery",
   "plugins": [
     { "name": "base", "repository": "core" },
-    { "name": "engineering", "repository": "core", "requires": ["base"] },
-    { "name": "machine", "repository": "core", "requires": ["base"] },
+    { "name": "agent-store", "repository": "core" },
+    { "name": "machine", "repository": "core", "requires": ["base", "agent-store"] },
+    { "name": "workflow", "repository": "core", "requires": ["base", "agent-store", "machine"] },
+    { "name": "engineering", "repository": "core", "requires": ["base", "workflow", "agent-store", "machine"] },
     { "name": "cpp", "repository": "cpp" },
     { "name": "gpp", "repository": "cpp", "requires": ["cpp"] },
     { "name": "msvc", "repository": "cpp", "requires": ["cpp"] },
@@ -19,8 +21,8 @@
     { "name": "github-actions", "repository": "github-actions" },
     { "name": "azure", "repository": "azure" },
     { "name": "template", "repository": "template" },
-    { "name": "personal", "repository": "personal", "requires": ["base", "machine"] },
+    { "name": "personal", "repository": "personal", "requires": ["engineering", "machine"] },
     { "name": "work", "repository": "work", "requires": ["base"] },
-    { "name": "infonetica", "repository": "infonetica", "requires": ["work"] }
+    { "name": "infonetica", "repository": "infonetica", "requires": ["work", "base", "engineering"] }
   ]
 }
