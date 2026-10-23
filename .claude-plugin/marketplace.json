@@ -1,6 +1,6 @@
 {
   "name": "tj-agents",
-  "description": "Shared engineering, machine, C++, .NET, React, Neovim, Rust, Python, GitHub Actions, and Azure agent capabilities, plus Template for building plugin repositories.",
+  "description": "Shared base, Agent Store, machine, workflow, engineering, C++, .NET, React, Neovim, Rust, Python, GitHub Actions, and Azure agent capabilities, plus Template for building plugin repositories.",
   "owner": {
     "name": "Tommy Seery"
   },
@@ -15,11 +15,11 @@
       }
     },
     {
-      "name": "engineering",
+      "name": "agent-store",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
-        "path": "./plugins/engineering",
+        "path": "./plugins/agent-store",
         "ref": "main"
       }
     },
@@ -29,6 +29,24 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/machine",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "workflow",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/workflow",
+        "ref": "main"
+      }
+    },
+    {
+      "name": "engineering",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/engineering",
         "ref": "main"
       }
     },
