@@ -1,6 +1,6 @@
 # TJ Agents marketplace
 
-One shared discovery catalog for the current plugins in `tj-agents/core`, `cpp`,
+One shared discovery catalog for the current plugins in `tj-agents/core`, `learning`, `cpp`,
 `dotnet`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and `template`.
 Packages stay in their source repositories. Adding another
 repository requires one entry in `catalog.json`; `generate.py` produces the matching
@@ -15,7 +15,7 @@ Codex:  codex plugin marketplace add tj-agents/marketplace
 Codex:  codex plugin add cpp@tj-agents
 ```
 
-Available canonical plugins are `base`, `agent-store`, `machine`, `workflow`, `engineering`, `cpp`, `gpp`, `msvc`,
+Available canonical plugins are `base`, `agent-store`, `machine`, `workflow`, `engineering`, `learning`, `cpp`, `gpp`, `msvc`,
 `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
 `template`, the explicitly adopted `personal` profile, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
