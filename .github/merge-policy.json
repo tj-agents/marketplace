@@ -1,0 +1,9 @@
+{
+  "agents_may_merge": false,
+  "required_checks": [
+    "verify (ubuntu-latest)",
+    "verify (windows-latest)",
+    "policy / check (ubuntu-latest, python3)",
+    "policy / check (windows-latest, python)"
+  ]
+}
