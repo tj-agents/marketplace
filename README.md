@@ -24,7 +24,7 @@ Every non-core plugin requires `engineering`. Claude installs each entry's `requ
 does not resolve dependencies, so a selection still lists the closure.
 
 For projects Tommy explicitly identifies as personal, select `personal` and its actual requirement closure:
-`engineering`, `machine`, `base`, `agent-store`, and `workflow`. Then run `personal:adopt` to generate and
+`engineering`, `agent`, `machine`, `base`, `agent-store`, and `workflow`. Then run `personal:adopt` to generate and
 check mandatory native instructions for Claude and Codex. Selection alone does not establish that the policy
 loaded. Employer projects remain outside this profile. The policy and adoption procedure are authored in
 [tj-agents/personal](https://github.com/tj-agents/personal).
