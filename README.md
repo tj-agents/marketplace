@@ -15,11 +15,11 @@ Codex:  codex plugin marketplace add tj-agents/marketplace
 Codex:  codex plugin add cpp@tj-agents
 ```
 
-Available canonical plugins are `base`, `agent-store`, `machine`, `workflow`, `engineering`, `cpp`, `gpp`, `msvc`,
+Available canonical plugins are `base`, `agent-store`, `agent`, `machine`, `workflow`, `engineering`, `cpp`, `gpp`, `msvc`,
 `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
 `template`, the explicitly adopted `personal` profile, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
-`machine`, and `workflow` closure. For software work, select `engineering` plus that closure.
+`agent`, `machine`, and `workflow` closure. For software work, select `engineering` plus that closure.
 Every non-core plugin requires `engineering`. Claude installs each entry's `requires` as `dependencies`; Codex
 does not resolve dependencies, so a selection still lists the closure.
 

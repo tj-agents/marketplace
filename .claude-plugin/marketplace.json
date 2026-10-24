@@ -24,6 +24,18 @@
       }
     },
     {
+      "name": "agent",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/agent",
+        "ref": "main"
+      },
+      "dependencies": [
+        "base"
+      ]
+    },
+    {
       "name": "machine",
       "source": {
         "source": "git-subdir",
@@ -47,7 +59,8 @@
       "dependencies": [
         "base",
         "agent-store",
-        "machine"
+        "machine",
+        "agent"
       ]
     },
     {
@@ -62,7 +75,8 @@
         "base",
         "workflow",
         "agent-store",
-        "machine"
+        "machine",
+        "agent"
       ]
     },
     {
