@@ -160,7 +160,7 @@ class RealRosterTests(unittest.TestCase):
             "gpp": ["cpp"],
             "msvc": ["cpp"], "win32": ["cpp"], "efcore": ["dotnet"],
             "cpp": ["engineering"], "dotnet": ["engineering"], "react": ["engineering"], "nvim": ["engineering"],
-            "rust": ["engineering"], "python": ["engineering"], "github-actions": ["engineering"],
+            "rust": ["engineering"], "tauri": ["rust"], "rust-sqlx": ["rust"], "python": ["engineering"], "github-actions": ["engineering"],
             "azure": ["engineering"], "template": ["engineering"],
             "personal": ["engineering", "machine"], "work": ["engineering"],
         }
