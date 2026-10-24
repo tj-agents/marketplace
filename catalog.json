@@ -17,6 +17,8 @@
     { "name": "react", "repository": "react", "requires": ["engineering"] },
     { "name": "nvim", "repository": "nvim", "requires": ["engineering"] },
     { "name": "rust", "repository": "rust", "requires": ["engineering"] },
+    { "name": "tauri", "repository": "rust", "requires": ["rust"] },
+    { "name": "rust-sqlx", "repository": "rust", "requires": ["rust"] },
     { "name": "python", "repository": "python", "requires": ["engineering"] },
     { "name": "github-actions", "repository": "github-actions", "requires": ["engineering"] },
     { "name": "azure", "repository": "azure", "requires": ["engineering"] },
