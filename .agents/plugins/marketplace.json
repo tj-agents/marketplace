@@ -22,7 +22,7 @@
       "name": "agent-store",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/tj-agents/core.git",
+        "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/agent-store",
         "ref": "main"
       },
@@ -36,8 +36,22 @@
       "name": "agent",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/tj-agents/core.git",
+        "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/agent",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "codex",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/agent.git",
+        "path": "./plugins/codex",
         "ref": "main"
       },
       "policy": {
@@ -64,7 +78,7 @@
       "name": "cli",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/tj-agents/core.git",
+        "url": "https://github.com/tj-agents/cli.git",
         "path": "./plugins/cli",
         "ref": "main"
       },

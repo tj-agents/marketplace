@@ -17,19 +17,6 @@ OUTPUTS = {
     "codex": ROOT / ".agents" / "plugins" / "marketplace.json",
 }
 IGNORED_DIRS = {".git", ".worktrees", "node_modules", "bin", "obj", "dist"}
-CORE_REPOSITORY = "core"
-CORE_PLUGIN = "engineering"
-
-
-def closure(name: str, graph: dict[str, list[str]]) -> set[str]:
-    reached: set[str] = set()
-    pending = list(graph[name])
-    while pending:
-        required = pending.pop()
-        if required not in reached:
-            reached.add(required)
-            pending.extend(graph[required])
-    return reached
 
 
 def validate_instruction_pairs() -> None:
@@ -107,9 +94,6 @@ def build() -> dict[str, bytes]:
         graphlib.TopologicalSorter(graph).prepare()
     except graphlib.CycleError as error:
         raise ValueError("Required plugins form a cycle: " + " -> ".join(error.args[1])) from None
-    for plugin in plugins:
-        if plugin["repository"] != CORE_REPOSITORY and CORE_PLUGIN not in closure(plugin["name"], graph):
-            raise ValueError(f"{plugin['name']} must require {CORE_PLUGIN} directly or transitively")
     manifests = {
         "claude": {
             "name": catalog["name"],
