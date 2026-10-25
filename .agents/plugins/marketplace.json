@@ -61,6 +61,20 @@
       "category": "Productivity"
     },
     {
+      "name": "cli",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/cli",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "workflow",
       "source": {
         "source": "git-subdir",

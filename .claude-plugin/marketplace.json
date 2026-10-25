@@ -49,6 +49,20 @@
       ]
     },
     {
+      "name": "cli",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/core.git",
+        "path": "./plugins/cli",
+        "ref": "main"
+      },
+      "dependencies": [
+        "base",
+        "agent-store",
+        "machine"
+      ]
+    },
+    {
       "name": "workflow",
       "source": {
         "source": "git-subdir",
@@ -60,6 +74,7 @@
         "base",
         "agent-store",
         "machine",
+        "cli",
         "agent"
       ]
     },
@@ -76,6 +91,7 @@
         "workflow",
         "agent-store",
         "machine",
+        "cli",
         "agent"
       ]
     },
