@@ -1,6 +1,9 @@
 # Shared marketplace
 
 `catalog.json` is the only authored plugin roster. Do not hand-edit either host marketplace JSON.
+It owns plugin identities, source repositories and dependency edges for `tj-agents`; Core Machine
+generates its pinned offline selector snapshot from this catalog and owns only curated stack choices
+and project settings projection. Never maintain plugin names or dependencies in Core by hand.
 Run `python -B generate.py` after roster changes and `python -B generate.py --check` plus
 `claude plugin validate .` before delivery. Packages remain authored in their source repositories and projected into host catalogs.
 Project selections use the shared marketplace explicitly.
