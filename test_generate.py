@@ -156,8 +156,9 @@ class RealRosterTests(unittest.TestCase):
         expected_requires = {
             "agent": ["base"],
             "machine": ["base", "agent-store"],
-            "workflow": ["base", "agent-store", "machine", "agent"],
-            "engineering": ["base", "workflow", "agent-store", "machine", "agent"],
+            "cli": ["base", "agent-store", "machine"],
+            "workflow": ["base", "agent-store", "machine", "cli", "agent"],
+            "engineering": ["base", "workflow", "agent-store", "machine", "cli", "agent"],
             "gpp": ["cpp"],
             "msvc": ["cpp"], "win32": ["cpp"], "efcore": ["dotnet"],
             "cpp": ["engineering"], "dotnet": ["engineering"], "react": ["engineering"], "nvim": ["engineering"],
@@ -167,7 +168,7 @@ class RealRosterTests(unittest.TestCase):
             "infonetica": ["work", "base", "engineering"],
         }
         expected_names = {
-            "base", "agent-store", "agent", "machine", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
+            "base", "agent-store", "agent", "machine", "cli", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
             "dotnet", "efcore", "react", "nvim", "rust", "python", "github-actions", "azure",
             "template", "personal", "work", "infonetica", "tauri", "rust-sqlx",
         }
