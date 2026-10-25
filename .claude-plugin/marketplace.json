@@ -37,7 +37,8 @@
       "dependencies": [
         "base",
         "agent-store",
-        "machine"
+        "machine",
+        "cli"
       ]
     },
     {
@@ -46,18 +47,6 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/codex",
-        "ref": "main"
-      },
-      "dependencies": [
-        "agent"
-      ]
-    },
-    {
-      "name": "cc",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/tj-agents/agent.git",
-        "path": "./plugins/cc",
         "ref": "main"
       },
       "dependencies": [

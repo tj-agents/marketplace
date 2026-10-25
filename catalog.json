@@ -5,9 +5,8 @@
   "plugins": [
     { "name": "base", "repository": "core" },
     { "name": "agent-store", "repository": "agent", "requires": ["base"] },
-    { "name": "agent", "repository": "agent", "requires": ["base", "agent-store", "machine"] },
+    { "name": "agent", "repository": "agent", "requires": ["base", "agent-store", "machine", "cli"] },
     { "name": "codex", "repository": "agent", "requires": ["agent"] },
-    { "name": "cc", "repository": "agent", "requires": ["agent"] },
     { "name": "machine", "repository": "core", "requires": ["base", "agent-store"] },
     { "name": "cli", "repository": "cli", "requires": ["base"] },
     { "name": "workflow", "repository": "core", "requires": ["base", "agent-store", "machine", "agent"] },
