@@ -156,8 +156,8 @@ class RealRosterTests(unittest.TestCase):
         plugins = catalog["plugins"]
         expected_requires = {
             "agent-store": ["base"],
-            "agent": ["base", "agent-store", "machine"],
-            "codex": ["agent"], "cc": ["agent"],
+            "agent": ["base", "agent-store", "machine", "cli"],
+            "codex": ["agent"],
             "machine": ["base", "agent-store"],
             "cli": ["base"],
             "workflow": ["base", "agent-store", "machine", "agent"],
@@ -170,7 +170,7 @@ class RealRosterTests(unittest.TestCase):
             "personal": ["engineering", "machine"], "work": ["engineering"],
         }
         expected_names = {
-            "base", "agent-store", "agent", "codex", "cc", "machine", "cli", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
+            "base", "agent-store", "agent", "codex", "machine", "cli", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
             "dotnet", "efcore", "react", "nvim", "rust", "python", "github-actions", "azure",
         }
         by_name = {plugin["name"]: plugin for plugin in plugins}
