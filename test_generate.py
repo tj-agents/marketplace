@@ -154,9 +154,10 @@ class RealRosterTests(unittest.TestCase):
         catalog = json.loads((generate.ROOT / "catalog.json").read_text(encoding="utf-8"))
         plugins = catalog["plugins"]
         expected_requires = {
+            "agent": ["base"],
             "machine": ["base", "agent-store"],
-            "workflow": ["base", "agent-store", "machine"],
-            "engineering": ["base", "workflow", "agent-store", "machine"],
+            "workflow": ["base", "agent-store", "machine", "agent"],
+            "engineering": ["base", "workflow", "agent-store", "machine", "agent"],
             "gpp": ["cpp"],
             "msvc": ["cpp"], "win32": ["cpp"], "efcore": ["dotnet"],
             "cpp": ["engineering"], "dotnet": ["engineering"], "react": ["engineering"], "nvim": ["engineering"],
@@ -166,7 +167,7 @@ class RealRosterTests(unittest.TestCase):
             "infonetica": ["work", "base", "engineering"],
         }
         expected_names = {
-            "base", "agent-store", "machine", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
+            "base", "agent-store", "agent", "machine", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
             "dotnet", "efcore", "react", "nvim", "rust", "python", "github-actions", "azure",
             "template", "personal", "work", "infonetica", "tauri", "rust-sqlx",
         }
