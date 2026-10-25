@@ -6,6 +6,11 @@ Packages stay in their source repositories. Adding another
 repository requires one entry in `catalog.json`; `generate.py` produces the matching
 Claude and Codex catalogs. Core launch refresh updates selected plugin content from these source repositories.
 
+This catalog also supplies Core Machine's pinned offline project selector snapshot. After publishing a
+catalog change, regenerate that snapshot through Core's `scripts/update_marketplace_catalog.py` and check
+the resulting plugin selection. The [shared ownership decision](https://github.com/tj-agents/docs/blob/main/PLUGIN_CATALOG.md)
+records which repository owns each part of the flow.
+
 Add the marketplace and select plugins explicitly:
 
 ```text
