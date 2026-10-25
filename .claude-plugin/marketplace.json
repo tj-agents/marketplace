@@ -18,21 +18,50 @@
       "name": "agent-store",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/tj-agents/core.git",
+        "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/agent-store",
         "ref": "main"
-      }
+      },
+      "dependencies": [
+        "base"
+      ]
     },
     {
       "name": "agent",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/tj-agents/core.git",
+        "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/agent",
         "ref": "main"
       },
       "dependencies": [
-        "base"
+        "base",
+        "agent-store",
+        "machine"
+      ]
+    },
+    {
+      "name": "codex",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/agent.git",
+        "path": "./plugins/codex",
+        "ref": "main"
+      },
+      "dependencies": [
+        "agent"
+      ]
+    },
+    {
+      "name": "cc",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/agent.git",
+        "path": "./plugins/cc",
+        "ref": "main"
+      },
+      "dependencies": [
+        "agent"
       ]
     },
     {
@@ -52,14 +81,12 @@
       "name": "cli",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/tj-agents/core.git",
+        "url": "https://github.com/tj-agents/cli.git",
         "path": "./plugins/cli",
         "ref": "main"
       },
       "dependencies": [
-        "base",
-        "agent-store",
-        "machine"
+        "base"
       ]
     },
     {
