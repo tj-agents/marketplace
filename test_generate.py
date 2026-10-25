@@ -80,14 +80,15 @@ class ValidationErrorTests(CatalogFixtureTests):
         with self.assertRaisesRegex(ValueError, "requires must be a list"):
             generate.build()
 
-    def test_non_core_plugin_without_engineering_fails(self):
+    def test_external_runtime_does_not_inherit_engineering_from_its_repository(self):
         self.write_catalog([
             {"name": "base", "repository": "core"},
             {"name": "engineering", "repository": "core", "requires": ["base"]},
-            {"name": "dotnet", "repository": "dotnet", "requires": ["base"]},
+            {"name": "cli", "repository": "cli", "requires": ["base"]},
         ])
-        with self.assertRaisesRegex(ValueError, "dotnet must require engineering"):
-            generate.build()
+        outputs = generate.build()
+        entries = {entry["name"]: entry for entry in json.loads(outputs["claude"])["plugins"]}
+        self.assertEqual(["base"], entries["cli"]["dependencies"])
 
     def test_transitive_engineering_requirement_is_accepted(self):
         self.write_catalog([
@@ -154,9 +155,11 @@ class RealRosterTests(unittest.TestCase):
         catalog = json.loads((generate.ROOT / "catalog.json").read_text(encoding="utf-8"))
         plugins = catalog["plugins"]
         expected_requires = {
-            "agent": ["base"],
+            "agent-store": ["base"],
+            "agent": ["base", "agent-store", "machine"],
+            "codex": ["agent"], "cc": ["agent"],
             "machine": ["base", "agent-store"],
-            "cli": ["base", "agent-store", "machine"],
+            "cli": ["base"],
             "workflow": ["base", "agent-store", "machine", "agent"],
             "engineering": ["base", "workflow", "agent-store", "machine", "agent"],
             "gpp": ["cpp"],
@@ -168,7 +171,7 @@ class RealRosterTests(unittest.TestCase):
             "infonetica": ["work", "base", "engineering"],
         }
         expected_names = {
-            "base", "agent-store", "agent", "machine", "cli", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
+            "base", "agent-store", "agent", "codex", "cc", "machine", "cli", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
             "dotnet", "efcore", "react", "nvim", "rust", "python", "github-actions", "azure",
             "template", "personal", "work", "infonetica", "tauri", "rust-sqlx",
         }
