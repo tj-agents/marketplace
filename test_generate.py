@@ -41,13 +41,15 @@ class InstructionPairTests(RootFixtureTests):
 
 
 class CatalogFixtureTests(RootFixtureTests):
-    def write_catalog(self, plugins):
+    def write_catalog(self, plugins, released=None):
         catalog = {
             "name": "tj-agents",
             "description": "Test marketplace",
             "owner": "Tommy Seery",
             "plugins": plugins,
         }
+        if released is not None:
+            catalog["released"] = released
         (self.root / "catalog.json").write_text(json.dumps(catalog), encoding="utf-8")
 
 
@@ -65,6 +67,13 @@ class ValidationErrorTests(CatalogFixtureTests):
             with self.subTest(field=field, value=value):
                 self.write_catalog([{"name": "base", "repository": "core", field: value}])
                 with self.assertRaisesRegex(ValueError, f"Unknown fields in plugin entry.*{field}"):
+                    generate.build()
+
+    def test_a_released_repository_must_publish_a_plugin(self):
+        for released in (["missing"], "core", [1]):
+            with self.subTest(released=released):
+                self.write_catalog([{"name": "base", "repository": "core"}], released)
+                with self.assertRaises(ValueError):
                     generate.build()
 
     def test_unknown_requires_name_fails(self):
@@ -118,6 +127,16 @@ class OutputShapeTests(CatalogFixtureTests):
         self.outputs = generate.build()
         self.claude = json.loads(self.outputs["claude"])
         self.codex = json.loads(self.outputs["codex"])
+
+    def test_a_released_repository_installs_from_its_release_branch(self):
+        self.write_catalog([
+            {"name": "base", "repository": "core"},
+            {"name": "nvim", "repository": "nvim", "requires": ["base"]},
+        ], ["core"])
+        for host, output in generate.build().items():
+            refs = {entry["name"]: entry["source"]["ref"] for entry in json.loads(output)["plugins"]}
+            with self.subTest(host=host):
+                self.assertEqual({"base": "release", "nvim": "main"}, refs)
 
     def test_every_entry_uses_main_without_sha_in_both_manifests(self):
         for manifest in (self.claude, self.codex):
@@ -182,7 +201,8 @@ class RealRosterTests(unittest.TestCase):
             manifest = json.loads(output)
             self.assertEqual({entry["name"] for entry in manifest["plugins"]}, expected_names)
             for entry in manifest["plugins"]:
-                self.assertEqual(entry["source"]["ref"], "main")
+                released = by_name[entry["name"]]["repository"] in catalog["released"]
+                self.assertEqual(entry["source"]["ref"], "release" if released else "main")
                 self.assertNotIn("sha", entry["source"])
                 self.assertEqual(entry["source"]["path"], f"./plugins/{entry['name']}")
         self.assertIn("claude", outputs)
