@@ -2,6 +2,7 @@
   "name": "tj-agents",
   "description": "Shared base, Agent Store, machine, workflow, engineering, C++, .NET, React, Neovim, Rust, Python, GitHub Actions, and Azure agent capabilities, plus Template for building plugin repositories.",
   "owner": "Tommy Seery",
+  "released": ["core"],
   "plugins": [
     { "name": "base", "repository": "core" },
     { "name": "agent-store", "repository": "agent", "requires": ["base"] },

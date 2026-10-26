@@ -45,6 +45,9 @@ def build() -> dict[str, bytes]:
     plugins = catalog["plugins"]
     if not plugins:
         raise ValueError("The marketplace has no plugins")
+    released = catalog.get("released", [])
+    if not isinstance(released, list) or any(not isinstance(repository, str) for repository in released):
+        raise ValueError("released must be a list of repository names")
     names: set[str] = set()
     for plugin in plugins:
         if not isinstance(plugin, dict):
@@ -78,7 +81,7 @@ def build() -> dict[str, bytes]:
             "source": "git-subdir",
             "url": f"https://github.com/tj-agents/{repository}.git",
             "path": f"./plugins/{name}",
-            "ref": "main",
+            "ref": "release" if repository in released else "main",
         }
         claude_entry = {"name": name, "source": source}
         if requires:
@@ -90,6 +93,9 @@ def build() -> dict[str, bytes]:
             "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
             "category": "Productivity",
         })
+    unknown_releases = set(released) - {plugin["repository"] for plugin in plugins}
+    if unknown_releases:
+        raise ValueError(f"Released repositories publish no plugin: {sorted(unknown_releases)}")
     try:
         graphlib.TopologicalSorter(graph).prepare()
     except graphlib.CycleError as error:
