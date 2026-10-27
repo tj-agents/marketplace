@@ -170,7 +170,7 @@ class RealRosterTests(unittest.TestCase):
             "infonetica": ["work", "base", "engineering"],
         }
         expected_names = {
-            "base", "agent-store", "agent", "codex", "cli", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
+            "base", "agent-store", "agent", "codex", "cli", "workflow", "engineering", "docs", "cpp", "gpp", "msvc", "win32",
             "dotnet", "efcore", "react", "nvim", "rust", "python", "github-actions", "azure",
             "template", "personal", "work", "infonetica", "tauri", "rust-sqlx",
         }
