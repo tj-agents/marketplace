@@ -37,12 +37,12 @@ def validate_instruction_pairs() -> None:
 
 def build() -> dict[str, bytes]:
     validate_instruction_pairs()
-    catalog = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
-    if catalog["name"] != "tj-agents":
+    roster = json.loads((ROOT / "plugins.json").read_text(encoding="utf-8"))
+    if roster["name"] != "tj-agents":
         raise ValueError("The shared marketplace identity must remain tj-agents")
-    if not catalog["description"] or not catalog["owner"]:
+    if not roster["description"] or not roster["owner"]:
         raise ValueError("Marketplace description and owner are required")
-    plugins = catalog["plugins"]
+    plugins = roster["plugins"]
     if not plugins:
         raise ValueError("The marketplace has no plugins")
     names: set[str] = set()
@@ -96,13 +96,13 @@ def build() -> dict[str, bytes]:
         raise ValueError("Required plugins form a cycle: " + " -> ".join(error.args[1])) from None
     manifests = {
         "claude": {
-            "name": catalog["name"],
-            "description": catalog["description"],
-            "owner": {"name": catalog["owner"]},
+            "name": roster["name"],
+            "description": roster["description"],
+            "owner": {"name": roster["owner"]},
             "plugins": claude_entries,
         },
         "codex": {
-            "name": catalog["name"],
+            "name": roster["name"],
             "interface": {"displayName": "TJ Agents"},
             "plugins": codex_entries,
         },
