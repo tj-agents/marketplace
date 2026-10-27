@@ -23,7 +23,7 @@ Codex:  codex plugin add cpp@tj-agents
 
 Available canonical plugins are `base`, `agent-store`, `agent`, `codex`, `cli`, `workflow`, `engineering`, `docs`, `cpp`, `gpp`, `msvc`,
 `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
-`template`, the explicitly adopted `personal` profile, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
+`template` and its sibling `skill` authoring package, the explicitly adopted `personal` profile, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
 `agent`, `cli`, and `workflow` closure. CLI supplies exact-target close utilities;
 Agent supplies session-aware target resolution and coordination.
@@ -70,3 +70,6 @@ Personal owns GitHub work items; Infonetica owns Azure Boards work items and emp
 Each profile supplies `work-item`, `create-work-item` and `address-work-item` under its qualified namespace.
 Agent owns the shared agent execution/session registry; Core owns Engineering workflows. Work supplies employer-neutral
 communication tools. Select the intended profile explicitly; installing Core does not select a tracker.
+
+Skill authoring uses `skill:create` and `skill:update`, both published from `tj-agents/template`.
+Template depends on Skill so selected plugin publishers load the current native-creator authoring workflow.

@@ -25,7 +25,8 @@
     { "name": "python", "repository": "python", "requires": ["engineering"] },
     { "name": "github-actions", "repository": "github-actions", "requires": ["engineering"] },
     { "name": "azure", "repository": "azure", "requires": ["engineering"] },
-    { "name": "template", "repository": "template", "requires": ["engineering"] },
+    { "name": "template", "repository": "template", "requires": ["engineering", "skill"] },
+    { "name": "skill", "repository": "template", "requires": ["engineering"] },
     { "name": "personal", "repository": "personal", "requires": ["engineering", "agent"] },
     { "name": "work", "repository": "work", "requires": ["engineering"] },
     { "name": "infonetica", "repository": "infonetica", "requires": ["work", "base", "engineering"] }

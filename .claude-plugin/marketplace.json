@@ -279,6 +279,19 @@
         "ref": "main"
       },
       "dependencies": [
+        "engineering",
+        "skill"
+      ]
+    },
+    {
+      "name": "skill",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/template.git",
+        "path": "./plugins/skill",
+        "ref": "main"
+      },
+      "dependencies": [
         "engineering"
       ]
     },
