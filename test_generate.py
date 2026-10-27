@@ -169,7 +169,7 @@ class RealRosterTests(unittest.TestCase):
             "personal": ["engineering", "agent"], "work": ["engineering"],
         }
         expected_names = {
-            "base", "agent-store", "agent", "codex", "cli", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
+            "base", "agent-store", "agent", "codex", "cli", "workflow", "engineering", "docs", "cpp", "gpp", "msvc", "win32",
             "dotnet", "efcore", "react", "nvim", "rust", "python", "github-actions", "azure",
         }
         by_name = {plugin["name"]: plugin for plugin in plugins}
