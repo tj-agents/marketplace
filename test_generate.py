@@ -100,8 +100,8 @@ class ValidationErrorTests(CatalogFixtureTests):
 
     def test_requires_cycle_fails(self):
         self.write_catalog([
-            {"name": "base", "repository": "core", "requires": ["machine"]},
-            {"name": "machine", "repository": "core", "requires": ["base"]},
+            {"name": "base", "repository": "core", "requires": ["workflow"]},
+            {"name": "workflow", "repository": "core", "requires": ["base"]},
         ])
         with self.assertRaisesRegex(ValueError, "form a cycle"):
             generate.build()
@@ -156,12 +156,11 @@ class RealRosterTests(unittest.TestCase):
         plugins = catalog["plugins"]
         expected_requires = {
             "agent-store": ["base"],
-            "agent": ["base", "agent-store", "machine", "cli"],
+            "agent": ["base", "agent-store", "cli"],
             "codex": ["agent"],
-            "machine": ["base", "agent-store"],
             "cli": ["base"],
-            "workflow": ["base", "agent-store", "machine", "agent"],
-            "engineering": ["base", "workflow", "agent-store", "machine", "agent"],
+            "workflow": ["base", "agent-store", "agent"],
+            "engineering": ["base", "workflow", "agent-store", "agent"],
             "gpp": ["cpp"],
             "msvc": ["cpp"], "win32": ["cpp"], "efcore": ["dotnet"],
             "cpp": ["engineering"], "dotnet": ["engineering"], "react": ["engineering"], "nvim": ["engineering"],
@@ -171,7 +170,7 @@ class RealRosterTests(unittest.TestCase):
             "infonetica": ["work", "base", "engineering"],
         }
         expected_names = {
-            "base", "agent-store", "agent", "codex", "machine", "cli", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
+            "base", "agent-store", "agent", "codex", "cli", "workflow", "engineering", "cpp", "gpp", "msvc", "win32",
             "dotnet", "efcore", "react", "nvim", "rust", "python", "github-actions", "azure",
             "template", "personal", "work", "infonetica", "tauri", "rust-sqlx",
         }
