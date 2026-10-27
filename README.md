@@ -1,15 +1,15 @@
 # TJ Agents marketplace
 
-One shared discovery catalog for the current plugins in `tj-agents/core`, `agent`, `cli`, `cpp`,
+One shared plugin roster for the current plugins in `tj-agents/core`, `agent`, `cli`, `cpp`,
 `dotnet`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and `template`.
 Packages stay in their source repositories. Adding another
-repository requires one entry in `catalog.json`; `generate.py` produces the matching
-Claude and Codex catalogs. Core launch refresh updates selected plugin content from these source repositories.
+repository requires one entry in `plugins.json`; `generate.py` produces the matching
+Claude and Codex marketplaces. Core launch refresh updates selected plugin content from these source repositories.
 
-This catalog also supplies Agent's pinned offline project selector snapshot. After publishing a
-catalog change, regenerate that snapshot through Agent's
-`.agents/agent/utility/plugins/scripts/update_marketplace_catalog.py` and check
-the resulting plugin selection. The [shared ownership decision](https://github.com/tj-agents/docs/blob/main/PLUGIN_CATALOG.md)
+This roster also supplies Agent's pinned offline project selector snapshot. After publishing a
+roster change, regenerate that snapshot through Agent's
+`.agents/agent/utility/plugins/scripts/update_marketplace_plugins.py` and check
+the resulting plugin selection. The [shared ownership decision](https://github.com/tj-agents/docs/blob/main/PLUGINS.md)
 records which repository owns each part of the flow.
 
 Add the marketplace and select plugins explicitly:
@@ -28,7 +28,7 @@ optionally `win32` for C++ work. For generic sustained tasks, select the `base`,
 `agent`, `cli`, and `workflow` closure. CLI supplies exact-target close utilities;
 Agent supplies session-aware target resolution and coordination.
 For software work, select `engineering` plus the common closure.
-Each catalog entry declares its actual prerequisites. Runtime packages remain reusable without Engineering;
+Each plugin entry declares its actual prerequisites. Runtime packages remain reusable without Engineering;
 stack and product profiles retain their declared Engineering dependencies. Claude installs each entry's `requires` as `dependencies`; Codex
 does not resolve dependencies, so a selection still lists the closure.
 
@@ -40,9 +40,9 @@ loaded. Employer projects remain outside this profile. The policy and adoption p
 
 Project declarations and installed registrations use the shared `@tj-agents` identities. Remove
 superseded registrations in the same migration so duplicate skills and hooks do not load. Codex entries
-in this marketplace are `AVAILABLE`, so adding the catalog does not automatically install copies.
+in this marketplace are `AVAILABLE`, so adding the marketplace does not automatically install copies.
 
-Edit `catalog.json`, then run:
+Edit `plugins.json`, then run:
 
 ```text
 python -B generate.py
@@ -50,10 +50,10 @@ python -B generate.py --check
 claude plugin validate .
 ```
 
-All catalog entries use the producer repository's current main branch. The catalog makes current publisher content
+All plugin entries use the producer repository's current main branch. The roster makes current publisher content
 available to hosts. Core's launch refresh updates the plugin content consumed by a project from those main branches.
 
-When adding a package, publish its producer payload and catalog before activating repository selections.
+When adding a package, publish its producer payload and roster entry before activating repository selections.
 Keep the complete selection changes in a dependent delivery slice, then verify native admission and
 the selected packages after publication.
 
@@ -63,7 +63,7 @@ install or select plugins, and it does not prove activation.
 
 Adding this marketplace installs nothing on either host. When migrating an installed legacy identity, disable or
 uninstall the old copy before enabling its `@tj-agents` copy. Do not enable both producer and aggregate identities
-for the same plugin. Neither registering this catalog nor selecting plugins proves that hooks are active; verify
+for the same plugin. Neither registering this marketplace nor selecting plugins proves that hooks are active; verify
 that separately with native host acceptance.
 
 Personal owns GitHub work items; Infonetica owns Azure Boards work items and employer type policy.

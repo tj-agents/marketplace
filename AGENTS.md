@@ -1,11 +1,11 @@
 # Shared marketplace
 
-`catalog.json` is the only authored plugin roster. Do not hand-edit either host marketplace JSON.
+`plugins.json` is the only authored plugin roster. Do not hand-edit either host marketplace JSON.
 It owns plugin identities, source repositories and dependency edges for `tj-agents`; Agent
-generates its pinned offline selector snapshot from this catalog and owns curated stack choices
+generates its pinned offline selector snapshot from this roster and owns curated stack choices
 and project settings projection. Never maintain another authored plugin roster in a consumer.
 Run `python -B generate.py` after roster changes and `python -B generate.py --check` plus
-`claude plugin validate .` before delivery. Packages remain authored in their source repositories and projected into host catalogs.
+`claude plugin validate .` before delivery. Packages remain authored in their source repositories and projected into host marketplaces.
 Project selections use the shared marketplace explicitly.
 
 <!-- BEGIN personal:current-solution sha256:2e091b5f18f67fb2302024e817c71d4a0f5234c1ca63ca1c9af5c4eef3b6a128 -->
