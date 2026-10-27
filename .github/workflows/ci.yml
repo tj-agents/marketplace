@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: generated catalogs and instruction pairs are current
+      - name: generated marketplaces and instruction pairs are current
         run: python -B generate.py --check
       - name: instruction pair tests
         run: python -B -m unittest -q
