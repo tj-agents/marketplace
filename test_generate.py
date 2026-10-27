@@ -165,7 +165,7 @@ class RealRosterTests(unittest.TestCase):
             "msvc": ["cpp"], "win32": ["cpp"], "efcore": ["dotnet"],
             "cpp": ["engineering"], "dotnet": ["engineering"], "react": ["engineering"], "nvim": ["engineering"],
             "rust": ["engineering"], "tauri": ["rust"], "rust-sqlx": ["rust"], "python": ["engineering"], "github-actions": ["engineering"],
-            "azure": ["engineering"], "template": ["engineering"],
+            "azure": ["engineering"], "template": ["engineering", "skill"], "skill": ["engineering"],
             "personal": ["engineering", "agent"], "work": ["engineering"],
         }
         expected_names = {

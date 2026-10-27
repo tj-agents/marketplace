@@ -68,3 +68,6 @@ that separately with native host acceptance.
 Each profile supplies `work-item`, `create-work-item` and `address-work-item` under its qualified namespace.
 Agent owns the shared agent execution/session registry; Core owns Engineering workflows. Work supplies employer-neutral
 communication tools. Select the intended profile explicitly; installing Core does not select a tracker.
+
+Skill authoring uses `skill:create` and `skill:update`, both published from `tj-agents/template`.
+Template depends on Skill so selected plugin publishers load the current native-creator authoring workflow.
