@@ -40,20 +40,20 @@ class InstructionPairTests(RootFixtureTests):
         generate.validate_instruction_pairs()
 
 
-class CatalogFixtureTests(RootFixtureTests):
-    def write_catalog(self, plugins):
-        catalog = {
+class PluginsFixtureTests(RootFixtureTests):
+    def write_plugins_file(self, plugins):
+        roster = {
             "name": "tj-agents",
             "description": "Test marketplace",
             "owner": "Tommy Seery",
             "plugins": plugins,
         }
-        (self.root / "catalog.json").write_text(json.dumps(catalog), encoding="utf-8")
+        (self.root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
 
 
-class ValidationErrorTests(CatalogFixtureTests):
+class ValidationErrorTests(PluginsFixtureTests):
     def test_duplicate_plugin_name_fails(self):
-        self.write_catalog([
+        self.write_plugins_file([
             {"name": "base", "repository": "core"},
             {"name": "base", "repository": "other"},
         ])
@@ -63,17 +63,17 @@ class ValidationErrorTests(CatalogFixtureTests):
     def test_legacy_release_fields_are_rejected(self):
         for field, value in (("revision", "main"), ("release", "pkg@1.2.3"), ("commit", "a" * 40), ("version", "1.2.3")):
             with self.subTest(field=field, value=value):
-                self.write_catalog([{"name": "base", "repository": "core", field: value}])
+                self.write_plugins_file([{"name": "base", "repository": "core", field: value}])
                 with self.assertRaisesRegex(ValueError, f"Unknown fields in plugin entry.*{field}"):
                     generate.build()
 
     def test_unknown_requires_name_fails(self):
-        self.write_catalog([{"name": "engineering", "repository": "core", "requires": ["base"]}])
+        self.write_plugins_file([{"name": "engineering", "repository": "core", "requires": ["base"]}])
         with self.assertRaisesRegex(ValueError, "Unknown required plugin"):
             generate.build()
 
     def test_requires_must_be_a_list(self):
-        self.write_catalog([
+        self.write_plugins_file([
             {"name": "base", "repository": "core"},
             {"name": "engineering", "repository": "core", "requires": "base"},
         ])
@@ -81,7 +81,7 @@ class ValidationErrorTests(CatalogFixtureTests):
             generate.build()
 
     def test_external_runtime_does_not_inherit_engineering_from_its_repository(self):
-        self.write_catalog([
+        self.write_plugins_file([
             {"name": "base", "repository": "core"},
             {"name": "engineering", "repository": "core", "requires": ["base"]},
             {"name": "cli", "repository": "cli", "requires": ["base"]},
@@ -91,7 +91,7 @@ class ValidationErrorTests(CatalogFixtureTests):
         self.assertEqual(["base"], entries["cli"]["dependencies"])
 
     def test_transitive_engineering_requirement_is_accepted(self):
-        self.write_catalog([
+        self.write_plugins_file([
             {"name": "engineering", "repository": "core"},
             {"name": "dotnet", "repository": "dotnet", "requires": ["engineering"]},
             {"name": "efcore", "repository": "dotnet", "requires": ["dotnet"]},
@@ -99,7 +99,7 @@ class ValidationErrorTests(CatalogFixtureTests):
         generate.build()
 
     def test_requires_cycle_fails(self):
-        self.write_catalog([
+        self.write_plugins_file([
             {"name": "base", "repository": "core", "requires": ["workflow"]},
             {"name": "workflow", "repository": "core", "requires": ["base"]},
         ])
@@ -107,10 +107,10 @@ class ValidationErrorTests(CatalogFixtureTests):
             generate.build()
 
 
-class OutputShapeTests(CatalogFixtureTests):
+class OutputShapeTests(PluginsFixtureTests):
     def setUp(self):
         super().setUp()
-        self.write_catalog([
+        self.write_plugins_file([
             {"name": "base", "repository": "core"},
             {"name": "engineering", "repository": "core", "requires": ["base"]},
             {"name": "nvim", "repository": "nvim", "requires": ["engineering"]},
@@ -152,8 +152,8 @@ class OutputShapeTests(CatalogFixtureTests):
 class RealRosterTests(unittest.TestCase):
     def test_build_succeeds_on_the_real_roster(self):
         outputs = generate.build()
-        catalog = json.loads((generate.ROOT / "catalog.json").read_text(encoding="utf-8"))
-        plugins = catalog["plugins"]
+        roster = json.loads((generate.ROOT / "plugins.json").read_text(encoding="utf-8"))
+        plugins = roster["plugins"]
         expected_requires = {
             "agent-store": ["base"],
             "agent": ["base", "agent-store", "cli"],
