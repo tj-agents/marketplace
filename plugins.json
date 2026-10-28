@@ -27,6 +27,7 @@
     { "name": "azure", "repository": "azure", "requires": ["engineering"] },
     { "name": "template", "repository": "template", "requires": ["engineering", "skill"] },
     { "name": "skill", "repository": "template", "requires": ["engineering"] },
+    { "name": "learning", "repository": "learning", "requires": ["base"] },
     { "name": "personal", "repository": "personal", "requires": ["engineering", "agent"] },
     { "name": "work", "repository": "work", "requires": ["engineering"] },
     { "name": "infonetica", "repository": "infonetica", "requires": ["work", "base", "engineering"] }

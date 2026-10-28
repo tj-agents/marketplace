@@ -341,6 +341,20 @@
       "category": "Productivity"
     },
     {
+      "name": "learning",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/learning.git",
+        "path": "./plugins/learning",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "personal",
       "source": {
         "source": "git-subdir",
