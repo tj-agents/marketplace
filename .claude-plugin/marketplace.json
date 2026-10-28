@@ -296,6 +296,18 @@
       ]
     },
     {
+      "name": "learning",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/learning.git",
+        "path": "./plugins/learning",
+        "ref": "main"
+      },
+      "dependencies": [
+        "base"
+      ]
+    },
+    {
       "name": "personal",
       "source": {
         "source": "git-subdir",
