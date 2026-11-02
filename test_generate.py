@@ -61,7 +61,7 @@ class ValidationErrorTests(PluginsFixtureTests):
             generate.build()
 
     def test_legacy_release_fields_are_rejected(self):
-        for field, value in (("revision", "main"), ("release", "pkg@1.2.3"), ("commit", "a" * 40), ("version", "1.2.3")):
+        for field, value in (("release", "pkg@1.2.3"), ("commit", "a" * 40), ("version", "1.2.3")):
             with self.subTest(field=field, value=value):
                 self.write_plugins_file([{"name": "base", "repository": "core", field: value}])
                 with self.assertRaisesRegex(ValueError, f"Unknown fields in plugin entry.*{field}"):
@@ -182,8 +182,9 @@ class RealRosterTests(unittest.TestCase):
             manifest = json.loads(output)
             self.assertEqual({entry["name"] for entry in manifest["plugins"]}, expected_names)
             for entry in manifest["plugins"]:
-                self.assertEqual(entry["source"]["ref"], "main")
-                self.assertNotIn("sha", entry["source"])
+                revision = by_name[entry["name"]].get("revision")
+                self.assertEqual(entry["source"].get("sha"), revision)
+                self.assertEqual(entry["source"].get("ref"), None if revision else "main")
                 self.assertEqual(entry["source"]["path"], f"./plugins/{entry['name']}")
         self.assertIn("claude", outputs)
         self.assertIn("codex", outputs)

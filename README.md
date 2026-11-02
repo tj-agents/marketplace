@@ -50,8 +50,14 @@ python -B generate.py --check
 claude plugin validate .
 ```
 
-All plugin entries use the producer repository's current main branch. The roster makes current publisher content
-available to hosts. Core's launch refresh updates the plugin content consumed by a project from those main branches.
+Each roster entry optionally declares `revision`, the full lowercase 40-character commit ID of a
+published producer payload. Generation writes it as the native `source.sha`; an entry without a revision
+uses `source.ref: main`. Marketplace owns these producer pins. Publish and verify the producer payload
+before activating its revision here.
+
+Agent and Core each require one revision across every entry from that producer when pinned. Mixing
+pinned and unpinned entries, or two revisions of one producer, is rejected. Update the Agent/Core pair
+in one roster change after both payloads are published. Other producers retain independent entry policy.
 
 When adding a package, publish its producer payload and roster entry before activating repository selections.
 Keep the complete selection changes in a dependent delivery slice, then verify native admission and
