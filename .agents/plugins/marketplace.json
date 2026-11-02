@@ -341,6 +341,20 @@
       "category": "Productivity"
     },
     {
+      "name": "house",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/template.git",
+        "path": "./plugins/house",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "learning",
       "source": {
         "source": "git-subdir",

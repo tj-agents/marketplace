@@ -296,6 +296,18 @@
       ]
     },
     {
+      "name": "house",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/template.git",
+        "path": "./plugins/house",
+        "ref": "main"
+      },
+      "dependencies": [
+        "engineering"
+      ]
+    },
+    {
       "name": "learning",
       "source": {
         "source": "git-subdir",

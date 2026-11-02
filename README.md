@@ -23,7 +23,7 @@ Codex:  codex plugin add cpp@tj-agents
 
 Available canonical plugins are `base`, `agent-store`, `agent`, `codex`, `cli`, `workflow`, `engineering`, `docs`, `cpp`, `gpp`, `msvc`,
 `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
-`template` and its sibling `skill` authoring package, the explicitly adopted `personal` profile, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
+`template` and its siblings `skill` (authoring) and `house` (tj-agents self-repair), the explicitly adopted `personal` profile, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
 `agent`, `cli`, and `workflow` closure. CLI supplies exact-target close utilities;
 Agent supplies session-aware target resolution and coordination.
