@@ -1,7 +1,7 @@
 # TJ Agents marketplace
 
 One shared plugin roster for the current plugins in `tj-agents/core`, `agent`, `cli`, `cpp`,
-`dotnet`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and `template`.
+`dotnet`, `react`, `nvim`, `rust`, `python`, `github`, `github-actions`, `azure`, and `template`.
 Packages stay in their source repositories. Adding another
 repository requires one entry in `plugins.json`; `generate.py` produces the matching
 Claude and Codex marketplaces. Core launch refresh updates selected plugin content from these source repositories.
@@ -22,10 +22,10 @@ Codex:  codex plugin add cpp@tj-agents
 ```
 
 Available canonical plugins are `base`, `agent-store`, `agent`, `codex`, `cli`, `workflow`, `engineering`, `docs`, `cpp`, `gpp`, `msvc`,
-`win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
+`win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github`, `github-actions`, `azure`, and
 `template` and its sibling `skill` authoring package, the explicitly adopted `personal` profile, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
-`agent`, `cli`, and `workflow` closure. CLI supplies exact-target close utilities;
+`agent`, `cli`, `workflow`, and `github` closure. CLI supplies exact-target close utilities;
 Agent supplies session-aware target resolution and coordination.
 For software work, select `engineering` plus the common closure.
 Each plugin entry declares its actual prerequisites. Runtime packages remain reusable without Engineering;
@@ -33,7 +33,7 @@ stack and product profiles retain their declared Engineering dependencies. Claud
 does not resolve dependencies, so a selection still lists the closure.
 
 For projects Tommy explicitly identifies as personal, select `personal` and its actual requirement closure:
-`engineering`, `agent`, `cli`, `base`, `agent-store`, and `workflow`. Then run `personal:use` to generate and
+`engineering`, `agent`, `cli`, `base`, `agent-store`, `workflow`, and `github`. Then run `personal:use` to generate and
 check mandatory native instructions for Claude and Codex. Selection alone does not establish that the policy
 loaded. Employer projects remain outside this profile. The policy and adoption procedure are authored in
 [tj-agents/personal](https://github.com/tj-agents/personal).
@@ -66,10 +66,11 @@ uninstall the old copy before enabling its `@tj-agents` copy. Do not enable both
 for the same plugin. Neither registering this marketplace nor selecting plugins proves that hooks are active; verify
 that separately with native host acceptance.
 
-Personal owns GitHub work items; Infonetica owns Azure Boards work items and employer type policy.
-Each profile supplies `work-item`, `create-work-item` and `address-work-item` under its qualified namespace.
-Agent owns the shared agent execution/session registry; Core owns Engineering workflows. Work supplies employer-neutral
-communication tools. Select the intended profile explicitly; installing Core does not select a tracker.
+GitHub owns reusable GitHub work-item operations. Personal supplies automatic recording and board-progress
+policy for explicitly adopted personal projects; Infonetica owns Azure Boards operations and employer type
+policy. Agent Store owns execution/session state, Agent owns session operations, and Core owns Workflow
+and Engineering. Work supplies employer-neutral communication tools. A provider's availability does not
+select a tracker or adopt the target's profile for an observing task.
 
 Skill authoring uses `skill:create` and `skill:update`, both published from `tj-agents/template`.
 Template depends on Skill so selected plugin publishers load the current native-creator authoring workflow.
