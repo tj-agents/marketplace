@@ -21,4 +21,4 @@ jobs:
       - name: install test runner
         run: python -m pip install pytest==9.1.1
       - name: instruction pair tests
-        run: python -B -m pytest -q
+        run: python -B -m pytest -q -o strict=true -W error
