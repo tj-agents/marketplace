@@ -369,6 +369,20 @@
       "category": "Productivity"
     },
     {
+      "name": "teams",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/work.git",
+        "path": "./plugins/teams",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "work",
       "source": {
         "source": "git-subdir",
