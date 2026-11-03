@@ -3,5 +3,6 @@
   "required_checks": [
     "verify (ubuntu-latest)",
     "verify (windows-latest)"
-  ]
+  ],
+  "ci_pushes_default_branch": true
 }
