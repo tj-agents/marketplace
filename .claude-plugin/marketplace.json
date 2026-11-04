@@ -327,10 +327,7 @@
         "url": "https://github.com/tj-agents/work.git",
         "path": "./plugins/teams",
         "ref": "main"
-      },
-      "dependencies": [
-        "cli"
-      ]
+      }
     },
     {
       "name": "work",
