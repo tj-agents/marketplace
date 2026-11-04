@@ -29,7 +29,7 @@
     { "name": "skill", "repository": "template", "requires": ["engineering"] },
     { "name": "learning", "repository": "learning", "requires": ["base"] },
     { "name": "personal", "repository": "personal", "requires": ["engineering", "agent"] },
-    { "name": "teams", "repository": "work", "requires": ["cli"] },
+    { "name": "teams", "repository": "work" },
     { "name": "work", "repository": "work", "requires": ["engineering", "teams"] },
     { "name": "infonetica", "repository": "infonetica", "requires": ["work", "base", "engineering"] }
   ]
