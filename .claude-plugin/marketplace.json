@@ -333,6 +333,15 @@
       ]
     },
     {
+      "name": "teams",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/work.git",
+        "path": "./plugins/teams",
+        "ref": "main"
+      }
+    },
+    {
       "name": "work",
       "source": {
         "source": "git-subdir",
@@ -341,7 +350,8 @@
         "ref": "main"
       },
       "dependencies": [
-        "engineering"
+        "engineering",
+        "teams"
       ]
     },
     {
