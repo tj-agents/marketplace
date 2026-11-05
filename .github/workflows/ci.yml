@@ -18,5 +18,7 @@ jobs:
           python-version: '3.12'
       - name: generated marketplaces and instruction pairs are current
         run: python -B generate.py --check
+      - name: install test runner
+        run: python -m pip install pytest==9.1.1
       - name: instruction pair tests
-        run: python -B -m unittest -q
+        run: python -B -m pytest -q -o strict=true -W error
