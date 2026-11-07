@@ -10,7 +10,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/base",
-        "sha": "40da743fc22af8c584f621bb22eb11f0010861df"
+        "sha": "01eab1cf7cb6f3cc0a7a24be2d9770b8ac94eeb5"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -24,7 +24,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/agent-store",
-        "sha": "cf22d79653efe83262a4a877aa41375fa31bf513"
+        "sha": "9e207f3dbe4ce5d06e1a792f6f8edcc366fc4cfd"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -38,7 +38,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/agent",
-        "sha": "cf22d79653efe83262a4a877aa41375fa31bf513"
+        "sha": "9e207f3dbe4ce5d06e1a792f6f8edcc366fc4cfd"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -52,7 +52,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/codex",
-        "sha": "cf22d79653efe83262a4a877aa41375fa31bf513"
+        "sha": "9e207f3dbe4ce5d06e1a792f6f8edcc366fc4cfd"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -80,7 +80,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/workflow",
-        "sha": "40da743fc22af8c584f621bb22eb11f0010861df"
+        "sha": "01eab1cf7cb6f3cc0a7a24be2d9770b8ac94eeb5"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -94,7 +94,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/engineering",
-        "sha": "40da743fc22af8c584f621bb22eb11f0010861df"
+        "sha": "01eab1cf7cb6f3cc0a7a24be2d9770b8ac94eeb5"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -108,7 +108,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/docs",
-        "sha": "40da743fc22af8c584f621bb22eb11f0010861df"
+        "sha": "01eab1cf7cb6f3cc0a7a24be2d9770b8ac94eeb5"
       },
       "policy": {
         "installation": "AVAILABLE",
