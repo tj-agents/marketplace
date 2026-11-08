@@ -41,19 +41,34 @@ def test_immutable_revision_uses_native_sha_for_both_hosts(
         assert all("ref" not in entry["source"] for entry in entries)
 
 
-@pytest.mark.parametrize("producer", ["agent", "core"])
-@pytest.mark.parametrize("second", [None, "b" * 40])
-def test_mixed_or_partial_producer_pins_are_rejected(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, producer: str, second: str | None
+@pytest.mark.parametrize("producer", ["agent", "core", "cli"])
+def test_mixed_producer_pins_are_rejected(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, producer: str
 ) -> None:
-    entries: list[dict[str, object]] = [
-        {"name": "one", "repository": producer, "revision": "a" * 40},
-        {"name": "two", "repository": producer},
-    ]
-    if second is not None:
-        entries[1]["revision"] = second
-    roster(tmp_path, monkeypatch, entries)
+    roster(
+        tmp_path,
+        monkeypatch,
+        [
+            {"name": "one", "repository": producer, "revision": "a" * 40},
+            {"name": "two", "repository": producer, "revision": "b" * 40},
+        ],
+    )
     with pytest.raises(ValueError, match="same immutable revision"):
+        generate.build()
+
+
+def test_an_unpinned_entry_is_rejected(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    roster(
+        tmp_path,
+        monkeypatch,
+        [
+            {"name": "one", "repository": "other", "revision": "a" * 40},
+            {"name": "two", "repository": "other"},
+        ],
+    )
+    with pytest.raises(ValueError, match="require name, repository and revision"):
         generate.build()
 
 
@@ -69,31 +84,3 @@ def test_invalid_revision_is_rejected(
     with pytest.raises(ValueError, match="Invalid immutable"):
         generate.build()
 
-
-def test_other_producers_keep_independent_pin_policy(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    roster(
-        tmp_path,
-        monkeypatch,
-        [
-            {"name": "one", "repository": "other", "revision": "a" * 40},
-            {"name": "two", "repository": "other"},
-        ],
-    )
-    entries = json.loads(generate.build()["codex"])["plugins"]
-    assert entries[0]["source"]["sha"] == "a" * 40
-    assert entries[1]["source"]["ref"] == "main"
-
-
-@pytest.mark.parametrize("revision", [[], {}])
-def test_guarded_producer_rejects_non_scalar_revision(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, revision: object
-) -> None:
-    roster(
-        tmp_path,
-        monkeypatch,
-        [{"name": "agent", "repository": "agent", "revision": revision}],
-    )
-    with pytest.raises(ValueError, match="Invalid immutable"):
-        generate.build()
