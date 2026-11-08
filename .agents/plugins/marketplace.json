@@ -271,11 +271,11 @@
       "category": "Productivity"
     },
     {
-      "name": "rust-seaorm",
+      "name": "seaorm",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
-        "path": "./plugins/rust-seaorm",
+        "path": "./plugins/seaorm",
         "ref": "main"
       },
       "policy": {
