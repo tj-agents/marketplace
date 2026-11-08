@@ -52,8 +52,8 @@ def build() -> dict[str, bytes]:
         unknown = set(plugin) - {"name", "repository", "requires", "revision"}
         if unknown:
             raise ValueError(f"Unknown fields in plugin entry: {sorted(unknown)}")
-        if "name" not in plugin or "repository" not in plugin:
-            raise ValueError("Plugin entries require name and repository")
+        if "name" not in plugin or "repository" not in plugin or "revision" not in plugin:
+            raise ValueError("Plugin entries require name, repository and revision")
         name, repository = plugin["name"], plugin["repository"]
         if not isinstance(name, str) or not NAME.fullmatch(name) or not isinstance(repository, str) or not NAME.fullmatch(repository):
             raise ValueError(f"Invalid plugin or repository name: {plugin}")
@@ -61,15 +61,11 @@ def build() -> dict[str, bytes]:
             raise ValueError(f"Duplicate plugin: {name}")
         names.add(name)
     for plugin in plugins:
-        revision = plugin.get("revision")
-        if "revision" in plugin and (
-            not isinstance(revision, str) or not re.fullmatch(r"[0-9a-f]{40}", revision)
-        ):
+        revision = plugin["revision"]
+        if not isinstance(revision, str) or not re.fullmatch(r"[0-9a-f]{40}", revision):
             raise ValueError(f"Invalid immutable producer revision: {plugin['name']}")
-    for repository in ("agent", "core"):
-        entries = [plugin for plugin in plugins if plugin["repository"] == repository]
-        revisions = {plugin.get("revision") for plugin in entries}
-        if any(revision is not None for revision in revisions) and len(revisions) != 1:
+    for repository in sorted({plugin["repository"] for plugin in plugins}):
+        if len({plugin["revision"] for plugin in plugins if plugin["repository"] == repository}) != 1:
             raise ValueError(f"Every {repository} entry must use the same immutable revision")
     graph: dict[str, list[str]] = {}
     claude_entries = []
@@ -89,11 +85,8 @@ def build() -> dict[str, bytes]:
             "source": "git-subdir",
             "url": f"https://github.com/tj-agents/{repository}.git",
             "path": f"./plugins/{name}",
-            "ref": "main",
+            "sha": plugin["revision"],
         }
-        if "revision" in plugin:
-            source.pop("ref")
-            source["sha"] = plugin["revision"]
         claude_entry = {"name": name, "source": source}
         if requires:
             claude_entry["dependencies"] = requires
