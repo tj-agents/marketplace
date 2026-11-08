@@ -235,6 +235,18 @@
       ]
     },
     {
+      "name": "rust-seaorm",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/rust.git",
+        "path": "./plugins/rust-seaorm",
+        "ref": "main"
+      },
+      "dependencies": [
+        "rust"
+      ]
+    },
+    {
       "name": "python",
       "source": {
         "source": "git-subdir",
