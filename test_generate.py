@@ -46,7 +46,7 @@ class PluginsFixtureTests(RootFixtureTests):
             "name": "tj-agents",
             "description": "Test marketplace",
             "owner": "Tommy Seery",
-            "plugins": plugins,
+            "plugins": [{"revision": "a" * 40, **plugin} for plugin in plugins],
         }
         (self.root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
 
@@ -119,11 +119,11 @@ class OutputShapeTests(PluginsFixtureTests):
         self.claude = json.loads(self.outputs["claude"])
         self.codex = json.loads(self.outputs["codex"])
 
-    def test_every_entry_uses_main_without_sha_in_both_manifests(self):
+    def test_every_entry_pins_its_revision_in_both_manifests(self):
         for manifest in (self.claude, self.codex):
             for entry in manifest["plugins"]:
-                self.assertEqual(entry["source"]["ref"], "main")
-                self.assertNotIn("sha", entry["source"])
+                self.assertEqual(entry["source"]["sha"], "a" * 40)
+                self.assertNotIn("ref", entry["source"])
 
     def test_every_codex_entry_is_available(self):
         for entry in self.codex["plugins"]:
@@ -182,9 +182,8 @@ class RealRosterTests(unittest.TestCase):
             manifest = json.loads(output)
             self.assertEqual({entry["name"] for entry in manifest["plugins"]}, expected_names)
             for entry in manifest["plugins"]:
-                revision = by_name[entry["name"]].get("revision")
-                self.assertEqual(entry["source"].get("sha"), revision)
-                self.assertEqual(entry["source"].get("ref"), None if revision else "main")
+                self.assertEqual(entry["source"]["sha"], by_name[entry["name"]]["revision"])
+                self.assertNotIn("ref", entry["source"])
                 self.assertEqual(entry["source"]["path"], f"./plugins/{entry['name']}")
         self.assertIn("claude", outputs)
         self.assertIn("codex", outputs)

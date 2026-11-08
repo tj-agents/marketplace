@@ -1,6 +1,7 @@
 # Shared marketplace
 
 `plugins.json` is the only authored plugin roster. Do not hand-edit either host marketplace JSON.
+Every entry pins a `revision`; Renovate advances it to its repository's main, so never hand-maintain pins.
 It owns plugin identities, source repositories and dependency edges for `tj-agents`; Agent
 generates its pinned offline selector snapshot from this roster and owns curated stack choices
 and project settings projection. Never maintain another authored plugin roster in a consumer.
