@@ -22,7 +22,7 @@
     { "name": "rust", "repository": "rust", "requires": ["engineering"] },
     { "name": "tauri", "repository": "rust", "requires": ["rust"] },
     { "name": "rust-sqlx", "repository": "rust", "requires": ["rust"] },
-    { "name": "rust-seaorm", "repository": "rust", "requires": ["rust"] },
+    { "name": "seaorm", "repository": "rust", "requires": ["rust"] },
     { "name": "python", "repository": "python", "requires": ["engineering"] },
     { "name": "github", "repository": "github", "requires": ["base"] },
     { "name": "github-actions", "repository": "github-actions", "requires": ["engineering"] },
