@@ -24,11 +24,6 @@
       "matchManagers": ["custom.regex"],
       "groupName": "plugin pins",
       "schedule": ["at any time"]
-    },
-    {
-      "matchManagers": ["custom.regex"],
-      "matchDepNames": ["infonetica"],
-      "enabled": false
     }
   ]
 }
