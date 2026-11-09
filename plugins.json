@@ -31,7 +31,7 @@
     { "name": "template", "repository": "template", "revision": "6d16606be000ab139bb8b7d7f0a944739c9a73bc", "requires": ["engineering", "skill"] },
     { "name": "skill", "repository": "template", "revision": "6d16606be000ab139bb8b7d7f0a944739c9a73bc", "requires": ["engineering"] },
     { "name": "learning", "repository": "learning", "revision": "463b221cc96f5f665873f718958d19b31a25f4aa", "requires": ["base"] },
-    { "name": "personal", "repository": "personal", "revision": "850280d09a9a071479882a761752a012b41ed50a", "requires": ["engineering", "agent"] },
+    { "name": "personal", "repository": "personal", "revision": "2fc8f32407b106f22a5ebece4824df7e47fad9a7", "requires": ["engineering", "agent"] },
     { "name": "teams", "repository": "work", "revision": "bcfc1797f6e27c1c05bbcc9e51b34c663adab839" },
     { "name": "work", "repository": "work", "revision": "bcfc1797f6e27c1c05bbcc9e51b34c663adab839", "requires": ["engineering", "teams"] },
     { "name": "infonetica", "repository": "infonetica", "revision": "3d95794fd56375cdb308ffa3704ad43037ae0daa", "requires": ["work", "base", "engineering"] }
