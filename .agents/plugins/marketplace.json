@@ -388,7 +388,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/personal.git",
         "path": "./plugins/personal",
-        "sha": "850280d09a9a071479882a761752a012b41ed50a"
+        "sha": "2fc8f32407b106f22a5ebece4824df7e47fad9a7"
       },
       "policy": {
         "installation": "AVAILABLE",
