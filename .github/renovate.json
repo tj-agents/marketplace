@@ -24,6 +24,10 @@
       "matchManagers": ["custom.regex"],
       "groupName": "plugin pins",
       "schedule": ["at any time"]
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "enabled": false
     }
   ]
 }
