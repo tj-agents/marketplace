@@ -4,10 +4,10 @@
   "owner": "Tommy Seery",
   "plugins": [
     { "name": "base", "repository": "core", "revision": "381fcbda7352a0c74ad84b2a1ea03a065465e797" },
-    { "name": "agent-store", "repository": "agent", "revision": "8bcf73c1b0cad8130c73bc7f26bc03bb40005b16", "requires": ["base"] },
-    { "name": "agent", "repository": "agent", "revision": "8bcf73c1b0cad8130c73bc7f26bc03bb40005b16", "requires": ["base", "agent-store", "cli"] },
-    { "name": "codex", "repository": "agent", "revision": "8bcf73c1b0cad8130c73bc7f26bc03bb40005b16", "requires": ["agent"] },
-    { "name": "cli", "repository": "cli", "revision": "eec5b7c79a276e7d2e2b1b9dad6abd18c25f0418", "requires": ["base"] },
+    { "name": "agent-store", "repository": "agent", "revision": "7160790427caae88693c79332bd00420f733c142", "requires": ["base"] },
+    { "name": "agent", "repository": "agent", "revision": "7160790427caae88693c79332bd00420f733c142", "requires": ["base", "agent-store", "cli"] },
+    { "name": "codex", "repository": "agent", "revision": "7160790427caae88693c79332bd00420f733c142", "requires": ["agent"] },
+    { "name": "cli", "repository": "cli", "revision": "a661c0e0349ad34f936868dfcce20ef20a29708b", "requires": ["base"] },
     { "name": "workflow", "repository": "core", "revision": "381fcbda7352a0c74ad84b2a1ea03a065465e797", "requires": ["base", "agent-store", "agent"] },
     { "name": "engineering", "repository": "core", "revision": "381fcbda7352a0c74ad84b2a1ea03a065465e797", "requires": ["base", "workflow", "agent-store", "agent"] },
     { "name": "docs", "repository": "core", "revision": "381fcbda7352a0c74ad84b2a1ea03a065465e797" },
@@ -30,7 +30,7 @@
     { "name": "template", "repository": "template", "revision": "6d16606be000ab139bb8b7d7f0a944739c9a73bc", "requires": ["engineering", "skill"] },
     { "name": "skill", "repository": "template", "revision": "6d16606be000ab139bb8b7d7f0a944739c9a73bc", "requires": ["engineering"] },
     { "name": "learning", "repository": "learning", "revision": "463b221cc96f5f665873f718958d19b31a25f4aa", "requires": ["base"] },
-    { "name": "personal", "repository": "personal", "revision": "2fc8f32407b106f22a5ebece4824df7e47fad9a7", "requires": ["engineering", "agent"] },
+    { "name": "personal", "repository": "personal", "revision": "7e0b2a962df9ba1b90284990360cdbd9c49cbe3d", "requires": ["engineering", "agent"] },
     { "name": "teams", "repository": "work", "revision": "bcfc1797f6e27c1c05bbcc9e51b34c663adab839" },
     { "name": "work", "repository": "work", "revision": "bcfc1797f6e27c1c05bbcc9e51b34c663adab839", "requires": ["engineering", "teams"] },
     { "name": "infonetica", "repository": "infonetica", "revision": "3d95794fd56375cdb308ffa3704ad43037ae0daa", "requires": ["work", "base", "engineering"] }
