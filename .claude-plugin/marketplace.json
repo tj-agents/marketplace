@@ -337,7 +337,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/personal.git",
         "path": "./plugins/personal",
-        "sha": "945c582ee3fa9bfb7c0e2376aa7a23e356888d11"
+        "sha": "4387a637c6744496d57c7631a9560e9ea4269441"
       },
       "dependencies": [
         "engineering",
