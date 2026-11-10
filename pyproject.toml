@@ -36,6 +36,7 @@ enable_error_code = ["ignore-without-code", "exhaustive-match"]
 files = ["."]
 
 [tool.pytest]
+pythonpath = ["."]
 strict = true
 testpaths = ["."]
 addopts = ["--import-mode=importlib", "--disable-socket", "-ra"]
