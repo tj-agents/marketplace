@@ -35,6 +35,8 @@ Each plugin entry declares its actual prerequisites. Runtime packages remain reu
 stack and product profiles retain their declared Engineering dependencies. Claude installs each entry's `requires` as `dependencies`; Codex
 does not resolve dependencies, so a selection still lists the closure.
 
+## Project scope
+
 Tommy explicitly confirmed on 2026-11-11 that all `tj-agents` source repositories are personal projects,
 including standards and tooling for work integrations. Use that recorded scope for new repositories;
 do not ask again based on their subject matter. Employer application repositories retain their own scope.
