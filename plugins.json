@@ -17,6 +17,7 @@
     { "name": "win32", "repository": "cpp", "revision": "8d4641a9f7d1c48e788453977ab62060eb31222f", "requires": ["cpp"] },
     { "name": "dotnet", "repository": "dotnet", "revision": "a1adb6f15dfb41cc9d75b3ab356e59d5924fcc06", "requires": ["engineering"] },
     { "name": "efcore", "repository": "dotnet", "revision": "a1adb6f15dfb41cc9d75b3ab356e59d5924fcc06", "requires": ["dotnet"] },
+    { "name": "aspire", "repository": "aspire", "revision": "17fbb2ed7d6324bf0a57c3e08c824bc44cd8e045", "requires": ["base"] },
     { "name": "react", "repository": "react", "revision": "72fc20bf3615400c0f8b47cdca189fd8aa8822bf", "requires": ["engineering"] },
     { "name": "nvim", "repository": "nvim", "revision": "0ebf338ea90880f256cde3f19c8a1d34981fadaa", "requires": ["engineering"] },
     { "name": "rust", "repository": "rust", "revision": "d95a79296e0fcfc654a3626f2d5f236e91892a43", "requires": ["engineering"] },

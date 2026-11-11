@@ -175,6 +175,18 @@
       ]
     },
     {
+      "name": "aspire",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/aspire.git",
+        "path": "./plugins/aspire",
+        "sha": "17fbb2ed7d6324bf0a57c3e08c824bc44cd8e045"
+      },
+      "dependencies": [
+        "base"
+      ]
+    },
+    {
       "name": "react",
       "source": {
         "source": "git-subdir",
