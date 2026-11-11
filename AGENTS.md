@@ -9,6 +9,14 @@ Run `python -B generate.py` after roster changes and `python -B generate.py --ch
 `claude plugin validate .` before delivery. Packages remain authored in their source repositories and projected into host marketplaces.
 Project selections use the shared marketplace explicitly.
 
+## TJ Agents project scope
+
+Apply the [explicit organisation-wide scope recorded in README.md](README.md#project-scope)
+when creating or configuring a `tj-agents` source repository. Tommy has already declared these
+repositories personal, including new ones and work-integration tooling. Select Personal without
+asking him to classify them again. Carry that recorded scope into the new repository's instructions
+and adoption so it survives a fresh clone.
+
 <!-- BEGIN personal:rules sha256:eee7a719bb90e67aaa81ac101a45836dd099bc745fee61216c99ec7d6075f12d -->
 # Personal rules
 
