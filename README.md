@@ -1,7 +1,7 @@
 # TJ Agents marketplace
 
 One shared plugin roster, projected into one package format both Claude Code and Codex read, for the
-current plugins published from `tj-agents/core`, `agent`, `cli`, `github`, `cpp`, `dotnet`, `react`,
+current plugins published from `tj-agents/core`, `agent`, `cli`, `github`, `cpp`, `dotnet`, `aspire`, `react`,
 `nvim`, `rust`, `python`, `github-actions`, `azure`, `learning`, `template`, `personal`, `work`, and
 `infonetica`. Packages stay in their source repositories; this repository never authors plugin content
 itself. Adding another repository requires one entry in `plugins.json`; `generate.py` produces the
@@ -24,7 +24,7 @@ Codex:  codex plugin add cpp@tj-agents
 ```
 
 Available canonical plugins are `base`, `agent-store`, `agent`, `codex`, `cli`, `github`, `workflow`,
-`engineering`, `docs`, `cpp`, `gpp`, `msvc`, `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`,
+`engineering`, `docs`, `cpp`, `gpp`, `msvc`, `win32`, `dotnet`, `efcore`, `aspire`, `react`, `nvim`, `rust`,
 `tauri`, `rust-sqlx`, `seaorm`, `python`, `github-actions`, `azure`, `learning`, and
 `template` and its sibling `skill` authoring package, the explicitly adopted `personal` profile, `teams` for Teams messages in any repo, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
@@ -34,6 +34,10 @@ For software work, select `engineering` plus the common closure.
 Each plugin entry declares its actual prerequisites. Runtime packages remain reusable without Engineering;
 stack and product profiles retain their declared Engineering dependencies. Claude installs each entry's `requires` as `dependencies`; Codex
 does not resolve dependencies, so a selection still lists the closure.
+
+Tommy explicitly confirmed on 2026-11-11 that all `tj-agents` source repositories are personal projects,
+including standards and tooling for work integrations. Use that recorded scope for new repositories;
+do not ask again based on their subject matter. Employer application repositories retain their own scope.
 
 For projects Tommy explicitly identifies as personal, select `personal` and its actual requirement closure:
 `engineering`, `agent`, `cli`, `base`, `agent-store`, and `workflow`. Then run `personal:use` to generate and
