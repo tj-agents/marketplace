@@ -4,9 +4,9 @@
   "owner": "Tommy Seery",
   "plugins": [
     { "name": "base", "repository": "core", "revision": "dab78bb9de470aa873df36742bedc4da676a2c2f" },
-    { "name": "agent-store", "repository": "agent", "revision": "57ae8a272bf31420777d9769bc8b14da6a6245a6", "requires": ["base"] },
-    { "name": "agent", "repository": "agent", "revision": "57ae8a272bf31420777d9769bc8b14da6a6245a6", "requires": ["base", "agent-store", "cli"] },
-    { "name": "codex", "repository": "agent", "revision": "57ae8a272bf31420777d9769bc8b14da6a6245a6", "requires": ["agent"] },
+    { "name": "agent-store", "repository": "agent", "revision": "07cd2731fa42c6629f429014ba98b61f4278cc34", "requires": ["base"] },
+    { "name": "agent", "repository": "agent", "revision": "07cd2731fa42c6629f429014ba98b61f4278cc34", "requires": ["base", "agent-store", "cli"] },
+    { "name": "codex", "repository": "agent", "revision": "07cd2731fa42c6629f429014ba98b61f4278cc34", "requires": ["agent"] },
     { "name": "cli", "repository": "cli", "revision": "c4a4fec53e523aea963108ed27eb1ab68738a18e", "requires": ["base"] },
     { "name": "workflow", "repository": "core", "revision": "dab78bb9de470aa873df36742bedc4da676a2c2f", "requires": ["base", "agent-store", "agent"] },
     { "name": "engineering", "repository": "core", "revision": "dab78bb9de470aa873df36742bedc4da676a2c2f", "requires": ["base", "workflow", "agent-store", "agent"] },
