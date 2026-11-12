@@ -24,7 +24,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/agent-store",
-        "sha": "b9d01d009f39709667adbdced5ce2542eb49e8eb"
+        "sha": "e2dce9124abbe46327e49f19dcf7c4ebfe3949f0"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -38,7 +38,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/agent",
-        "sha": "b9d01d009f39709667adbdced5ce2542eb49e8eb"
+        "sha": "e2dce9124abbe46327e49f19dcf7c4ebfe3949f0"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -52,7 +52,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/codex",
-        "sha": "b9d01d009f39709667adbdced5ce2542eb49e8eb"
+        "sha": "e2dce9124abbe46327e49f19dcf7c4ebfe3949f0"
       },
       "policy": {
         "installation": "AVAILABLE",
