@@ -1,0 +1,44 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>tj-agents/renovate-config"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^plugins\\.json$/"
+      ],
+      "matchStrings": [
+        "\"repository\": \"(?<depName>[a-z0-9-]+)\", \"revision\": \"(?<currentDigest>[0-9a-f]{40})\""
+      ],
+      "datasourceTemplate": "git-refs",
+      "packageNameTemplate": "https://github.com/tj-agents/{{{depName}}}",
+      "currentValueTemplate": "main"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.claude-plugin/marketplace\\.json$/",
+        "/^\\.agents/plugins/marketplace\\.json$/"
+      ],
+      "matchStrings": [
+        "\"url\": \"https://github\\.com/tj-agents/(?<depName>[a-z0-9-]+)\\.git\",\\s*\"path\": \"[^\"]+\",\\s*\"sha\": \"(?<currentDigest>[0-9a-f]{40})\""
+      ],
+      "datasourceTemplate": "git-refs",
+      "packageNameTemplate": "https://github.com/tj-agents/{{{depName}}}",
+      "currentValueTemplate": "main"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "groupName": "plugin pins",
+      "schedule": [
+        "at any time"
+      ]
+    }
+  ]
+}
