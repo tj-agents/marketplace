@@ -49,17 +49,24 @@ def build() -> dict[str, bytes]:
     for plugin in plugins:
         if not isinstance(plugin, dict):
             raise ValueError(f"Plugin entries must be objects: {plugin!r}")
-        unknown = set(plugin) - {"name", "repository", "requires"}
+        unknown = set(plugin) - {"name", "repository", "requires", "revision"}
         if unknown:
             raise ValueError(f"Unknown fields in plugin entry: {sorted(unknown)}")
-        if "name" not in plugin or "repository" not in plugin:
-            raise ValueError("Plugin entries require name and repository")
+        if "name" not in plugin or "repository" not in plugin or "revision" not in plugin:
+            raise ValueError("Plugin entries require name, repository and revision")
         name, repository = plugin["name"], plugin["repository"]
         if not isinstance(name, str) or not NAME.fullmatch(name) or not isinstance(repository, str) or not NAME.fullmatch(repository):
             raise ValueError(f"Invalid plugin or repository name: {plugin}")
         if name in names:
             raise ValueError(f"Duplicate plugin: {name}")
         names.add(name)
+    for plugin in plugins:
+        revision = plugin["revision"]
+        if not isinstance(revision, str) or not re.fullmatch(r"[0-9a-f]{40}", revision):
+            raise ValueError(f"Invalid immutable producer revision: {plugin['name']}")
+    for repository in sorted({plugin["repository"] for plugin in plugins}):
+        if len({plugin["revision"] for plugin in plugins if plugin["repository"] == repository}) != 1:
+            raise ValueError(f"Every {repository} entry must use the same immutable revision")
     graph: dict[str, list[str]] = {}
     claude_entries = []
     codex_entries = []
@@ -78,7 +85,7 @@ def build() -> dict[str, bytes]:
             "source": "git-subdir",
             "url": f"https://github.com/tj-agents/{repository}.git",
             "path": f"./plugins/{name}",
-            "ref": "main",
+            "sha": plugin["revision"],
         }
         claude_entry = {"name": name, "source": source}
         if requires:

@@ -46,7 +46,7 @@ class PluginsFixtureTests(RootFixtureTests):
             "name": "tj-agents",
             "description": "Test marketplace",
             "owner": "Tommy Seery",
-            "plugins": plugins,
+            "plugins": [{"revision": "a" * 40, **plugin} for plugin in plugins],
         }
         (self.root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
 
@@ -61,7 +61,7 @@ class ValidationErrorTests(PluginsFixtureTests):
             generate.build()
 
     def test_legacy_release_fields_are_rejected(self):
-        for field, value in (("revision", "main"), ("release", "pkg@1.2.3"), ("commit", "a" * 40), ("version", "1.2.3")):
+        for field, value in (("release", "pkg@1.2.3"), ("commit", "a" * 40), ("version", "1.2.3")):
             with self.subTest(field=field, value=value):
                 self.write_plugins_file([{"name": "base", "repository": "core", field: value}])
                 with self.assertRaisesRegex(ValueError, f"Unknown fields in plugin entry.*{field}"):
@@ -119,11 +119,11 @@ class OutputShapeTests(PluginsFixtureTests):
         self.claude = json.loads(self.outputs["claude"])
         self.codex = json.loads(self.outputs["codex"])
 
-    def test_every_entry_uses_main_without_sha_in_both_manifests(self):
+    def test_every_entry_pins_its_revision_in_both_manifests(self):
         for manifest in (self.claude, self.codex):
             for entry in manifest["plugins"]:
-                self.assertEqual(entry["source"]["ref"], "main")
-                self.assertNotIn("sha", entry["source"])
+                self.assertEqual(entry["source"]["sha"], "a" * 40)
+                self.assertNotIn("ref", entry["source"])
 
     def test_every_codex_entry_is_available(self):
         for entry in self.codex["plugins"]:
@@ -164,16 +164,16 @@ class RealRosterTests(unittest.TestCase):
             "gpp": ["cpp"],
             "msvc": ["cpp"], "win32": ["cpp"], "efcore": ["dotnet"],
             "cpp": ["engineering"], "dotnet": ["engineering"], "react": ["engineering"], "nvim": ["engineering"],
-            "rust": ["engineering"], "tauri": ["rust"], "rust-sqlx": ["rust"], "python": ["engineering"], "github-actions": ["engineering"],
+            "rust": ["engineering"], "tauri": ["rust"], "rust-sqlx": ["rust"], "seaorm": ["rust"], "python": ["engineering"], "github": ["base"], "github-actions": ["engineering"],
             "azure": ["engineering"], "template": ["engineering", "skill"], "skill": ["engineering"],
             "learning": ["base"],
-            "personal": ["engineering", "agent"], "work": ["engineering"],
+            "personal": ["engineering", "agent"], "work": ["engineering", "teams"],
             "infonetica": ["work", "base", "engineering"],
         }
         expected_names = {
             "base", "agent-store", "agent", "codex", "cli", "workflow", "engineering", "docs", "cpp", "gpp", "msvc", "win32",
-            "dotnet", "efcore", "react", "nvim", "rust", "python", "github-actions", "azure",
-            "template", "skill", "learning", "personal", "work", "infonetica", "tauri", "rust-sqlx",
+            "dotnet", "efcore", "react", "nvim", "rust", "python", "github", "github-actions", "azure",
+            "template", "skill", "learning", "personal", "teams", "work", "infonetica", "tauri", "rust-sqlx", "seaorm",
         }
         by_name = {plugin["name"]: plugin for plugin in plugins}
         self.assertEqual(expected_names, set(by_name))
@@ -182,8 +182,8 @@ class RealRosterTests(unittest.TestCase):
             manifest = json.loads(output)
             self.assertEqual({entry["name"] for entry in manifest["plugins"]}, expected_names)
             for entry in manifest["plugins"]:
-                self.assertEqual(entry["source"]["ref"], "main")
-                self.assertNotIn("sha", entry["source"])
+                self.assertEqual(entry["source"]["sha"], by_name[entry["name"]]["revision"])
+                self.assertNotIn("ref", entry["source"])
                 self.assertEqual(entry["source"]["path"], f"./plugins/{entry['name']}")
         self.assertIn("claude", outputs)
         self.assertIn("codex", outputs)

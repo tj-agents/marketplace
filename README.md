@@ -1,10 +1,12 @@
 # TJ Agents marketplace
 
-One shared plugin roster for the current plugins in `tj-agents/core`, `agent`, `cli`, `cpp`,
-`dotnet`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and `template`.
-Packages stay in their source repositories. Adding another
-repository requires one entry in `plugins.json`; `generate.py` produces the matching
-Claude and Codex marketplaces. Core launch refresh updates selected plugin content from these source repositories.
+One shared plugin roster, projected into one package format both Claude Code and Codex read, for the
+current plugins published from `tj-agents/core`, `agent`, `cli`, `github`, `cpp`, `dotnet`, `react`,
+`nvim`, `rust`, `python`, `github-actions`, `azure`, `learning`, `template`, `personal`, `work`, and
+`infonetica`. Packages stay in their source repositories; this repository never authors plugin content
+itself. Adding another repository requires one entry in `plugins.json`; `generate.py` produces the
+matching Claude and Codex marketplaces. Core launch refresh updates selected plugin content from these
+source repositories.
 
 This roster also supplies Agent's pinned offline project selector snapshot. After publishing a
 roster change, regenerate that snapshot through Agent's
@@ -21,9 +23,10 @@ Codex:  codex plugin marketplace add tj-agents/marketplace
 Codex:  codex plugin add cpp@tj-agents
 ```
 
-Available canonical plugins are `base`, `agent-store`, `agent`, `codex`, `cli`, `workflow`, `engineering`, `docs`, `cpp`, `gpp`, `msvc`,
-`win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`, `python`, `github-actions`, `azure`, and
-`template` and its sibling `skill` authoring package, the explicitly adopted `personal` profile, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
+Available canonical plugins are `base`, `agent-store`, `agent`, `codex`, `cli`, `github`, `workflow`,
+`engineering`, `docs`, `cpp`, `gpp`, `msvc`, `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`,
+`tauri`, `rust-sqlx`, `seaorm`, `python`, `github-actions`, `azure`, `learning`, and
+`template` and its sibling `skill` authoring package, the explicitly adopted `personal` profile, `teams` for Teams messages in any repo, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
 `agent`, `cli`, and `workflow` closure. CLI supplies exact-target close utilities;
 Agent supplies session-aware target resolution and coordination.
@@ -50,8 +53,14 @@ python -B generate.py --check
 claude plugin validate .
 ```
 
-All plugin entries use the producer repository's current main branch. The roster makes current publisher content
-available to hosts. Core's launch refresh updates the plugin content consumed by a project from those main branches.
+Each roster entry optionally declares `revision`, the full lowercase 40-character commit ID of a
+published producer payload. Generation writes it as the native `source.sha`; an entry without a revision
+uses `source.ref: main`. Marketplace owns these producer pins. Publish and verify the producer payload
+before activating its revision here.
+
+Agent and Core each require one revision across every entry from that producer when pinned. Mixing
+pinned and unpinned entries, or two revisions of one producer, is rejected. Update the Agent/Core pair
+in one roster change after both payloads are published. Other producers retain independent entry policy.
 
 When adding a package, publish its producer payload and roster entry before activating repository selections.
 Keep the complete selection changes in a dependent delivery slice, then verify native admission and
@@ -71,5 +80,5 @@ Each profile supplies `work-item`, `create-work-item` and `address-work-item` un
 Agent owns the shared agent execution/session registry; Core owns Engineering workflows. Work supplies employer-neutral
 communication tools. Select the intended profile explicitly; installing Core does not select a tracker.
 
-Skill authoring uses `skill:create` and `skill:update`, both published from `tj-agents/template`.
+Skill authoring uses `skill:new` and `skill:update`, both published from `tj-agents/template`.
 Template depends on Skill so selected plugin publishers load the current native-creator authoring workflow.
