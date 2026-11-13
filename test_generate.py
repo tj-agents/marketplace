@@ -46,7 +46,7 @@ class PluginsFixtureTests(RootFixtureTests):
             "name": "tj-agents",
             "description": "Test marketplace",
             "owner": "Tommy Seery",
-            "plugins": [{"revision": "a" * 40, **plugin} for plugin in plugins],
+            "plugins": [{"revision": "a" * 40, "profile": "generic", **plugin} for plugin in plugins],
         }
         (self.root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
 
