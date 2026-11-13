@@ -166,14 +166,14 @@ class RealRosterTests(unittest.TestCase):
             "cpp": ["engineering"], "dotnet": ["engineering"], "react": ["engineering"], "nvim": ["engineering"],
             "rust": ["engineering"], "tauri": ["rust"], "rust-sqlx": ["rust"], "seaorm": ["rust"], "python": ["engineering"], "github": ["base"], "github-actions": ["engineering"],
             "azure": ["engineering"], "template": ["engineering", "skill"], "skill": ["engineering"],
-            "learning": ["base"],
+            "learning": ["base"], "bash": ["engineering"],
             "personal": ["engineering", "agent"], "work": ["engineering", "teams"],
             "infonetica": ["work", "base", "engineering"],
         }
         expected_names = {
             "base", "agent-store", "agent", "codex", "cli", "workflow", "engineering", "docs", "cpp", "gpp", "msvc", "win32",
             "dotnet", "efcore", "react", "nvim", "rust", "python", "github", "github-actions", "azure",
-            "template", "skill", "learning", "personal", "teams", "work", "infonetica", "tauri", "rust-sqlx", "seaorm",
+            "template", "skill", "learning", "personal", "teams", "work", "infonetica", "tauri", "rust-sqlx", "seaorm", "bash",
         }
         by_name = {plugin["name"]: plugin for plugin in plugins}
         self.assertEqual(expected_names, set(by_name))

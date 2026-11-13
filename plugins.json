@@ -24,6 +24,7 @@
     { "name": "rust-sqlx", "repository": "rust", "revision": "c51c1de9fb6779f7f6313241aecd26adc949e77a", "requires": ["rust"] },
     { "name": "seaorm", "repository": "rust", "revision": "c51c1de9fb6779f7f6313241aecd26adc949e77a", "requires": ["rust"] },
     { "name": "python", "repository": "python", "revision": "4953bfd467c63144d7ac4fd492b6dd67ae3bc380", "requires": ["engineering"] },
+    { "name": "bash", "repository": "bash", "revision": "61b38db8830f7106ac3731943caf1355f787057c", "requires": ["engineering"] },
     { "name": "github", "repository": "github", "revision": "6495ae06c8c798372cb81e95b0d5bbf6d5a259f3", "requires": ["base"] },
     { "name": "github-actions", "repository": "github-actions", "revision": "7af443d4a28479cbe529c3455f12047d91928ecf", "requires": ["engineering"] },
     { "name": "azure", "repository": "azure", "revision": "7c8a694979f0f740ff2b30d0ce0115dfe64c3f38", "requires": ["engineering"] },

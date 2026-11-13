@@ -259,6 +259,18 @@
       ]
     },
     {
+      "name": "bash",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/tj-agents/bash.git",
+        "path": "./plugins/bash",
+        "sha": "61b38db8830f7106ac3731943caf1355f787057c"
+      },
+      "dependencies": [
+        "engineering"
+      ]
+    },
+    {
       "name": "github",
       "source": {
         "source": "git-subdir",
