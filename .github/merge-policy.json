@@ -2,6 +2,7 @@
   "agents_may_merge": false,
   "required_checks": [
     "verify (ubuntu-latest)",
-    "verify (windows-latest)"
+    "verify (windows-latest)",
+    "Generic scope check"
   ]
 }
