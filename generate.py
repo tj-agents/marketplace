@@ -12,6 +12,7 @@ import re
 
 ROOT = Path(__file__).resolve().parent
 NAME = re.compile(r"[a-z][a-z0-9-]*\Z")
+PROFILES = {"generic", "specific"}
 OUTPUTS = {
     "claude": ROOT / ".claude-plugin" / "marketplace.json",
     "codex": ROOT / ".agents" / "plugins" / "marketplace.json",
@@ -49,7 +50,7 @@ def build() -> dict[str, bytes]:
     for plugin in plugins:
         if not isinstance(plugin, dict):
             raise ValueError(f"Plugin entries must be objects: {plugin!r}")
-        unknown = set(plugin) - {"name", "repository", "requires", "revision"}
+        unknown = set(plugin) - {"name", "repository", "requires", "revision", "profile", "extends"}
         if unknown:
             raise ValueError(f"Unknown fields in plugin entry: {sorted(unknown)}")
         if "name" not in plugin or "repository" not in plugin or "revision" not in plugin:
@@ -64,6 +65,21 @@ def build() -> dict[str, bytes]:
         revision = plugin["revision"]
         if not isinstance(revision, str) or not re.fullmatch(r"[0-9a-f]{40}", revision):
             raise ValueError(f"Invalid immutable producer revision: {plugin['name']}")
+    by_name = {plugin["name"]: plugin for plugin in plugins}
+    for plugin in plugins:
+        name = plugin["name"]
+        profile = plugin.get("profile")
+        if profile not in PROFILES:
+            raise ValueError(f"Plugin profile must be 'generic' or 'specific': {name}")
+        extends = plugin.get("extends")
+        if profile == "generic":
+            if extends is not None:
+                raise ValueError(f"A generic profile cannot use extends: {name}")
+        else:
+            if not isinstance(extends, str) or extends not in by_name:
+                raise ValueError(f"A specific profile must extend a known plugin: {name}")
+            if by_name[extends]["profile"] != "generic":
+                raise ValueError(f"{name} extends {extends}, which is not a generic profile")
     for repository in sorted({plugin["repository"] for plugin in plugins}):
         if len({plugin["revision"] for plugin in plugins if plugin["repository"] == repository}) != 1:
             raise ValueError(f"Every {repository} entry must use the same immutable revision")
