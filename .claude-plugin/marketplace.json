@@ -372,7 +372,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/infonetica.git",
         "path": "./plugins/infonetica",
-        "sha": "3d95794fd56375cdb308ffa3704ad43037ae0daa"
+        "sha": "1cf637118f8459c843b2beacd9ebca9edb85873b"
       },
       "dependencies": [
         "work",

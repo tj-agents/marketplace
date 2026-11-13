@@ -33,6 +33,6 @@
     { "name": "personal", "repository": "personal", "revision": "ade86956378f15919b4ae266d8ef691c04602fd7", "requires": ["engineering", "agent"] },
     { "name": "teams", "repository": "work", "revision": "a3d9e70b8839e76131cafa455a13f7513b1a1750" },
     { "name": "work", "repository": "work", "revision": "a3d9e70b8839e76131cafa455a13f7513b1a1750", "requires": ["engineering", "teams"] },
-    { "name": "infonetica", "repository": "infonetica", "revision": "3d95794fd56375cdb308ffa3704ad43037ae0daa", "requires": ["work", "base", "engineering"] }
+    { "name": "infonetica", "repository": "infonetica", "revision": "1cf637118f8459c843b2beacd9ebca9edb85873b", "requires": ["work", "base", "engineering"] }
   ]
 }
