@@ -4,9 +4,9 @@
   "owner": "Tommy Seery",
   "plugins": [
     { "name": "base", "repository": "core", "revision": "f856e6533fa7b8e2f063d9a6f9d44d38fd6ac32c", "profile": "generic" },
-    { "name": "agent-store", "repository": "agent", "revision": "ffdb02d549d70d00c5d944e564378bf2d3419d27", "requires": ["base"], "profile": "generic" },
-    { "name": "agent", "repository": "agent", "revision": "ffdb02d549d70d00c5d944e564378bf2d3419d27", "requires": ["base", "agent-store", "cli"], "profile": "generic" },
-    { "name": "codex", "repository": "agent", "revision": "ffdb02d549d70d00c5d944e564378bf2d3419d27", "requires": ["agent"], "profile": "generic" },
+    { "name": "agent-store", "repository": "agent", "revision": "9c018197c0a6eb421bdac7319d69252da6ed11e4", "requires": ["base"], "profile": "generic" },
+    { "name": "agent", "repository": "agent", "revision": "9c018197c0a6eb421bdac7319d69252da6ed11e4", "requires": ["base", "agent-store", "cli"], "profile": "generic" },
+    { "name": "codex", "repository": "agent", "revision": "9c018197c0a6eb421bdac7319d69252da6ed11e4", "requires": ["agent"], "profile": "generic" },
     { "name": "cli", "repository": "cli", "revision": "6bfe47220193ccdd958ff959fd6c844c96c18454", "requires": ["base"], "profile": "generic" },
     { "name": "workflow", "repository": "core", "revision": "f856e6533fa7b8e2f063d9a6f9d44d38fd6ac32c", "requires": ["base", "agent-store", "agent"], "profile": "generic" },
     { "name": "engineering", "repository": "core", "revision": "f856e6533fa7b8e2f063d9a6f9d44d38fd6ac32c", "requires": ["base", "workflow", "agent-store", "agent"], "profile": "generic" },
