@@ -43,10 +43,6 @@ jobs:
     name: Generic scope check
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    # Informational only: several generic repositories still mention Infonetica while
-    # their cleanups land in parallel. Not in .github/merge-policy.json required_checks;
-    # remove continue-on-error once check_generic_scope.py reports no violations.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
