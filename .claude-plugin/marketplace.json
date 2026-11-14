@@ -20,7 +20,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/agent-store",
-        "sha": "8c1bd93b3cd906ac7f63567b00dd02f6d85a3617"
+        "sha": "81b3320f05ef3bf13f0cfdfd0012e49459c248bb"
       },
       "dependencies": [
         "base"
@@ -32,7 +32,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/agent",
-        "sha": "8c1bd93b3cd906ac7f63567b00dd02f6d85a3617"
+        "sha": "81b3320f05ef3bf13f0cfdfd0012e49459c248bb"
       },
       "dependencies": [
         "base",
@@ -46,7 +46,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/agent.git",
         "path": "./plugins/codex",
-        "sha": "8c1bd93b3cd906ac7f63567b00dd02f6d85a3617"
+        "sha": "81b3320f05ef3bf13f0cfdfd0012e49459c248bb"
       },
       "dependencies": [
         "agent"
@@ -300,7 +300,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/template.git",
         "path": "./plugins/template",
-        "sha": "d856d22ddb3deaf60aafcfb4b438eea3413fb6a9"
+        "sha": "1863f689d990e58b1ce6f90bea13cc3e26672976"
       },
       "dependencies": [
         "engineering",
@@ -313,7 +313,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/template.git",
         "path": "./plugins/skill",
-        "sha": "d856d22ddb3deaf60aafcfb4b438eea3413fb6a9"
+        "sha": "1863f689d990e58b1ce6f90bea13cc3e26672976"
       },
       "dependencies": [
         "engineering"
