@@ -341,7 +341,8 @@
       },
       "dependencies": [
         "engineering",
-        "agent"
+        "agent",
+        "docs"
       ]
     },
     {
