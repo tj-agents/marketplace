@@ -58,7 +58,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cli.git",
         "path": "./plugins/cli",
-        "sha": "3ef1b912f99cf68e6177ae5640401c4796d7399a"
+        "sha": "fd30767438c6989e7629c4d48d0132caf65c3440"
       },
       "dependencies": [
         "base"
@@ -108,7 +108,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/cpp",
-        "sha": "8d4641a9f7d1c48e788453977ab62060eb31222f"
+        "sha": "ae329c48249fdf24af3dcfc8370b47a4727c2cf6"
       },
       "dependencies": [
         "engineering"
@@ -120,7 +120,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/gpp",
-        "sha": "8d4641a9f7d1c48e788453977ab62060eb31222f"
+        "sha": "ae329c48249fdf24af3dcfc8370b47a4727c2cf6"
       },
       "dependencies": [
         "cpp"
@@ -132,7 +132,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/msvc",
-        "sha": "8d4641a9f7d1c48e788453977ab62060eb31222f"
+        "sha": "ae329c48249fdf24af3dcfc8370b47a4727c2cf6"
       },
       "dependencies": [
         "cpp"
@@ -144,7 +144,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/win32",
-        "sha": "8d4641a9f7d1c48e788453977ab62060eb31222f"
+        "sha": "ae329c48249fdf24af3dcfc8370b47a4727c2cf6"
       },
       "dependencies": [
         "cpp"
