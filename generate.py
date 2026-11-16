@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from enum import StrEnum
 import graphlib
 import json
 from pathlib import Path
@@ -12,12 +13,17 @@ import re
 
 ROOT = Path(__file__).resolve().parent
 NAME = re.compile(r"[a-z][a-z0-9-]*\Z")
-PROFILES = {"generic", "specific"}
 OUTPUTS = {
     "claude": ROOT / ".claude-plugin" / "marketplace.json",
     "codex": ROOT / ".agents" / "plugins" / "marketplace.json",
 }
 IGNORED_DIRS = {".git", ".worktrees", "node_modules", "bin", "obj", "dist"}
+
+
+class Kind(StrEnum):
+    SHARED = "shared"
+    PROFILE = "profile"
+    ORGANIZATION = "organization"
 
 
 def validate_instruction_pairs() -> None:
@@ -50,7 +56,7 @@ def build() -> dict[str, bytes]:
     for plugin in plugins:
         if not isinstance(plugin, dict):
             raise ValueError(f"Plugin entries must be objects: {plugin!r}")
-        unknown = set(plugin) - {"name", "repository", "requires", "revision", "profile", "extends", "generic_profile"}
+        unknown = set(plugin) - {"name", "repository", "requires", "revision", "kind", "extends"}
         if unknown:
             raise ValueError(f"Unknown fields in plugin entry: {sorted(unknown)}")
         if "name" not in plugin or "repository" not in plugin or "revision" not in plugin:
@@ -68,22 +74,17 @@ def build() -> dict[str, bytes]:
     by_name = {plugin["name"]: plugin for plugin in plugins}
     for plugin in plugins:
         name = plugin["name"]
-        profile = plugin.get("profile")
-        if profile not in PROFILES:
-            raise ValueError(f"Plugin profile must be 'generic' or 'specific': {name}")
+        if plugin.get("kind") not in Kind:
+            raise ValueError(f"Plugin kind must be one of {', '.join(Kind)}: {name}")
         extends = plugin.get("extends")
-        if "generic_profile" in plugin and (plugin["generic_profile"] is not True or profile != "generic"):
-            raise ValueError(f"generic_profile must be true and only on a generic plugin: {name}")
-        if profile == "generic":
+        if plugin["kind"] != Kind.ORGANIZATION:
             if extends is not None:
-                raise ValueError(f"A generic profile cannot use extends: {name}")
-        else:
-            if not isinstance(extends, str) or extends not in by_name:
-                raise ValueError(f"A specific profile must extend a known plugin: {name}")
-            if by_name[extends].get("generic_profile") is not True:
-                raise ValueError(f"{name} extends {extends}, which is not a generic profile")
-            if extends not in plugin.get("requires", []):
-                raise ValueError(f"{name} must require {extends}, the generic profile it extends")
+                raise ValueError(f"Only an organization can use extends: {name}")
+            continue
+        if not isinstance(extends, str) or by_name.get(extends, {}).get("kind") != Kind.PROFILE:
+            raise ValueError(f"Organization {name} must extend a profile")
+        if extends not in plugin.get("requires", []):
+            raise ValueError(f"Organization {name} must require {extends}, the profile it extends")
     for repository in sorted({plugin["repository"] for plugin in plugins}):
         if len({plugin["revision"] for plugin in plugins if plugin["repository"] == repository}) != 1:
             raise ValueError(f"Every {repository} entry must use the same immutable revision")

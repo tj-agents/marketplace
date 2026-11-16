@@ -48,7 +48,7 @@ class PluginsFixtureTests(RootFixtureTests):
             "name": "tj-agents",
             "description": "Test marketplace",
             "owner": "Tommy Seery",
-            "plugins": [{"revision": "a" * 40, "profile": "generic", **plugin} for plugin in plugins],
+            "plugins": [{"revision": "a" * 40, "kind": "shared", **plugin} for plugin in plugins],
         }
         (self.root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
 
@@ -194,7 +194,7 @@ def write_roster(root: Path, plugins: list[dict[str, object]]) -> None:
         "name": "tj-agents",
         "description": "Test marketplace",
         "owner": "Tommy Seery",
-        "plugins": [{"revision": "a" * 40, "profile": "generic", **plugin} for plugin in plugins],
+        "plugins": [{"revision": "a" * 40, "kind": "shared", **plugin} for plugin in plugins],
     }
     (root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
 
@@ -205,10 +205,10 @@ def roster_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     return tmp_path
 
 
-def test_build_accepts_a_specific_profile_extending_and_requiring_a_generic_profile(roster_root: Path) -> None:
+def test_build_accepts_an_organization_extending_and_requiring_a_profile(roster_root: Path) -> None:
     write_roster(roster_root, [
-        {"name": "work", "repository": "work", "generic_profile": True},
-        {"name": "acme", "repository": "acme", "requires": ["work"], "profile": "specific", "extends": "work"},
+        {"name": "work", "repository": "work", "kind": "profile"},
+        {"name": "acme", "repository": "acme", "requires": ["work"], "kind": "organization", "extends": "work"},
     ])
     generate.build()
 
@@ -217,35 +217,42 @@ def test_build_accepts_a_specific_profile_extending_and_requiring_a_generic_prof
     ("plugins", "message"),
     [
         (
-            [{"name": "work", "repository": "work", "generic_profile": False}],
-            "generic_profile must be true and only on a generic plugin: work",
+            [{"name": "work", "repository": "work", "kind": None}],
+            "Plugin kind must be one of shared, profile, organization: work",
+        ),
+        (
+            [{"name": "work", "repository": "work", "kind": "generic"}],
+            "Plugin kind must be one of shared, profile, organization: work",
         ),
         (
             [
-                {"name": "work", "repository": "work", "generic_profile": True},
-                {"name": "acme", "repository": "acme", "requires": ["work"], "profile": "specific",
-                 "extends": "work", "generic_profile": True},
+                {"name": "work", "repository": "work", "kind": "profile"},
+                {"name": "teams", "repository": "work", "extends": "work"},
             ],
-            "generic_profile must be true and only on a generic plugin: acme",
+            "Only an organization can use extends: teams",
+        ),
+        (
+            [{"name": "acme", "repository": "acme", "kind": "organization"}],
+            "Organization acme must extend a profile",
         ),
         (
             [
                 {"name": "engineering", "repository": "core"},
-                {"name": "acme", "repository": "acme", "requires": ["engineering"], "profile": "specific",
+                {"name": "acme", "repository": "acme", "requires": ["engineering"], "kind": "organization",
                  "extends": "engineering"},
             ],
-            "acme extends engineering, which is not a generic profile",
+            "Organization acme must extend a profile",
         ),
         (
             [
-                {"name": "work", "repository": "work", "generic_profile": True},
-                {"name": "acme", "repository": "acme", "profile": "specific", "extends": "work"},
+                {"name": "work", "repository": "work", "kind": "profile"},
+                {"name": "acme", "repository": "acme", "kind": "organization", "extends": "work"},
             ],
-            "acme must require work, the generic profile it extends",
+            "Organization acme must require work, the profile it extends",
         ),
     ],
 )
-def test_build_rejects_an_invalid_profile_role(
+def test_build_rejects_an_invalid_kind(
     roster_root: Path, plugins: list[dict[str, object]], message: str
 ) -> None:
     write_roster(roster_root, plugins)
@@ -253,10 +260,26 @@ def test_build_rejects_an_invalid_profile_role(
         generate.build()
 
 
-def test_real_roster_marks_exactly_personal_and_work_as_generic_profiles() -> None:
+@pytest.mark.parametrize("field", ["profile", "generic_profile"])
+def test_build_rejects_the_replaced_profile_fields(roster_root: Path, field: str) -> None:
+    write_roster(roster_root, [{"name": "work", "repository": "work", "kind": "profile", field: True}])
+    with pytest.raises(ValueError, match=rf"Unknown fields in plugin entry: \['{field}'\]"):
+        generate.build()
+
+
+def test_build_requires_every_entry_to_declare_its_kind(roster_root: Path) -> None:
+    roster = {
+        "name": "tj-agents", "description": "Test marketplace", "owner": "Tommy Seery",
+        "plugins": [{"name": "base", "repository": "core", "revision": "a" * 40}],
+    }
+    (roster_root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
+    with pytest.raises(ValueError, match="Plugin kind must be one of shared, profile, organization: base"):
+        generate.build()
+
+
     roster = json.loads((generate.ROOT / "plugins.json").read_text(encoding="utf-8"))
-    generic_profiles = {plugin["name"] for plugin in roster["plugins"] if plugin.get("generic_profile")}
-    assert generic_profiles == {"personal", "work"}
+    kinds = {plugin["name"]: plugin["kind"] for plugin in roster["plugins"]}
+    assert {name for name, kind in kinds.items() if kind == "profile"} == {"personal", "work"}
 
 
 if __name__ == "__main__":

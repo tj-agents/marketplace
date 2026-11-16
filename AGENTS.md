@@ -9,6 +9,13 @@ Run `python -B generate.py` after roster changes and `python -B generate.py --ch
 `claude plugin validate .` before delivery. Packages remain authored in their source repositories and projected into host marketplaces.
 Project selections use the shared marketplace explicitly.
 
+Every roster entry declares one `kind`: `shared`, `profile` or `organization`. An organization also
+`extends` exactly one profile and lists it in `requires`. Express a plugin's role only through `kind`; never
+add a boolean or second label for it. Shared and profile repositories name no organization. The model, its
+consumers and an example of each kind live in [README.md](README.md#plugin-kinds); a change to the model
+updates that section, Agent's selector and Docs' `PLUGINS.md` together, and Agent's offline lock is refreshed
+after the roster change merges.
+
 <!-- BEGIN personal:rules sha256:c4f6a57dde7e906bd13bad312f0042408f0c01ce0c9855968d7b7fa3907b5dc8 -->
 # Personal rules
 
