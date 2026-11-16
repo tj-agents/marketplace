@@ -16,7 +16,7 @@ def roster(
                 "name": "tj-agents",
                 "description": "Fixture",
                 "owner": "Fixture",
-                "plugins": [{"profile": "generic", **entry} for entry in entries],
+                "plugins": [{"kind": "shared", **entry} for entry in entries],
             }
         ),
         encoding="utf-8",

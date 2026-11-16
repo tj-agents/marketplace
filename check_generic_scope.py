@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Check that every generic plugin's pinned source names no specific profile.
+"""Check that every generic plugin's pinned source names no organization.
 
-A specific profile ("profile": "specific" in plugins.json) holds everything particular
-to one organization. A generic plugin must stay usable by anyone, so its source
-repository must not name a specific profile anywhere in its tracked text, at the
-revision this marketplace pins. The specific repository itself is private and is never
-fetched; only generic repositories are checked.
+An organization ("kind": "organization" in plugins.json) holds everything particular
+to one organization. Shared plugins and profiles are generic: they must stay usable by
+anyone, so their source repository must not name an organization anywhere in its
+tracked text, at the revision this marketplace pins. An organization's repository is
+private and is never fetched; only generic repositories are checked.
 """
 
 from __future__ import annotations
@@ -21,6 +21,8 @@ from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.parse import urlparse
+
+from generate import Kind
 
 ROOT = Path(__file__).resolve().parent
 HISTORY_DIRS = {"plans", "reviews", "plugins"}
@@ -43,27 +45,27 @@ def load_roster(root: Path = ROOT) -> dict[str, Any]:
     return roster
 
 
-def specific_profile_names(plugins: Iterable[Plugin]) -> list[str]:
+def organization_names(plugins: Iterable[Plugin]) -> list[str]:
     return sorted(
-        {plugin["name"] for plugin in plugins if plugin.get("profile") == "specific"}
+        {plugin["name"] for plugin in plugins if plugin["kind"] == Kind.ORGANIZATION}
     )
 
 
 def generic_repositories(plugins: Iterable[Plugin]) -> dict[str, str]:
     """Map each repository hosting only generic entries to its pinned revision.
 
-    A repository with any specific entry is excluded entirely; it is never fetched.
+    A repository with any organization entry is excluded entirely; it is never fetched.
     """
-    profiles_by_repository: dict[str, set[object]] = {}
+    kinds_by_repository: dict[str, set[str]] = {}
     revision_by_repository: dict[str, str] = {}
     for plugin in plugins:
         repository = plugin["repository"]
-        profiles_by_repository.setdefault(repository, set()).add(plugin.get("profile"))
+        kinds_by_repository.setdefault(repository, set()).add(plugin["kind"])
         revision_by_repository[repository] = plugin["revision"]
     return {
         repository: revision_by_repository[repository]
-        for repository, profiles in profiles_by_repository.items()
-        if profiles == {"generic"}
+        for repository, kinds in kinds_by_repository.items()
+        if Kind.ORGANIZATION not in kinds
     }
 
 
@@ -102,7 +104,7 @@ def find_matches(name: str, text: str) -> list[tuple[int, str]]:
 
 
 def scan_tree(
-    repository: str, tree: Path, specific_names: Sequence[str], marketplace_source: str
+    repository: str, tree: Path, organizations: Sequence[str], marketplace_source: str
 ) -> list[Violation]:
     violations: list[Violation] = []
     for path in sorted(tree.rglob("*")):
@@ -118,7 +120,7 @@ def scan_tree(
             continue
         if is_catalog_generated(content, marketplace_source):
             continue
-        for name in specific_names:
+        for name in organizations:
             violations.extend(
                 Violation(repository, relative, number, name, line)
                 for number, line in find_matches(name, text)
@@ -150,21 +152,21 @@ def fetch_tree(url: str, revision: str, workdir: Path) -> Path:
 def check_repository(
     repository: str,
     revision: str,
-    specific_names: Sequence[str],
+    organizations: Sequence[str],
     marketplace_source: str,
 ) -> list[Violation]:
     url = f"https://github.com/tj-agents/{repository}.git"
     with tempfile.TemporaryDirectory() as workdir:
         tree = fetch_tree(url, revision, Path(workdir))
-        return scan_tree(repository, tree, specific_names, marketplace_source)
+        return scan_tree(repository, tree, organizations, marketplace_source)
 
 
 def main() -> int:
     roster = load_roster()
     plugins = roster["plugins"]
-    names = specific_profile_names(plugins)
+    names = organization_names(plugins)
     if not names:
-        print("No specific profiles are labelled; nothing to check")
+        print("No organizations are listed; nothing to check")
         return 0
     marketplace_source = marketplace_source_id()
     repositories = generic_repositories(plugins)
@@ -175,14 +177,14 @@ def main() -> int:
             check_repository(repository, revision, names, marketplace_source)
         )
     if violations:
-        print(f"Found {len(violations)} specific-profile mention(s):")
+        print(f"Found {len(violations)} organization mention(s):")
         for violation in violations:
             print(
                 f"{violation.repository}:{violation.path}:{violation.line}: "
                 f"{violation.name!r} - {violation.text}"
             )
         return 1
-    print(f"No specific-profile mentions found across {len(repositories)} repositories")
+    print(f"No organization mentions found across {len(repositories)} repositories")
     return 0
 
 

@@ -4,6 +4,8 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 
+import pytest
+
 import generate
 
 
@@ -46,7 +48,7 @@ class PluginsFixtureTests(RootFixtureTests):
             "name": "tj-agents",
             "description": "Test marketplace",
             "owner": "Tommy Seery",
-            "plugins": [{"revision": "a" * 40, "profile": "generic", **plugin} for plugin in plugins],
+            "plugins": [{"revision": "a" * 40, "kind": "shared", **plugin} for plugin in plugins],
         }
         (self.root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
 
@@ -167,7 +169,7 @@ class RealRosterTests(unittest.TestCase):
             "rust": ["engineering"], "tauri": ["rust"], "rust-sqlx": ["rust"], "seaorm": ["rust"], "python": ["engineering"], "github": ["base"], "github-actions": ["engineering"],
             "azure": ["engineering"], "template": ["engineering", "skill"], "skill": ["engineering"],
             "learning": ["base"],
-            "personal": ["engineering", "agent", "docs"], "work": ["engineering", "teams"],
+            "personal": ["engineering", "agent", "docs", "github"], "work": ["engineering", "teams"],
             "infonetica": ["work", "base", "engineering"],
         }
         expected_names = {
@@ -187,6 +189,101 @@ class RealRosterTests(unittest.TestCase):
                 self.assertEqual(entry["source"]["path"], f"./plugins/{entry['name']}")
         self.assertIn("claude", outputs)
         self.assertIn("codex", outputs)
+
+
+def write_roster(root: Path, plugins: list[dict[str, object]]) -> None:
+    roster = {
+        "name": "tj-agents",
+        "description": "Test marketplace",
+        "owner": "Tommy Seery",
+        "plugins": [{"revision": "a" * 40, "kind": "shared", **plugin} for plugin in plugins],
+    }
+    (root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
+
+
+@pytest.fixture
+def roster_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    monkeypatch.setattr(generate, "ROOT", tmp_path)
+    return tmp_path
+
+
+def test_build_accepts_an_organization_extending_and_requiring_a_profile(roster_root: Path) -> None:
+    write_roster(roster_root, [
+        {"name": "work", "repository": "work", "kind": "profile"},
+        {"name": "acme", "repository": "acme", "requires": ["work"], "kind": "organization", "extends": "work"},
+    ])
+    generate.build()
+
+
+@pytest.mark.parametrize(
+    ("plugins", "message"),
+    [
+        (
+            [{"name": "work", "repository": "work", "kind": None}],
+            "Plugin kind must be one of shared, profile, organization: work",
+        ),
+        (
+            [{"name": "work", "repository": "work", "kind": "generic"}],
+            "Plugin kind must be one of shared, profile, organization: work",
+        ),
+        (
+            [
+                {"name": "work", "repository": "work", "kind": "profile"},
+                {"name": "teams", "repository": "work", "extends": "work"},
+            ],
+            "Only an organization can use extends: teams",
+        ),
+        (
+            [{"name": "acme", "repository": "acme", "kind": "organization"}],
+            "Organization acme must extend a profile",
+        ),
+        (
+            [
+                {"name": "engineering", "repository": "core"},
+                {"name": "acme", "repository": "acme", "requires": ["engineering"], "kind": "organization",
+                 "extends": "engineering"},
+            ],
+            "Organization acme must extend a profile",
+        ),
+        (
+            [
+                {"name": "work", "repository": "work", "kind": "profile"},
+                {"name": "acme", "repository": "acme", "kind": "organization", "extends": "work"},
+            ],
+            "Organization acme must require work, the profile it extends",
+        ),
+    ],
+)
+def test_build_rejects_an_invalid_kind(
+    roster_root: Path, plugins: list[dict[str, object]], message: str
+) -> None:
+    write_roster(roster_root, plugins)
+    with pytest.raises(ValueError, match=message):
+        generate.build()
+
+
+@pytest.mark.parametrize("field", ["profile", "generic_profile"])
+def test_build_rejects_the_replaced_profile_fields(roster_root: Path, field: str) -> None:
+    write_roster(roster_root, [{"name": "work", "repository": "work", "kind": "profile", field: True}])
+    with pytest.raises(ValueError, match=rf"Unknown fields in plugin entry: \['{field}'\]"):
+        generate.build()
+
+
+def test_build_requires_every_entry_to_declare_its_kind(roster_root: Path) -> None:
+    roster = {
+        "name": "tj-agents", "description": "Test marketplace", "owner": "Tommy Seery",
+        "plugins": [{"name": "base", "repository": "core", "revision": "a" * 40}],
+    }
+    (roster_root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
+    with pytest.raises(ValueError, match="Plugin kind must be one of shared, profile, organization: base"):
+        generate.build()
+
+
+def test_real_roster_marks_personal_and_work_as_profiles_and_infonetica_as_organization() -> None:
+    roster = json.loads((generate.ROOT / "plugins.json").read_text(encoding="utf-8"))
+    kinds = {plugin["name"]: plugin["kind"] for plugin in roster["plugins"]}
+    assert {name for name, kind in kinds.items() if kind == "profile"} == {"personal", "work"}
+    assert {name for name, kind in kinds.items() if kind == "organization"} == {"infonetica"}
 
 
 if __name__ == "__main__":
