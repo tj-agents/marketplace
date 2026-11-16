@@ -4,6 +4,8 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 
+import pytest
+
 import generate
 
 
@@ -187,6 +189,76 @@ class RealRosterTests(unittest.TestCase):
                 self.assertEqual(entry["source"]["path"], f"./plugins/{entry['name']}")
         self.assertIn("claude", outputs)
         self.assertIn("codex", outputs)
+
+
+def write_roster(root: Path, plugins: list[dict[str, object]]) -> None:
+    roster = {
+        "name": "tj-agents",
+        "description": "Test marketplace",
+        "owner": "Tommy Seery",
+        "plugins": [{"revision": "a" * 40, "profile": "generic", **plugin} for plugin in plugins],
+    }
+    (root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
+
+
+@pytest.fixture
+def roster_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    monkeypatch.setattr(generate, "ROOT", tmp_path)
+    return tmp_path
+
+
+def test_build_accepts_a_specific_profile_extending_and_requiring_a_generic_profile(roster_root: Path) -> None:
+    write_roster(roster_root, [
+        {"name": "work", "repository": "work", "generic_profile": True},
+        {"name": "acme", "repository": "acme", "requires": ["work"], "profile": "specific", "extends": "work"},
+    ])
+    generate.build()
+
+
+@pytest.mark.parametrize(
+    ("plugins", "message"),
+    [
+        (
+            [{"name": "work", "repository": "work", "generic_profile": False}],
+            "generic_profile must be true and only on a generic plugin: work",
+        ),
+        (
+            [
+                {"name": "work", "repository": "work", "generic_profile": True},
+                {"name": "acme", "repository": "acme", "requires": ["work"], "profile": "specific",
+                 "extends": "work", "generic_profile": True},
+            ],
+            "generic_profile must be true and only on a generic plugin: acme",
+        ),
+        (
+            [
+                {"name": "engineering", "repository": "core"},
+                {"name": "acme", "repository": "acme", "requires": ["engineering"], "profile": "specific",
+                 "extends": "engineering"},
+            ],
+            "acme extends engineering, which is not a generic profile",
+        ),
+        (
+            [
+                {"name": "work", "repository": "work", "generic_profile": True},
+                {"name": "acme", "repository": "acme", "profile": "specific", "extends": "work"},
+            ],
+            "acme must require work, the generic profile it extends",
+        ),
+    ],
+)
+def test_build_rejects_an_invalid_profile_role(
+    roster_root: Path, plugins: list[dict[str, object]], message: str
+) -> None:
+    write_roster(roster_root, plugins)
+    with pytest.raises(ValueError, match=message):
+        generate.build()
+
+
+def test_real_roster_marks_exactly_personal_and_work_as_generic_profiles() -> None:
+    roster = json.loads((generate.ROOT / "plugins.json").read_text(encoding="utf-8"))
+    generic_profiles = {plugin["name"] for plugin in roster["plugins"] if plugin.get("generic_profile")}
+    assert generic_profiles == {"personal", "work"}
 
 
 if __name__ == "__main__":

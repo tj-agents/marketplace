@@ -58,6 +58,16 @@ published producer payload. Generation writes it as the native `source.sha`; an 
 uses `source.ref: main`. Marketplace owns these producer pins. Publish and verify the producer payload
 before activating its revision here.
 
+Every entry is labelled `"profile": "generic"` or `"profile": "specific"`. `"generic_profile": true`
+additionally marks the generic profiles, `personal` and `work`; a repository selects at most one. A specific
+entry is always a specific profile: it `extends` one generic profile and lists it in `requires`, so selecting
+it brings that generic profile. Generation rejects any other combination.
+
+```json
+{ "name": "work", "repository": "work", "revision": "...", "profile": "generic", "generic_profile": true },
+{ "name": "example-employer", "repository": "example-employer", "revision": "...", "requires": ["work"], "profile": "specific", "extends": "work" }
+```
+
 Agent and Core each require one revision across every entry from that producer when pinned. Mixing
 pinned and unpinned entries, or two revisions of one producer, is rejected. Update the Agent/Core pair
 in one roster change after both payloads are published. Other producers retain independent entry policy.
