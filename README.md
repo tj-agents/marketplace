@@ -26,7 +26,7 @@ Codex:  codex plugin add cpp@tj-agents
 Available canonical plugins are `base`, `agent-store`, `agent`, `codex`, `cli`, `github`, `workflow`,
 `engineering`, `docs`, `cpp`, `gpp`, `msvc`, `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`,
 `tauri`, `rust-sqlx`, `seaorm`, `python`, `github-actions`, `azure`, `learning`, and
-`template` and its sibling `skill` authoring package, the explicitly adopted `personal` profile, `teams` for Teams messages in any repo, and the employer-scoped `work` and `infonetica` profiles. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
+`template` and its sibling `skill` authoring package, the explicitly adopted `personal` and `work` [profiles](#plugin-kinds), `teams` for Teams messages in any repo, and the `infonetica` organization. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
 `agent`, `cli`, and `workflow` closure. CLI supplies exact-target close utilities;
 Agent supplies session-aware target resolution and coordination.
@@ -58,16 +58,6 @@ published producer payload. Generation writes it as the native `source.sha`; an 
 uses `source.ref: main`. Marketplace owns these producer pins. Publish and verify the producer payload
 before activating its revision here.
 
-Every entry is labelled `"profile": "generic"` or `"profile": "specific"`. `"generic_profile": true`
-additionally marks the generic profiles, `personal` and `work`; a repository selects at most one. A specific
-entry is always a specific profile: it `extends` one generic profile and lists it in `requires`, so selecting
-it brings that generic profile. Generation rejects any other combination.
-
-```json
-{ "name": "work", "repository": "work", "revision": "...", "profile": "generic", "generic_profile": true },
-{ "name": "example-employer", "repository": "example-employer", "revision": "...", "requires": ["work"], "profile": "specific", "extends": "work" }
-```
-
 Agent and Core each require one revision across every entry from that producer when pinned. Mixing
 pinned and unpinned entries, or two revisions of one producer, is rejected. Update the Agent/Core pair
 in one roster change after both payloads are published. Other producers retain independent entry policy.
@@ -86,9 +76,42 @@ for the same plugin. Neither registering this marketplace nor selecting plugins 
 that separately with native host acceptance.
 
 Personal owns GitHub work items; Infonetica owns Azure Boards work items and employer type policy.
-Each profile supplies `work-item`, `create-work-item` and `address-work-item` under its qualified namespace.
+Each supplies `work-item`, `create-work-item` and `address-work-item` under its qualified namespace.
 Agent owns the shared agent execution/session registry; Core owns Engineering workflows. Work supplies employer-neutral
 communication tools. Select the intended profile explicitly; installing Core does not select a tracker.
 
 Skill authoring uses `skill:new` and `skill:update`, both published from `tj-agents/template`.
 Template depends on Skill so selected plugin publishers load the current native-creator authoring workflow.
+
+## Plugin kinds
+
+`plugins.json` is the single authored source for what each plugin is. Every entry declares exactly one
+`kind`; generation rejects an entry without one, any other value and any other role field.
+
+| Kind | What it is | A repository selects | Names an organization |
+| --- | --- | --- | --- |
+| `shared` | A capability any repository may use (`base`, `python`, `github`, ...) | Any number | Never |
+| `profile` | How the repository is worked on: `personal` or `work` | Exactly one | Never |
+| `organization` | One organization's layer on one profile (`infonetica` on `work`) | At most one, with its profile | Yes |
+
+An `organization` entry also declares `"extends": "<profile>"` naming one `profile` entry and lists that
+profile in `requires`, so selecting the organization brings its profile. No other kind uses `extends`.
+Shared plugins and profiles are generic: `check_generic_scope.py` fails CI when a generic repository's pinned
+source names an organization. An organization's repository is private and never fetched.
+
+Generation does not copy `kind` into the host marketplaces. It is consumed by:
+
+| Consumer | Uses `kind` to |
+| --- | --- |
+| `generate.py` | Validate every entry and the organization's `extends` and `requires` |
+| `check_generic_scope.py` | Choose the organization names and the generic repositories to scan |
+| Agent's offline lock, `marketplace_plugins.lock.json` | Carry the roster to Agent; refresh it with Agent's `update_marketplace_plugins.py` after a roster change merges |
+| Agent's selector (`agent:plugins`, adoption, `tj install`) | Refuse more than one profile after `requires` expansion, and refuse `personal` on a repository an installed employer declaration matches |
+
+To add a plugin, publish its producer payload, then add one entry of the right kind and regenerate:
+
+```json
+{ "name": "example-tool", "repository": "example-tool", "revision": "<40-character commit>", "requires": ["base"], "kind": "shared" },
+{ "name": "example-profile", "repository": "example-profile", "revision": "<40-character commit>", "requires": ["engineering"], "kind": "profile" },
+{ "name": "example-employer", "repository": "example-employer", "revision": "<40-character commit>", "requires": ["work"], "kind": "organization", "extends": "work" }
+```
