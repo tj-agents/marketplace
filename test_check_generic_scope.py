@@ -4,23 +4,23 @@ from pathlib import Path
 import check_generic_scope as scope
 
 
-def test_specific_profile_names_returns_only_specific_entries() -> None:
+def test_organization_names_returns_only_organization_entries() -> None:
     plugins = [
-        {"name": "work", "profile": "generic"},
-        {"name": "acme", "profile": "specific", "extends": "work"},
+        {"name": "work", "kind": "profile"},
+        {"name": "acme", "kind": "organization", "extends": "work"},
     ]
 
 
-def test_specific_profile_names_is_empty_when_everything_is_generic() -> None:
-    plugins = [{"name": "base", "profile": "generic"}]
-    assert scope.specific_profile_names(plugins) == []
+def test_organization_names_is_empty_without_an_organization() -> None:
+    plugins = [{"name": "base", "kind": "shared"}, {"name": "work", "kind": "profile"}]
+    assert scope.organization_names(plugins) == []
 
 
-def test_generic_repositories_excludes_a_repository_with_any_specific_entry() -> None:
+def test_generic_repositories_excludes_a_repository_with_any_organization() -> None:
     plugins = [
         {
             "revision": "a" * 40,
-            "profile": "specific",
+            "kind": "organization",
         },
     ]
     assert scope.generic_repositories(plugins) == {}
@@ -32,22 +32,22 @@ def test_generic_repositories_groups_a_shared_repository_once() -> None:
             "name": "base",
             "repository": "core",
             "revision": "a" * 40,
-            "profile": "generic",
+            "kind": "shared",
         },
         {
             "name": "workflow",
             "repository": "core",
             "revision": "a" * 40,
-            "profile": "generic",
+            "kind": "shared",
         },
         {
-            "name": "cli",
-            "repository": "cli",
+            "name": "work",
+            "repository": "work",
             "revision": "b" * 40,
-            "profile": "generic",
+            "kind": "profile",
         },
     ]
-    assert scope.generic_repositories(plugins) == {"core": "a" * 40, "cli": "b" * 40}
+    assert scope.generic_repositories(plugins) == {"core": "a" * 40, "work": "b" * 40}
 
 
 def test_marketplace_source_id_reads_the_remote_origin_path(tmp_path: Path) -> None:
