@@ -50,7 +50,7 @@ def build() -> dict[str, bytes]:
     for plugin in plugins:
         if not isinstance(plugin, dict):
             raise ValueError(f"Plugin entries must be objects: {plugin!r}")
-        unknown = set(plugin) - {"name", "repository", "requires", "revision", "profile", "extends"}
+        unknown = set(plugin) - {"name", "repository", "requires", "revision", "profile", "extends", "generic_profile"}
         if unknown:
             raise ValueError(f"Unknown fields in plugin entry: {sorted(unknown)}")
         if "name" not in plugin or "repository" not in plugin or "revision" not in plugin:
@@ -72,14 +72,18 @@ def build() -> dict[str, bytes]:
         if profile not in PROFILES:
             raise ValueError(f"Plugin profile must be 'generic' or 'specific': {name}")
         extends = plugin.get("extends")
+        if "generic_profile" in plugin and (plugin["generic_profile"] is not True or profile != "generic"):
+            raise ValueError(f"generic_profile must be true and only on a generic plugin: {name}")
         if profile == "generic":
             if extends is not None:
                 raise ValueError(f"A generic profile cannot use extends: {name}")
         else:
             if not isinstance(extends, str) or extends not in by_name:
                 raise ValueError(f"A specific profile must extend a known plugin: {name}")
-            if by_name[extends]["profile"] != "generic":
+            if by_name[extends].get("generic_profile") is not True:
                 raise ValueError(f"{name} extends {extends}, which is not a generic profile")
+            if extends not in plugin.get("requires", []):
+                raise ValueError(f"{name} must require {extends}, the generic profile it extends")
     for repository in sorted({plugin["repository"] for plugin in plugins}):
         if len({plugin["revision"] for plugin in plugins if plugin["repository"] == repository}) != 1:
             raise ValueError(f"Every {repository} entry must use the same immutable revision")
