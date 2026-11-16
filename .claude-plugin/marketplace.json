@@ -342,7 +342,8 @@
       "dependencies": [
         "engineering",
         "agent",
-        "docs"
+        "docs",
+        "github"
       ]
     },
     {

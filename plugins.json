@@ -30,7 +30,7 @@
     { "name": "template", "repository": "template", "revision": "b3c238edcef24362b9f4a3b74e150bda32bce7c2", "requires": ["engineering", "skill"], "kind": "shared" },
     { "name": "skill", "repository": "template", "revision": "b3c238edcef24362b9f4a3b74e150bda32bce7c2", "requires": ["engineering"], "kind": "shared" },
     { "name": "learning", "repository": "learning", "revision": "e794c1a187069cc6facf28c87fd29e7683695092", "requires": ["base"], "kind": "shared" },
-    { "name": "personal", "repository": "personal", "revision": "31b19b5791b77358791604992d0580f2bd1c324a", "requires": ["engineering", "agent", "docs"], "kind": "profile" },
+    { "name": "personal", "repository": "personal", "revision": "31b19b5791b77358791604992d0580f2bd1c324a", "requires": ["engineering", "agent", "docs", "github"], "kind": "profile" },
     { "name": "teams", "repository": "work", "revision": "a1c667ff8c8e16ed2decb05c52c4a45169c68b73", "kind": "shared" },
     { "name": "work", "repository": "work", "revision": "a1c667ff8c8e16ed2decb05c52c4a45169c68b73", "requires": ["engineering", "teams"], "kind": "profile" },
   ]

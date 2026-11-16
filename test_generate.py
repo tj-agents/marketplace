@@ -169,7 +169,7 @@ class RealRosterTests(unittest.TestCase):
             "rust": ["engineering"], "tauri": ["rust"], "rust-sqlx": ["rust"], "seaorm": ["rust"], "python": ["engineering"], "github": ["base"], "github-actions": ["engineering"],
             "azure": ["engineering"], "template": ["engineering", "skill"], "skill": ["engineering"],
             "learning": ["base"],
-            "personal": ["engineering", "agent", "docs"], "work": ["engineering", "teams"],
+            "personal": ["engineering", "agent", "docs", "github"], "work": ["engineering", "teams"],
         }
         expected_names = {
             "base", "agent-store", "agent", "codex", "cli", "workflow", "engineering", "docs", "cpp", "gpp", "msvc", "win32",
