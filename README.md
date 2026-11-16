@@ -60,6 +60,9 @@ Agent and Core each require one revision across every entry from that producer w
 pinned and unpinned entries, or two revisions of one producer, is rejected. Update the Agent/Core pair
 in one roster change after both payloads are published. Other producers retain independent entry policy.
 
+Renovate groups Core, Agent and CLI pins together for runtime delivery. Updates from other producers
+use a separate group, so their failing checks leave runtime updates able to publish independently.
+
 When adding a package, publish its producer payload and roster entry before activating repository selections.
 Keep the complete selection changes in a dependent delivery slice, then verify native admission and
 the selected packages after publication.
