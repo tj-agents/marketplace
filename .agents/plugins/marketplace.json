@@ -10,7 +10,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/base",
-        "sha": "3a742213a2582ad5c19e218ddbf90fbc8b5aef7a"
+        "sha": "f232c778ea8ab4f932d54db1986c78c4c6d5776b"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -80,7 +80,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/workflow",
-        "sha": "3a742213a2582ad5c19e218ddbf90fbc8b5aef7a"
+        "sha": "f232c778ea8ab4f932d54db1986c78c4c6d5776b"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -94,7 +94,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/engineering",
-        "sha": "3a742213a2582ad5c19e218ddbf90fbc8b5aef7a"
+        "sha": "f232c778ea8ab4f932d54db1986c78c4c6d5776b"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -108,7 +108,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/core.git",
         "path": "./plugins/docs",
-        "sha": "3a742213a2582ad5c19e218ddbf90fbc8b5aef7a"
+        "sha": "f232c778ea8ab4f932d54db1986c78c4c6d5776b"
       },
       "policy": {
         "installation": "AVAILABLE",
