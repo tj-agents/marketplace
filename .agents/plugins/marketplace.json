@@ -122,7 +122,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/cpp",
-        "sha": "a3f6887174137172fb775add028b86893ef67f75"
+        "sha": "e414efd3a707e7feb315e2da15e32ed8666db134"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -136,7 +136,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/gpp",
-        "sha": "a3f6887174137172fb775add028b86893ef67f75"
+        "sha": "e414efd3a707e7feb315e2da15e32ed8666db134"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -150,7 +150,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/msvc",
-        "sha": "a3f6887174137172fb775add028b86893ef67f75"
+        "sha": "e414efd3a707e7feb315e2da15e32ed8666db134"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -164,7 +164,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cpp.git",
         "path": "./plugins/win32",
-        "sha": "a3f6887174137172fb775add028b86893ef67f75"
+        "sha": "e414efd3a707e7feb315e2da15e32ed8666db134"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -178,7 +178,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/dotnet.git",
         "path": "./plugins/dotnet",
-        "sha": "06003e6791cbb4e48ba39e9502b3ccdc4086be8b"
+        "sha": "98df7af02f2d1995c3d83fa965cf7bf3a0c1b34e"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -192,7 +192,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/dotnet.git",
         "path": "./plugins/efcore",
-        "sha": "06003e6791cbb4e48ba39e9502b3ccdc4086be8b"
+        "sha": "98df7af02f2d1995c3d83fa965cf7bf3a0c1b34e"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -206,7 +206,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/react.git",
         "path": "./plugins/react",
-        "sha": "31566319cda2e8e23ad273404782685de2ee658b"
+        "sha": "fa663bc7a8f5d8e1fe5c23b137ec71b4232c1596"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -220,7 +220,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/nvim.git",
         "path": "./plugins/nvim",
-        "sha": "569a38353b65f15bb4fffaf8c857f8e30dcde25a"
+        "sha": "8220c5d9eea478770137ab17daef2cd18f9dd2bd"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -234,7 +234,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/rust",
-        "sha": "a45830945bedb0fba1ea5558682aad3873f5477b"
+        "sha": "934d56f5f636c7850ae60ae1a6e4d918ce12aff4"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -248,7 +248,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/tauri",
-        "sha": "a45830945bedb0fba1ea5558682aad3873f5477b"
+        "sha": "934d56f5f636c7850ae60ae1a6e4d918ce12aff4"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -262,7 +262,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/rust-sqlx",
-        "sha": "a45830945bedb0fba1ea5558682aad3873f5477b"
+        "sha": "934d56f5f636c7850ae60ae1a6e4d918ce12aff4"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -276,7 +276,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/seaorm",
-        "sha": "a45830945bedb0fba1ea5558682aad3873f5477b"
+        "sha": "934d56f5f636c7850ae60ae1a6e4d918ce12aff4"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -290,7 +290,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/python.git",
         "path": "./plugins/python",
-        "sha": "8b9af49d583d0d4fbe9b89521de36f21a752924b"
+        "sha": "86bde0f188b3c164a16fa507740bf78208deed06"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -304,7 +304,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/github.git",
         "path": "./plugins/github",
-        "sha": "1cea58564c75481354beb266597cfa60c3871c4b"
+        "sha": "253280097e9d1ba707d9853af6d5724adad90129"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -318,7 +318,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/github-actions.git",
         "path": "./plugins/github-actions",
-        "sha": "a95a57daa8ddf154456e1c822cd34a11e08af118"
+        "sha": "676bf0e7d9ab41bf4d1f07deec481558904de473"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -332,7 +332,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/azure.git",
         "path": "./plugins/azure",
-        "sha": "f36d5d911fb009ddf4856c75fffcc91b52c99bce"
+        "sha": "12207b52c47a1584611143565685a3436da5b014"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -346,7 +346,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/template.git",
         "path": "./plugins/template",
-        "sha": "b3c238edcef24362b9f4a3b74e150bda32bce7c2"
+        "sha": "e15d31b799279e945392efc629f5b896d316f10d"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -360,7 +360,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/template.git",
         "path": "./plugins/skill",
-        "sha": "b3c238edcef24362b9f4a3b74e150bda32bce7c2"
+        "sha": "e15d31b799279e945392efc629f5b896d316f10d"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -374,7 +374,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/learning.git",
         "path": "./plugins/learning",
-        "sha": "e794c1a187069cc6facf28c87fd29e7683695092"
+        "sha": "0558ee4e1267c6342c2ed2864fbc044b69c95c1b"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -388,7 +388,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/personal.git",
         "path": "./plugins/personal",
-        "sha": "31b19b5791b77358791604992d0580f2bd1c324a"
+        "sha": "905839478b582be55adb783ad8c596b5e4767c29"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -402,7 +402,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/work.git",
         "path": "./plugins/teams",
-        "sha": "a1c667ff8c8e16ed2decb05c52c4a45169c68b73"
+        "sha": "620e9bf9003c84afccf87c662f788074f7279ea6"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -416,7 +416,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/work.git",
         "path": "./plugins/work",
-        "sha": "a1c667ff8c8e16ed2decb05c52c4a45169c68b73"
+        "sha": "620e9bf9003c84afccf87c662f788074f7279ea6"
       },
       "policy": {
         "installation": "AVAILABLE",
