@@ -53,9 +53,9 @@ python -B generate.py --check
 claude plugin validate .
 ```
 
-Each roster entry optionally declares `revision`, the full lowercase 40-character commit ID of a
-published producer payload. Generation writes it as the native `source.sha`; an entry without a revision
-uses `source.ref: main`. Marketplace owns these producer pins. Publish and verify the producer payload
+Each roster entry declares `revision`, the full lowercase 40-character commit ID of a
+published producer payload. Generation writes it as the native `source.sha` and rejects unpinned entries.
+Marketplace owns these producer pins. Publish and verify the producer payload
 before activating its revision here.
 
 Agent and Core each require one revision across every entry from that producer when pinned. Mixing
