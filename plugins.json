@@ -24,7 +24,7 @@
     { "name": "rust-sqlx", "repository": "rust", "revision": "934d56f5f636c7850ae60ae1a6e4d918ce12aff4", "requires": ["rust"], "kind": "shared" },
     { "name": "seaorm", "repository": "rust", "revision": "934d56f5f636c7850ae60ae1a6e4d918ce12aff4", "requires": ["rust"], "kind": "shared" },
     { "name": "python", "repository": "python", "revision": "e07d5d7e22971e67996aab531da5315e28836cb2", "requires": ["engineering"], "kind": "shared" },
-    { "name": "github", "repository": "github", "revision": "6ab647562da72e2bc843b78fcaac84345d0fda9e", "requires": ["base"], "kind": "shared" },
+    { "name": "github", "repository": "github", "revision": "fd5c15aa43bf5ebfaf45f6fb200df907a687cab1", "requires": ["base"], "kind": "shared" },
     { "name": "github-actions", "repository": "github-actions", "revision": "d5bc4000358ce56fae6d120cf7b0333a9969c772", "requires": ["engineering"], "kind": "shared" },
     { "name": "azure", "repository": "azure", "revision": "a8c9ede52d803abbe7660e925843fbda7d75be70", "requires": ["engineering"], "kind": "shared" },
     { "name": "template", "repository": "template", "revision": "e15d31b799279e945392efc629f5b896d316f10d", "requires": ["engineering", "skill"], "kind": "shared" },
