@@ -22,7 +22,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.parse import urlparse
 
-from generate import Kind
+from generate_marketplaces import Kind
 
 ROOT = Path(__file__).resolve().parent
 HISTORY_DIRS = {"plans", "reviews", "plugins"}
