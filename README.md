@@ -99,15 +99,13 @@ Template depends on Skill so selected plugin publishers load the current native-
 
 An `organization` entry also declares `"extends": "<profile>"` naming one `profile` entry and lists that
 profile in `requires`, so selecting the organization brings its profile. No other kind uses `extends`.
-Shared plugins and profiles are generic: `check_generic_scope.py` fails CI when a generic repository's pinned
-source names an organization. An organization's repository is private and never fetched.
+Shared plugins and profiles are generic and name no organization. An organization's repository is private.
 
 Generation does not copy `kind` into the host marketplaces. It is consumed by:
 
 | Consumer | Uses `kind` to |
 | --- | --- |
 | `generate.py` | Validate every entry and the organization's `extends` and `requires` |
-| `check_generic_scope.py` | Choose the organization names and the generic repositories to scan |
 | Agent's offline lock, `marketplace_plugins.lock.json` | Carry the roster to Agent; refresh it with Agent's `update_marketplace_plugins.py` after a roster change merges |
 | Agent's selector (`agent:plugins`, adoption, `tj install`) | Refuse more than one profile after `requires` expansion, and refuse `personal` on a repository an installed employer declaration matches |
 
