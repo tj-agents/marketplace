@@ -3,7 +3,11 @@ from pathlib import Path
 
 import pytest
 
-import generate
+import generate_marketplaces as generate
+
+
+def no_dependencies(repository, revision, names):
+    return {name: [] for name in names}
 
 
 def roster(
@@ -34,7 +38,7 @@ def test_immutable_revision_uses_native_sha_for_both_hosts(
             {"name": "base", "repository": "core", "revision": "c" * 40},
         ],
     )
-    for output in generate.build().values():
+    for output in generate.build(no_dependencies).values():
         entries = json.loads(output)["plugins"]
         assert entries[0]["source"]["sha"] == "a" * 40
         assert entries[1]["source"]["sha"] == "c" * 40
@@ -54,7 +58,7 @@ def test_mixed_producer_pins_are_rejected(
         ],
     )
     with pytest.raises(ValueError, match="same immutable revision"):
-        generate.build()
+        generate.build(no_dependencies)
 
 
 def test_an_unpinned_entry_is_rejected(
@@ -69,7 +73,7 @@ def test_an_unpinned_entry_is_rejected(
         ],
     )
     with pytest.raises(ValueError, match="require name, repository and revision"):
-        generate.build()
+        generate.build(no_dependencies)
 
 
 @pytest.mark.parametrize("revision", ["main", "a" * 39, "A" * 40, 42, None, [], {}])
@@ -82,5 +86,5 @@ def test_invalid_revision_is_rejected(
         [{"name": "other", "repository": "other", "revision": revision}],
     )
     with pytest.raises(ValueError, match="Invalid immutable"):
-        generate.build()
+        generate.build(no_dependencies)
 
