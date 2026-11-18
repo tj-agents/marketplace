@@ -76,6 +76,7 @@ uninstall the old copy before enabling its `@tj-agents` copy. Do not enable both
 for the same plugin. Neither registering this marketplace nor selecting plugins proves that hooks are active; verify
 that separately with native host acceptance.
 
+Personal owns GitHub work items; the `company` organization owns Azure Boards work items and employer type policy.
 Each supplies `work-item`, `create-work-item` and `address-work-item` under its qualified namespace.
 Agent owns the shared agent execution/session registry; Core owns Engineering workflows. Work supplies employer-neutral
 communication tools. Select the intended profile explicitly; installing Core does not select a tracker.
