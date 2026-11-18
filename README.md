@@ -3,7 +3,7 @@
 One shared plugin roster, projected into one package format both Claude Code and Codex read, for the
 current plugins published from `tj-agents/core`, `agent`, `cli`, `github`, `cpp`, `dotnet`, `react`,
 `nvim`, `rust`, `python`, `github-actions`, `azure`, `learning`, `template`, `personal`, `work`, and
-`infonetica`. Packages stay in their source repositories; this repository never authors plugin content
+`company`. Packages stay in their source repositories; this repository never authors plugin content
 itself. Adding another repository requires one entry in `plugins.json`; `generate.py` produces the
 matching Claude and Codex marketplaces. Core launch refresh updates selected plugin content from these
 source repositories.
@@ -26,7 +26,7 @@ Codex:  codex plugin add cpp@tj-agents
 Available canonical plugins are `base`, `agent-store`, `agent`, `codex`, `cli`, `github`, `workflow`,
 `engineering`, `docs`, `cpp`, `gpp`, `msvc`, `win32`, `dotnet`, `efcore`, `react`, `nvim`, `rust`,
 `tauri`, `rust-sqlx`, `seaorm`, `python`, `github-actions`, `azure`, `learning`, and
-`template` and its sibling `skill` authoring package, the explicitly adopted `personal` and `work` [profiles](#plugin-kinds), `teams` for Teams messages in any repo, and the `infonetica` organization. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
+`template` and its sibling `skill` authoring package, the explicitly adopted `personal` and `work` [profiles](#plugin-kinds), `teams` for Teams messages in any repo, and the `company` organization. Select `cpp` plus one toolchain (`gpp` or `msvc`) and
 optionally `win32` for C++ work. For generic sustained tasks, select the `base`, `agent-store`,
 `agent`, `cli`, and `workflow` closure. CLI supplies exact-target close utilities;
 Agent supplies session-aware target resolution and coordination.
@@ -78,7 +78,7 @@ uninstall the old copy before enabling its `@tj-agents` copy. Do not enable both
 for the same plugin. Neither registering this marketplace nor selecting plugins proves that hooks are active; verify
 that separately with native host acceptance.
 
-Personal owns GitHub work items; Infonetica owns Azure Boards work items and employer type policy.
+Personal owns GitHub work items; the `company` organization owns Azure Boards work items and employer type policy.
 Each supplies `work-item`, `create-work-item` and `address-work-item` under its qualified namespace.
 Agent owns the shared agent execution/session registry; Core owns Engineering workflows. Work supplies employer-neutral
 communication tools. Select the intended profile explicitly; installing Core does not select a tracker.
@@ -95,7 +95,7 @@ Template depends on Skill so selected plugin publishers load the current native-
 | --- | --- | --- | --- |
 | `shared` | A capability any repository may use (`base`, `python`, `github`, ...) | Any number | Never |
 | `profile` | How the repository is worked on: `personal` or `work` | Exactly one | Never |
-| `organization` | One organization's layer on one profile (`infonetica` on `work`) | At most one, with its profile | Yes |
+| `organization` | One organization's layer on one profile (`company` on `work`) | At most one, with its profile | Yes |
 
 An `organization` entry also declares `"extends": "<profile>"` naming one `profile` entry and lists that
 profile in `requires`, so selecting the organization brings its profile. No other kind uses `extends`.

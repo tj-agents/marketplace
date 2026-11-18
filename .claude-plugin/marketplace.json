@@ -369,11 +369,11 @@
       ]
     },
     {
-      "name": "infonetica",
+      "name": "company",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/tj-agents/infonetica.git",
-        "path": "./plugins/infonetica",
+        "url": "https://github.com/tj-agents/company.git",
+        "path": "./plugins/company",
         "sha": "8aef39ff3a225da3c658ba98d944ff6b10cd4058"
       },
       "dependencies": [
