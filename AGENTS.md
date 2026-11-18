@@ -4,15 +4,16 @@
 Every entry pins a `revision`. Renovate owns routine pin maintenance. For an explicitly authorized
 producer cutover, publish its verified immutable revisions in one coordinated PR after producer CI and
 payload publication pass. Use the existing generator for both host marketplaces.
-It owns plugin identities, source repositories and dependency edges for `tj-agents`; Agent
+It owns plugin identities and source repositories for `tj-agents`; each plugin's own
+`.claude-plugin/plugin.json` owns its dependency edges, read at the pinned revision; Agent
 generates its pinned offline selector snapshot from this roster and owns curated stack choices
 and project settings projection. Never maintain another authored plugin roster in a consumer.
-Run `python -B generate.py` after roster changes and `python -B generate.py --check` plus
+Run `python -B generate_marketplaces.py` after roster changes and `python -B generate_marketplaces.py --check` plus
 `claude plugin validate .` before delivery. Packages remain authored in their source repositories and projected into host marketplaces.
 Project selections use the shared marketplace explicitly.
 
 Every roster entry declares one `kind`: `shared`, `profile` or `organization`. An organization also
-`extends` exactly one profile and lists it in `requires`. Express a plugin's role only through `kind`; never
+`extends` exactly one profile, and its manifest depends on it. Express a plugin's role only through `kind`; never
 add a boolean or second label for it. Shared and profile repositories name no organization. The model, its
 consumers and an example of each kind live in [README.md](README.md#plugin-kinds); a change to the model
 updates that section, Agent's selector and Docs' `PLUGINS.md` together, and Agent's offline lock is refreshed

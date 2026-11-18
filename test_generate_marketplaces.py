@@ -6,7 +6,29 @@ from unittest.mock import patch
 
 import pytest
 
-import generate
+import generate_marketplaces as generate
+
+DECLARED: dict[str, list[str]] = {}
+
+
+def declared_reader(repository, revision, names):
+    return {name: DECLARED.get(name, []) for name in names}
+
+
+def declare(plugins):
+    DECLARED.clear()
+    entries = []
+    for plugin in plugins:
+        plugin = dict(plugin)
+        DECLARED[plugin["name"]] = plugin.pop("requires", [])
+        entries.append(plugin)
+    return entries
+
+
+def committed_reader(repository, revision, names):
+    catalog = json.loads((generate.OUTPUTS["claude"]).read_text(encoding="utf-8"))
+    entries = {entry["name"]: entry.get("dependencies", []) for entry in catalog["plugins"]}
+    return {name: entries[name] for name in names}
 
 
 class RootFixtureTests(unittest.TestCase):
@@ -48,7 +70,7 @@ class PluginsFixtureTests(RootFixtureTests):
             "name": "tj-agents",
             "description": "Test marketplace",
             "owner": "Tommy Seery",
-            "plugins": [{"revision": "a" * 40, "kind": "shared", **plugin} for plugin in plugins],
+            "plugins": [{"revision": "a" * 40, "kind": "shared", **plugin} for plugin in declare(plugins)],
         }
         (self.root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
 
@@ -60,27 +82,43 @@ class ValidationErrorTests(PluginsFixtureTests):
             {"name": "base", "repository": "other"},
         ])
         with self.assertRaisesRegex(ValueError, "Duplicate plugin: base"):
-            generate.build()
+            generate.build(declared_reader)
 
     def test_legacy_release_fields_are_rejected(self):
         for field, value in (("release", "pkg@1.2.3"), ("commit", "a" * 40), ("version", "1.2.3")):
             with self.subTest(field=field, value=value):
                 self.write_plugins_file([{"name": "base", "repository": "core", field: value}])
                 with self.assertRaisesRegex(ValueError, f"Unknown fields in plugin entry.*{field}"):
-                    generate.build()
+                    generate.build(declared_reader)
 
-    def test_unknown_requires_name_fails(self):
+    def test_unknown_dependency_fails(self):
         self.write_plugins_file([{"name": "engineering", "repository": "core", "requires": ["base"]}])
-        with self.assertRaisesRegex(ValueError, "Unknown required plugin"):
-            generate.build()
+        with self.assertRaisesRegex(ValueError, "engineering depends on 'base', which is not in the roster"):
+            generate.build(declared_reader)
 
-    def test_requires_must_be_a_list(self):
+    def test_hand_written_requires_is_rejected(self):
+        roster = {"name": "tj-agents", "description": "Test marketplace", "owner": "Tommy Seery", "plugins": [
+            {"name": "base", "repository": "core", "revision": "a" * 40, "kind": "shared", "requires": []}]}
+        (self.root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Unknown fields in plugin entry.*requires"):
+            generate.build(declared_reader)
+
+    def test_each_pinned_revision_is_read_once_for_all_its_plugins(self):
         self.write_plugins_file([
             {"name": "base", "repository": "core"},
-            {"name": "engineering", "repository": "core", "requires": "base"},
+            {"name": "engineering", "repository": "core", "requires": ["base"]},
+            {"name": "cli", "repository": "cli", "requires": ["base"]},
         ])
-        with self.assertRaisesRegex(ValueError, "requires must be a list"):
-            generate.build()
+        calls = []
+
+        def reader(repository, revision, names):
+            calls.append((repository, revision, sorted(names)))
+            return declared_reader(repository, revision, names)
+
+        generate.build(reader)
+        self.assertEqual(
+            sorted([("cli", "a" * 40, ["cli"]), ("core", "a" * 40, ["base", "engineering"])]), sorted(calls)
+        )
 
     def test_external_runtime_does_not_inherit_engineering_from_its_repository(self):
         self.write_plugins_file([
@@ -88,7 +126,7 @@ class ValidationErrorTests(PluginsFixtureTests):
             {"name": "engineering", "repository": "core", "requires": ["base"]},
             {"name": "cli", "repository": "cli", "requires": ["base"]},
         ])
-        outputs = generate.build()
+        outputs = generate.build(declared_reader)
         entries = {entry["name"]: entry for entry in json.loads(outputs["claude"])["plugins"]}
         self.assertEqual(["base"], entries["cli"]["dependencies"])
 
@@ -98,15 +136,15 @@ class ValidationErrorTests(PluginsFixtureTests):
             {"name": "dotnet", "repository": "dotnet", "requires": ["engineering"]},
             {"name": "efcore", "repository": "dotnet", "requires": ["dotnet"]},
         ])
-        generate.build()
+        generate.build(declared_reader)
 
-    def test_requires_cycle_fails(self):
+    def test_dependency_cycle_fails(self):
         self.write_plugins_file([
             {"name": "base", "repository": "core", "requires": ["workflow"]},
             {"name": "workflow", "repository": "core", "requires": ["base"]},
         ])
         with self.assertRaisesRegex(ValueError, "form a cycle"):
-            generate.build()
+            generate.build(declared_reader)
 
 
 class OutputShapeTests(PluginsFixtureTests):
@@ -117,7 +155,7 @@ class OutputShapeTests(PluginsFixtureTests):
             {"name": "engineering", "repository": "core", "requires": ["base"]},
             {"name": "nvim", "repository": "nvim", "requires": ["engineering"]},
         ])
-        self.outputs = generate.build()
+        self.outputs = generate.build(declared_reader)
         self.claude = json.loads(self.outputs["claude"])
         self.codex = json.loads(self.outputs["codex"])
 
@@ -135,7 +173,7 @@ class OutputShapeTests(PluginsFixtureTests):
         for entry in self.claude["plugins"]:
             self.assertNotIn("policy", entry)
 
-    def test_claude_entries_declare_requires_as_dependencies(self):
+    def test_claude_entries_declare_manifest_dependencies(self):
         dependencies = {entry["name"]: entry.get("dependencies") for entry in self.claude["plugins"]}
         self.assertEqual({"base": None, "engineering": ["base"], "nvim": ["engineering"]}, dependencies)
 
@@ -148,45 +186,37 @@ class OutputShapeTests(PluginsFixtureTests):
         self.assertEqual(self.codex["name"], "tj-agents")
 
     def test_emission_is_byte_stable(self):
-        self.assertEqual(generate.build(), self.outputs)
+        self.assertEqual(generate.build(declared_reader), self.outputs)
+
+
+class ManifestDependencyTests(unittest.TestCase):
+    def test_bare_and_marketplace_qualified_dependencies_are_names(self):
+        document = {"name": "work", "dependencies": ["base@tj-agents", "teams"]}
+        self.assertEqual(["base", "teams"], generate.manifest_dependency_names(document, "work", "work"))
+
+    def test_a_manifest_without_dependencies_has_none(self):
+        self.assertEqual([], generate.manifest_dependency_names({"name": "docs"}, "docs", "core"))
+
+    def test_a_dependency_from_another_marketplace_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "outside the tj-agents marketplace"):
+            generate.manifest_dependency_names({"name": "work", "dependencies": ["x@other"]}, "work", "work")
+
+    def test_a_manifest_for_another_plugin_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "must name work"):
+            generate.manifest_dependency_names({"name": "teams"}, "work", "work")
 
 
 class RealRosterTests(unittest.TestCase):
-    def test_build_succeeds_on_the_real_roster(self):
-        outputs = generate.build()
+    def test_build_reproduces_the_committed_catalogs_from_the_real_roster(self):
+        outputs = generate.build(committed_reader)
+        for host, path in generate.OUTPUTS.items():
+            self.assertEqual(path.read_bytes(), outputs[host])
         roster = json.loads((generate.ROOT / "plugins.json").read_text(encoding="utf-8"))
-        plugins = roster["plugins"]
-        expected_requires = {
-            "agent-store": ["base"],
-            "agent": ["base", "agent-store", "cli"],
-            "codex": ["agent"],
-            "cli": ["base"],
-            "workflow": ["base", "agent-store", "agent"],
-            "engineering": ["base", "workflow", "agent-store", "agent"],
-            "gpp": ["cpp"],
-            "msvc": ["cpp"], "win32": ["cpp"], "efcore": ["dotnet"],
-            "cpp": ["engineering"], "dotnet": ["engineering"], "react": ["engineering"], "nvim": ["engineering"],
-            "rust": ["engineering"], "tauri": ["rust"], "rust-sqlx": ["rust"], "seaorm": ["rust"], "python": ["engineering"], "github": ["base"], "github-actions": ["engineering"],
-            "azure": ["engineering"], "template": ["engineering", "skill"], "skill": ["engineering"],
-            "learning": ["base"],
-            "personal": ["engineering", "agent", "docs", "github"], "work": ["engineering", "teams"],
-        }
-        expected_names = {
-            "base", "agent-store", "agent", "codex", "cli", "workflow", "engineering", "docs", "cpp", "gpp", "msvc", "win32",
-            "dotnet", "efcore", "react", "nvim", "rust", "python", "github", "github-actions", "azure",
-        }
-        by_name = {plugin["name"]: plugin for plugin in plugins}
-        self.assertEqual(expected_names, set(by_name))
-        self.assertEqual(expected_requires, {name: plugin["requires"] for name, plugin in by_name.items() if "requires" in plugin})
+        by_name = {plugin["name"]: plugin for plugin in roster["plugins"]}
         for output in outputs.values():
-            manifest = json.loads(output)
-            self.assertEqual({entry["name"] for entry in manifest["plugins"]}, expected_names)
-            for entry in manifest["plugins"]:
+            for entry in json.loads(output)["plugins"]:
                 self.assertEqual(entry["source"]["sha"], by_name[entry["name"]]["revision"])
-                self.assertNotIn("ref", entry["source"])
                 self.assertEqual(entry["source"]["path"], f"./plugins/{entry['name']}")
-        self.assertIn("claude", outputs)
-        self.assertIn("codex", outputs)
 
 
 def write_roster(root: Path, plugins: list[dict[str, object]]) -> None:
@@ -194,7 +224,7 @@ def write_roster(root: Path, plugins: list[dict[str, object]]) -> None:
         "name": "tj-agents",
         "description": "Test marketplace",
         "owner": "Tommy Seery",
-        "plugins": [{"revision": "a" * 40, "kind": "shared", **plugin} for plugin in plugins],
+        "plugins": [{"revision": "a" * 40, "kind": "shared", **plugin} for plugin in declare(plugins)],
     }
     (root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
 
@@ -210,7 +240,7 @@ def test_build_accepts_an_organization_extending_and_requiring_a_profile(roster_
         {"name": "work", "repository": "work", "kind": "profile"},
         {"name": "acme", "repository": "acme", "requires": ["work"], "kind": "organization", "extends": "work"},
     ])
-    generate.build()
+    generate.build(declared_reader)
 
 
 @pytest.mark.parametrize(
@@ -248,7 +278,7 @@ def test_build_accepts_an_organization_extending_and_requiring_a_profile(roster_
                 {"name": "work", "repository": "work", "kind": "profile"},
                 {"name": "acme", "repository": "acme", "kind": "organization", "extends": "work"},
             ],
-            "Organization acme must require work, the profile it extends",
+            "Organization acme must depend on work, the profile it extends",
         ),
     ],
 )
@@ -257,14 +287,14 @@ def test_build_rejects_an_invalid_kind(
 ) -> None:
     write_roster(roster_root, plugins)
     with pytest.raises(ValueError, match=message):
-        generate.build()
+        generate.build(declared_reader)
 
 
 @pytest.mark.parametrize("field", ["profile", "generic_profile"])
 def test_build_rejects_the_replaced_profile_fields(roster_root: Path, field: str) -> None:
     write_roster(roster_root, [{"name": "work", "repository": "work", "kind": "profile", field: True}])
     with pytest.raises(ValueError, match=rf"Unknown fields in plugin entry: \['{field}'\]"):
-        generate.build()
+        generate.build(declared_reader)
 
 
 def test_build_requires_every_entry_to_declare_its_kind(roster_root: Path) -> None:
@@ -274,7 +304,7 @@ def test_build_requires_every_entry_to_declare_its_kind(roster_root: Path) -> No
     }
     (roster_root / "plugins.json").write_text(json.dumps(roster), encoding="utf-8")
     with pytest.raises(ValueError, match="Plugin kind must be one of shared, profile, organization: base"):
-        generate.build()
+        generate.build(declared_reader)
 
 
     roster = json.loads((generate.ROOT / "plugins.json").read_text(encoding="utf-8"))

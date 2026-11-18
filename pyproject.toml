@@ -43,12 +43,12 @@ addopts = ["--import-mode=importlib", "--disable-socket", "-ra"]
 filterwarnings = ["error"]
 
 [tool.ruff.lint.per-file-ignores]
-"test_generate.py" = ["E501", "I001", "PT009", "TID251"]
-"generate.py" = ["E501", "I001"]
+"test_generate_marketplaces.py" = ["E501", "I001", "PT009", "TID251"]
+"generate_marketplaces.py" = ["E501", "I001"]
 
 [tool.ruff.format]
-exclude = ["generate.py", "test_generate.py", "test_pins.py"]
+exclude = ["generate_marketplaces.py", "test_generate_marketplaces.py", "test_pins.py"]
 
 [[tool.mypy.overrides]]
-module = "test_generate"
+module = "test_generate_marketplaces"
 disable_error_code = ["no-untyped-call", "no-untyped-def"]
