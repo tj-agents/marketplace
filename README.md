@@ -76,6 +76,7 @@ uninstall the old copy before enabling its `@tj-agents` copy. Do not enable both
 for the same plugin. Neither registering this marketplace nor selecting plugins proves that hooks are active; verify
 that separately with native host acceptance.
 
+Personal owns GitHub work items; the `company` organization owns Azure Boards work items and employer type policy.
 Each supplies `work-item`, `create-work-item` and `address-work-item` under its qualified namespace.
 Agent owns the shared agent execution/session registry; Core owns Engineering workflows. Work supplies employer-neutral
 communication tools. Select the intended profile explicitly; installing Core does not select a tracker.
@@ -95,15 +96,13 @@ Template depends on Skill so selected plugin publishers load the current native-
 
 An `organization` entry also declares `"extends": "<profile>"` naming one `profile` entry and lists that
 profile in `requires`, so selecting the organization brings its profile. No other kind uses `extends`.
-Shared plugins and profiles are generic: `check_generic_scope.py` fails CI when a generic repository's pinned
-source names an organization. An organization's repository is private and never fetched.
+Shared plugins and profiles are generic and name no organization. An organization's repository is private.
 
 Generation does not copy `kind` into the host marketplaces. It is consumed by:
 
 | Consumer | Uses `kind` to |
 | --- | --- |
 | `generate.py` | Validate every entry and the organization's `extends` and `requires` |
-| `check_generic_scope.py` | Choose the organization names and the generic repositories to scan |
 | Agent's offline lock, `marketplace_plugins.lock.json` | Carry the roster to Agent; refresh it with Agent's `update_marketplace_plugins.py` after a roster change merges |
 | Agent's selector (`agent:plugins`, adoption, `tj install`) | Refuse more than one profile after `requires` expansion, and refuse `personal` on a repository an installed employer declaration matches |
 

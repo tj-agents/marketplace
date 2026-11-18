@@ -33,5 +33,6 @@
     { "name": "personal", "repository": "personal", "revision": "ee960a4a07f8959a03894e989248c865ab586e23", "requires": ["engineering", "agent", "docs", "github"], "kind": "profile" },
     { "name": "teams", "repository": "work", "revision": "f0817ffd4439a09667aa36c9132a5bcedbc1dd4c", "kind": "shared" },
     { "name": "work", "repository": "work", "revision": "f0817ffd4439a09667aa36c9132a5bcedbc1dd4c", "requires": ["engineering", "teams"], "kind": "profile" },
+    { "name": "company", "repository": "company", "revision": "f788b03adc742511fe29da5e8014ee7b096ad303", "requires": ["work", "base", "engineering"], "kind": "organization", "extends": "work" }
   ]
 }
