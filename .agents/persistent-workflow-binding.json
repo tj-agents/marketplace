@@ -1,0 +1,69 @@
+{
+  "authorization_resolution": {
+    "standing": "auto",
+    "stopped_by": null
+  },
+  "auto_merge": false,
+  "bound_at": "2026-10-21T22:40:53.734326+00:00",
+  "branch": "Docs/MigratePlanTrackers",
+  "changed_path_count": 2,
+  "completion_condition": "Reviewed provider declarations and plan links merged, remote main read back and supported provider route verified",
+  "head": "0d3f4c87ed743a63402a386541eb98e561214d3b",
+  "merge_authorization": {
+    "instruction": "right shall we do that now then?",
+    "mode": "merge"
+  },
+  "pending_evidence": [
+    {
+      "check_id": "119527598638",
+      "head_sha": "0d3f4c87ed743a63402a386541eb98e561214d3b",
+      "run_id": "39688223229"
+    },
+    {
+      "check_id": "119527596008",
+      "head_sha": "0d3f4c87ed743a63402a386541eb98e561214d3b",
+      "run_id": "39688222567"
+    },
+    {
+      "check_id": "119527550108",
+      "head_sha": "0d3f4c87ed743a63402a386541eb98e561214d3b",
+      "run_id": "39688208653"
+    },
+    {
+      "check_id": "119527598870",
+      "head_sha": "0d3f4c87ed743a63402a386541eb98e561214d3b",
+      "run_id": "39688223229"
+    },
+    {
+      "check_id": "119527596132",
+      "head_sha": "0d3f4c87ed743a63402a386541eb98e561214d3b",
+      "run_id": "39688222567"
+    },
+    {
+      "check_id": "119527550548",
+      "head_sha": "0d3f4c87ed743a63402a386541eb98e561214d3b",
+      "run_id": "39688208653"
+    }
+  ],
+  "pr": 20,
+  "pr_url": "https://github.com/tj-agents/marketplace/pull/20",
+  "repo": "tj-agents/marketplace",
+  "review": {
+    "reviewed_sha": "0d3f4c87ed743a63402a386541eb98e561214d3b",
+    "work_order": "C:\\Users\\TommySeery\\source\\repos\\tj-agents\\marketplace\\.git\\agent-workflow\\reviews\\e139c66d78f8edee48208610c532e41f3beb22c2758bd2822562806cd9f0be03\\work-order.md",
+    "work_order_order": [
+      "full"
+    ]
+  },
+  "schema_version": 1,
+  "scoped_approval": {
+    "branch": "Docs/MigratePlanTrackers",
+    "instruction": "right shall we do that now then?",
+    "mode": "merge",
+    "pr_number": 20,
+    "repository": "tj-agents/marketplace",
+    "source": "User authorization for the unfinished-plan migration and its normal source/config delivery, recorded in tj-agents/docs plans/plan-work-item-migration/PLAN.md on 2026-10-21. Scope is this reviewed provider/backlink source slice only.",
+    "worktree": "C:\\Users\\TommySeery\\source\\repos\\tj-agents\\marketplace\\.worktrees\\Docs-MigratePlanTrackers"
+  },
+  "worktree": "C:\\Users\\TommySeery\\source\\repos\\tj-agents\\marketplace\\.worktrees\\Docs-MigratePlanTrackers"
+}
