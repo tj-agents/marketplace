@@ -374,7 +374,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/company.git",
         "path": "./plugins/company",
-        "sha": "8aef39ff3a225da3c658ba98d944ff6b10cd4058"
+        "sha": "f788b03adc742511fe29da5e8014ee7b096ad303"
       },
       "dependencies": [
         "work",
