@@ -13,7 +13,7 @@ Do not close or rewrite the parent goal, adopt its checkout, or launch a duplica
 
 Checkout: C:/Users/TommySeery/source/repos/tj-agents/marketplace/.worktrees/Feature-CoreCatalogAdoption
 Branch: Feature/CoreCatalogAdoption
-Fresh base: origin/main 62b527449045991582ebd44ac9b4e3005f2c2b8c, fetched 2026-10-07.
+Fresh base: origin/main 96bcb67ef5bfe4063c42e22b03869ddedd8b3674, fetched 2026-10-07.
 Native launch lane: L1 because the first phase must settle aggregate/release mapping. Apply L4 to bounded
 implementation after readiness; retain this side owner through its authorized delivery.
 
@@ -41,7 +41,7 @@ private-work roster addition with review in progress. Preserve that branch and r
 No exact C-slice native owner was observed. You are not alone: never revert others' edits.
 
 Kit is a separate future PR/checkout, not part of this writer lease. Its primary is
-C:/Users/TommySeery/source/repos/tj-agents/kit at ac260634c671e5c5ff402f128be794079b9dcf50.
+C:/Users/TommySeery/source/repos/tj-agents/kit at 8c57d1336de3a4a435d20be5bac8d2af79ed81e8.
 Open kit PR #4 Refactor/KitTaxonomyVocabulary owns overlapping generator/template/checker/test changes.
 Read-only inspection may resolve the intended consumption contract, but do not edit kit or duplicate
 that owner. Return a concrete kit handoff dependency to the parent for a separate native Claude slice.
