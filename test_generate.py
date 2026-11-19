@@ -170,10 +170,12 @@ class RealRosterTests(unittest.TestCase):
             "azure": ["engineering"], "template": ["engineering", "skill"], "skill": ["engineering"],
             "learning": ["base"],
             "personal": ["engineering", "agent", "docs", "github"], "work": ["engineering", "teams"],
+            "company": ["work", "base", "engineering"],
         }
         expected_names = {
             "base", "agent-store", "agent", "codex", "cli", "workflow", "engineering", "docs", "cpp", "gpp", "msvc", "win32",
             "dotnet", "efcore", "react", "nvim", "rust", "python", "github", "github-actions", "azure",
+            "template", "skill", "learning", "personal", "teams", "work", "company", "tauri", "rust-sqlx", "seaorm",
         }
         by_name = {plugin["name"]: plugin for plugin in plugins}
         self.assertEqual(expected_names, set(by_name))
@@ -277,9 +279,11 @@ def test_build_requires_every_entry_to_declare_its_kind(roster_root: Path) -> No
         generate.build()
 
 
+def test_real_roster_marks_personal_and_work_as_profiles_and_company_as_organization() -> None:
     roster = json.loads((generate.ROOT / "plugins.json").read_text(encoding="utf-8"))
     kinds = {plugin["name"]: plugin["kind"] for plugin in roster["plugins"]}
     assert {name for name, kind in kinds.items() if kind == "profile"} == {"personal", "work"}
+    assert {name for name, kind in kinds.items() if kind == "organization"} == {"company"}
 
 
 if __name__ == "__main__":
