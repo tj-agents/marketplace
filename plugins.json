@@ -24,15 +24,15 @@
     { "name": "rust-sqlx", "repository": "rust", "revision": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e", "requires": ["rust"], "kind": "shared" },
     { "name": "seaorm", "repository": "rust", "revision": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e", "requires": ["rust"], "kind": "shared" },
     { "name": "python", "repository": "python", "revision": "cd143949fb027ec30ed0267dfd37a76c5cc17910", "requires": ["engineering"], "kind": "shared" },
-    { "name": "github", "repository": "github", "revision": "a32b3b7203df9a261c345d269494887b4479fb79", "requires": ["base"], "kind": "shared" },
+    { "name": "github", "repository": "github", "revision": "f2c99f959c50b0f5a5778875852d1dab03f4ccef", "requires": ["base"], "kind": "shared" },
     { "name": "github-actions", "repository": "github-actions", "revision": "e44e73539816e5ebf3acb9eb31d59e29b7e7d1c6", "requires": ["engineering"], "kind": "shared" },
     { "name": "azure", "repository": "azure", "revision": "25dccc121fa1c1b2f8fb90721b6410ede70a9f9e", "requires": ["engineering"], "kind": "shared" },
-    { "name": "template", "repository": "template", "revision": "c7b61a71f3c902edd12ebdc9d961a911f15aa416", "requires": ["engineering", "skill"], "kind": "shared" },
-    { "name": "skill", "repository": "template", "revision": "c7b61a71f3c902edd12ebdc9d961a911f15aa416", "requires": ["engineering"], "kind": "shared" },
+    { "name": "template", "repository": "template", "revision": "a304090dbc92c8abd2eee3fcf10a8a878774f2c0", "requires": ["engineering", "skill"], "kind": "shared" },
+    { "name": "skill", "repository": "template", "revision": "a304090dbc92c8abd2eee3fcf10a8a878774f2c0", "requires": ["engineering"], "kind": "shared" },
     { "name": "learning", "repository": "learning", "revision": "22d3ea2b9265ad7b9dd2b11070a38574c819af46", "requires": ["base"], "kind": "shared" },
-    { "name": "personal", "repository": "personal", "revision": "ef19db7df0a304d56fe037106a23358931a3c43c", "requires": ["engineering", "agent", "docs", "github"], "kind": "profile" },
-    { "name": "teams", "repository": "work", "revision": "810a14882f4a69f93f0197bbf30587774121248e", "kind": "shared" },
-    { "name": "work", "repository": "work", "revision": "810a14882f4a69f93f0197bbf30587774121248e", "requires": ["engineering", "teams"], "kind": "profile" },
+    { "name": "personal", "repository": "personal", "revision": "18919f8400cf7fc206b62523738be3ce55042811", "requires": ["engineering", "agent", "docs", "github"], "kind": "profile" },
+    { "name": "teams", "repository": "work", "revision": "f24dd748ebe551306d1f3e72a551d963949d10f6", "kind": "shared" },
+    { "name": "work", "repository": "work", "revision": "f24dd748ebe551306d1f3e72a551d963949d10f6", "requires": ["engineering", "teams"], "kind": "profile" },
     { "name": "company", "repository": "company", "revision": "c85adc5166fc72275d03ba6ed0bab5c525081dc3", "requires": ["work", "base", "engineering"], "kind": "organization", "extends": "work" }
   ]
 }
