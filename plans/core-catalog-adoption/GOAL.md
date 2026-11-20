@@ -29,8 +29,8 @@ called core, vendor core sources, or transfer other producers' release ownership
 
 ## Source evidence and boundaries
 
-Read AGENTS.md and README.md first. catalog.json is the only authored roster; generate.py produces
-both host marketplace manifests. generate.py currently hardcodes main and Codex AVAILABLE. README
+Read AGENTS.md and README.md first. catalog.json is the only authored roster; generate_marketplaces.py produces
+both host marketplace manifests. generate_marketplaces.py currently hardcodes main and Codex AVAILABLE. README
 requires explicit selection and disable/uninstall of the legacy identity before enabling a replacement.
 Read current core release/catalog/bootstrap and harness schemas as dependency evidence before deciding
 whether this repository needs an alias bridge, pinned discovery data, documentation, or another mechanism.
@@ -59,7 +59,7 @@ unreviewed code; preserve pins and do not relabel moving main as equivalent trus
 - Keep installed legacy identities usable through their published compatibility windows.
 - Tests cover relevant clean and legacy selections, exact release ownership, missing dependencies,
   and duplicate activation prevention; neither catalog registration nor a listing proves active hooks.
-- Run python -B generate.py --check, python -B -m unittest -q, and claude plugin validate .;
+- Run python -B generate_marketplaces.py --check, python -B -m unittest -q, and claude plugin validate .;
   run generation after authored changes and follow repository CI on the exact PR head.
 - Use isolated host state only when it can be provisioned without credential copying or normal-profile
   changes. Record unavailable native acceptance as a specific unresolved gate, not a passed test.

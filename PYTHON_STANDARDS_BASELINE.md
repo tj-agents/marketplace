@@ -8,19 +8,19 @@ Reason: preserve existing implementations during the standards rollout. Each row
 
 | File | Rule | Existing count | Required repair |
 | --- | --- | ---: | --- |
-| `generate.py` | `E501` | 8 | Line too long (89 > 88) |
-| `generate.py` | `I001` | 1 | Import block is un-sorted or un-formatted |
-| `test_generate.py` | `E501` | 17 | Line too long (99 > 88) |
-| `test_generate.py` | `I001` | 1 | Import block is un-sorted or un-formatted |
-| `test_generate.py` | `PT009` | 18 | Use a regular `assert` instead of unittest-style `assertEqual` |
-| `test_generate.py` | `TID251` | 2 | `unittest.TestCase` is banned: Use plain pytest functions and bare assertions. |
+| `generate_marketplaces.py` | `E501` | 8 | Line too long (89 > 88) |
+| `generate_marketplaces.py` | `I001` | 1 | Import block is un-sorted or un-formatted |
+| `test_generate_marketplaces.py` | `E501` | 17 | Line too long (99 > 88) |
+| `test_generate_marketplaces.py` | `I001` | 1 | Import block is un-sorted or un-formatted |
+| `test_generate_marketplaces.py` | `PT009` | 18 | Use a regular `assert` instead of unittest-style `assertEqual` |
+| `test_generate_marketplaces.py` | `TID251` | 2 | `unittest.TestCase` is banned: Use plain pytest functions and bare assertions. |
 
 ## Ruff formatter
 
 Exact existing files requiring formatting are excluded from the formatter during this rollout. Regenerate payloads after formatting authored source and then remove its exception. New files are checked.
 
-- `generate.py`
-- `test_generate.py`
+- `generate_marketplaces.py`
+- `test_generate_marketplaces.py`
 - `test_pins.py`
 
 ## Mypy
@@ -29,8 +29,8 @@ Existing typing debt is baselined by exact module and diagnostic code, with its 
 
 | File | Module | Rule | Existing count | Required repair |
 | --- | --- | --- | ---: | --- |
-| `test_generate.py` | `test_generate` | `no-untyped-call` | 9 | Call to untyped function "write_plugins_file" in typed context |
-| `test_generate.py` | `test_generate` | `no-untyped-def` | 21 | Function is missing a return type annotation |
+| `test_generate_marketplaces.py` | `test_generate_marketplaces` | `no-untyped-call` | 9 | Call to untyped function "write_plugins_file" in typed context |
+| `test_generate_marketplaces.py` | `test_generate_marketplaces` | `no-untyped-def` | 21 | Function is missing a return type annotation |
 
 ## Custom checker
 
