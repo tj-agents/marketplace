@@ -67,6 +67,18 @@ manifests. Private producers require Git authentication. CI supplies `TJ_AGENTS_
 generation step through GitHub CLI's credential helper; it writes no credential configuration or
 token-bearing remote URL. Local generation uses the existing Git credential setup.
 
+The `marketplace-private-read` credential in `.agents/repository.json` declares the private source and
+its Actions secret destination. For a failed private fetch, use the shared
+[credential onboarding flow](https://github.com/tj-agents/github/blob/main/.agents/github/utility/access/SKILL.md):
+
+```text
+tj-credentials check --name marketplace-private-read
+```
+
+Follow the returned owner action through that flow. GitHub owns enrollment, secure storage, publication
+and rotation; this repository declares only the required read and destination. After a publication receipt,
+rerun the failed CI job to verify the consuming fetch.
+
 Renovate groups Core, Agent and CLI pins together for runtime delivery. Updates from other producers
 use a separate group, so their failing checks leave runtime updates able to publish independently.
 
