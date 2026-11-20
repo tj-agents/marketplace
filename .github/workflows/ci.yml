@@ -15,11 +15,12 @@ concurrency:
 jobs:
   python-standards:
     name: python-standards
-    uses: tj-agents/template/.github/workflows/python-standards.yml@16a741dae1ca716c3edc912c70b5d91bc28621a6
+    uses: tj-agents/template/.github/workflows/python-standards.yml@a304090dbc92c8abd2eee3fcf10a8a878774f2c0
 
   verify:
     name: verify
     needs: python-standards
+    timeout-minutes: 15
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -30,9 +31,17 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
-          python-version: '3.15'
+          python-version-file: .python-version
       - name: Generated marketplaces and instruction pairs are current
-        run: python -B generate.py --check
+        env:
+          GH_TOKEN: ${{ secrets.TJ_AGENTS_READ_TOKEN }}
+          GIT_TERMINAL_PROMPT: '0'
+          GIT_CONFIG_COUNT: '2'
+          GIT_CONFIG_KEY_0: credential.helper
+          GIT_CONFIG_VALUE_0: ''
+          GIT_CONFIG_KEY_1: credential.https://github.com.helper
+          GIT_CONFIG_VALUE_1: '!gh auth git-credential'
+        run: python -B generate_marketplaces.py --check
       - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884
       - name: Sync the locked Python tooling environment
         run: uv sync --locked

@@ -49,6 +49,7 @@
         "sha": "9dc7e1a714ae71ba7a47efce9356aa0684d55b33"
       },
       "dependencies": [
+        "base",
         "agent"
       ]
     },
@@ -58,7 +59,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cli.git",
         "path": "./plugins/cli",
-        "sha": "10ce3695eedc0750d169bfecf90402edf8e856e6"
+        "sha": "02bee06db48a2b3c219a568b5d71ae7d6d455d5e"
       },
       "dependencies": [
         "base"
@@ -74,8 +75,8 @@
       },
       "dependencies": [
         "base",
-        "agent-store",
-        "agent"
+        "agent",
+        "cli"
       ]
     },
     {
@@ -89,8 +90,8 @@
       "dependencies": [
         "base",
         "workflow",
-        "agent-store",
-        "agent"
+        "agent",
+        "cli"
       ]
     },
     {
@@ -159,6 +160,7 @@
         "sha": "975d50d40e025c8e4806bcdd27d6feea3d7afd67"
       },
       "dependencies": [
+        "base",
         "engineering"
       ]
     },
@@ -171,6 +173,8 @@
         "sha": "975d50d40e025c8e4806bcdd27d6feea3d7afd67"
       },
       "dependencies": [
+        "base",
+        "engineering",
         "dotnet"
       ]
     },
@@ -183,6 +187,7 @@
         "sha": "3b3b7fa09f703a5711e9d5b53fd4a4733437ee53"
       },
       "dependencies": [
+        "base",
         "engineering"
       ]
     },
@@ -207,6 +212,7 @@
         "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
       },
       "dependencies": [
+        "base",
         "engineering"
       ]
     },
@@ -219,6 +225,8 @@
         "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
       },
       "dependencies": [
+        "base",
+        "engineering",
         "rust"
       ]
     },
@@ -231,6 +239,8 @@
         "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
       },
       "dependencies": [
+        "base",
+        "engineering",
         "rust"
       ]
     },
@@ -243,6 +253,8 @@
         "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
       },
       "dependencies": [
+        "base",
+        "engineering",
         "rust"
       ]
     },
@@ -255,6 +267,7 @@
         "sha": "cd143949fb027ec30ed0267dfd37a76c5cc17910"
       },
       "dependencies": [
+        "base",
         "engineering"
       ]
     },
@@ -264,7 +277,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/github.git",
         "path": "./plugins/github",
-        "sha": "f2c99f959c50b0f5a5778875852d1dab03f4ccef"
+        "sha": "8bf21b71ec4ef942c3a6c9ad40e46f1e81f23927"
       },
       "dependencies": [
         "base"
@@ -276,9 +289,10 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/github-actions.git",
         "path": "./plugins/github-actions",
-        "sha": "e44e73539816e5ebf3acb9eb31d59e29b7e7d1c6"
+        "sha": "9c5bd2db704a5790e4fe8642a04b0b9239280442"
       },
       "dependencies": [
+        "base",
         "engineering"
       ]
     },
@@ -291,6 +305,7 @@
         "sha": "25dccc121fa1c1b2f8fb90721b6410ede70a9f9e"
       },
       "dependencies": [
+        "base",
         "engineering"
       ]
     },
@@ -303,6 +318,7 @@
         "sha": "a304090dbc92c8abd2eee3fcf10a8a878774f2c0"
       },
       "dependencies": [
+        "base",
         "engineering",
         "skill"
       ]
@@ -316,6 +332,7 @@
         "sha": "a304090dbc92c8abd2eee3fcf10a8a878774f2c0"
       },
       "dependencies": [
+        "base",
         "engineering"
       ]
     },
@@ -340,6 +357,7 @@
         "sha": "18919f8400cf7fc206b62523738be3ce55042811"
       },
       "dependencies": [
+        "base",
         "engineering",
         "agent",
         "docs",
@@ -352,7 +370,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/work.git",
         "path": "./plugins/teams",
-        "sha": "f24dd748ebe551306d1f3e72a551d963949d10f6"
+        "sha": "c4b4335cad1f513f30f974582dd9553f4ef8542a"
       }
     },
     {
@@ -361,11 +379,13 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/work.git",
         "path": "./plugins/work",
-        "sha": "f24dd748ebe551306d1f3e72a551d963949d10f6"
+        "sha": "c4b4335cad1f513f30f974582dd9553f4ef8542a"
       },
       "dependencies": [
+        "base",
         "engineering",
-        "teams"
+        "teams",
+        "docs"
       ]
     },
     {
@@ -378,6 +398,7 @@
       },
       "dependencies": [
         "work",
+        "docs",
         "base",
         "engineering"
       ]

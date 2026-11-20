@@ -29,7 +29,7 @@ Two adoption paths exist and stay separate:
    exact-adoption path, and that is the recorded failure behavior, not a gap.
 
 2. **The aggregate is the discovery and explicit host-install identity, and it must stop serving
-   moving `main` for producers that publish releases.** `generate.py` currently hardcodes
+   moving `main` for producers that publish releases.** `generate_marketplaces.py` currently hardcodes
    `ref: main`, so a host install (`/plugin install base@tj-agents`) executes whatever main holds
    that day — the same unreviewed-code concern that core's prior review rejected for consumer refs.
    The marketplace-owned mechanism is **pinned discovery data**: the authored roster records, per
@@ -88,7 +88,7 @@ Each plugin entry gains:
   record's `dependencies.required`. Every name must be another roster entry, so a roster edit cannot
   strand a dependent plugin behind a missing dependency.
 
-Validation added to `generate.py` `build()`:
+Validation added to `generate_marketplaces.py` `build()`:
 
 - `revision` matches the grammar above; `release` matches its grammar; `release` with `revision:
   main` is an error; `v`-tag/release version mismatch is an error.
@@ -134,7 +134,7 @@ Rewrite the install/update guidance to state:
 - Neither catalog registration nor a plugin listing proves active hooks; native host verification
   remains a separate acceptance step.
 
-## Tests (extend test_generate.py)
+## Tests (extend test_generate_marketplaces.py)
 
 - Validation: missing/invalid `revision`; `release` with `main`; tag/release version mismatch; mixed
   revisions within one repository; unknown `requires` name — each raises.
@@ -145,7 +145,7 @@ Rewrite the install/update guidance to state:
   one repository share one release; core entries are pinned.
 - Existing instruction-pair tests stay.
 
-Local validation commands (unchanged CI): `python -B generate.py`, `python -B generate.py --check`,
+Local validation commands (unchanged CI): `python -B generate_marketplaces.py`, `python -B generate_marketplaces.py --check`,
 `python -B -m unittest -q`, `claude plugin validate .`.
 
 ## Out of scope and recorded dependencies
@@ -172,5 +172,5 @@ Local validation commands (unchanged CI): `python -B generate.py`, `python -B ge
 ## Review and delivery
 
 Readiness review of this design precedes implementation. Implementation is one bounded L4 slice:
-`catalog.json`, `generate.py`, `test_generate.py`, `README.md`, regenerated host manifests. Then
+`catalog.json`, `generate_marketplaces.py`, `test_generate_marketplaces.py`, `README.md`, regenerated host manifests. Then
 focused checks, code review, PR, CI on the exact head, normal merge; evidence lands in RESULT.md.

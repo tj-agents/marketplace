@@ -4,8 +4,8 @@ One shared plugin roster, projected into one package format both Claude Code and
 current plugins published from `tj-agents/core`, `agent`, `cli`, `github`, `cpp`, `dotnet`, `react`,
 `nvim`, `rust`, `python`, `github-actions`, `azure`, `learning`, `template`, `personal`, `work`, and
 `company`. Packages stay in their source repositories; this repository never authors plugin content
-itself. Adding another repository requires one entry in `plugins.json`; `generate.py` produces the
-matching Claude and Codex marketplaces. Core launch refresh updates selected plugin content from these
+itself. Adding another repository requires one entry in `plugins.json`; `generate_marketplaces.py` produces the
+matching Claude and Codex marketplaces. Agent refresh updates selected plugin content from these
 source repositories.
 
 This roster also supplies Agent's pinned offline project selector snapshot. After publishing a
@@ -31,9 +31,10 @@ optionally `win32` for C++ work. For generic sustained tasks, select the `base`,
 `agent`, `cli`, and `workflow` closure. CLI supplies exact-target close utilities;
 Agent supplies session-aware target resolution and coordination.
 For software work, select `engineering` plus the common closure.
-Each plugin entry declares its actual prerequisites. Runtime packages remain reusable without Engineering;
-stack and product profiles retain their declared Engineering dependencies. Claude installs each entry's `requires` as `dependencies`; Codex
-does not resolve dependencies, so a selection still lists the closure.
+A plugin declares its prerequisites in its published `.claude-plugin/plugin.json` `dependencies`.
+Generation reads that manifest at the roster's pinned revision and writes the dependencies into the Claude
+catalog. The roster rejects handwritten `requires` fields. Codex does not resolve these dependencies;
+Agent expands the catalog's dependency closure when preparing a project selection for either host.
 
 For projects Tommy explicitly identifies as personal, select `personal` and its actual requirement closure:
 `engineering`, `agent`, `cli`, `base`, `agent-store`, `workflow`, `docs`, and `github`. Then run `personal:use` to generate and
@@ -48,8 +49,8 @@ in this marketplace are `AVAILABLE`, so adding the marketplace does not automati
 Edit `plugins.json`, then run:
 
 ```text
-python -B generate.py
-python -B generate.py --check
+python -B generate_marketplaces.py
+python -B generate_marketplaces.py --check
 claude plugin validate .
 ```
 
@@ -58,9 +59,26 @@ published producer payload. Generation writes it as the native `source.sha` and 
 Marketplace owns these producer pins. Publish and verify the producer payload
 before activating its revision here.
 
-Agent and Core each require one revision across every entry from that producer when pinned. Mixing
-pinned and unpinned entries, or two revisions of one producer, is rejected. Update the Agent/Core pair
-in one roster change after both payloads are published. Other producers retain independent entry policy.
+Every entry from one producer uses the same revision. Mixing pinned and unpinned entries, or two revisions
+of one producer, is rejected. Update coordinated producers together after their payloads are published.
+
+Generation fetches each producer revision once into a temporary bare repository and reads its plugin
+manifests. Private producers require Git authentication. CI supplies `TJ_AGENTS_READ_TOKEN` only to the
+generation step through GitHub CLI's credential helper; it writes no credential configuration or
+token-bearing remote URL. Local generation uses the existing Git credential setup.
+
+The `marketplace-private-read` credential in `.agents/repository.json` declares the private source and
+its Actions secret destination. For a failed private fetch, use the shared
+[credential onboarding flow](https://github.com/tj-agents/github/blob/main/.agents/github/utility/access/SKILL.md):
+
+```text
+tj-credentials check --name marketplace-private-read
+```
+
+Start the returned onboarding or publication command through that flow; the human approves in its browser
+form. GitHub owns enrollment, secure storage, publication and rotation; this repository declares only the
+required read and destination. After a publication receipt, rerun the failed CI job to verify the consuming
+fetch.
 
 Renovate groups Core, Agent and CLI pins together for runtime delivery. Updates from other producers
 use a separate group, so their failing checks leave runtime updates able to publish independently.
@@ -97,22 +115,22 @@ Template depends on Skill so selected plugin publishers load the current native-
 | `profile` | How the repository is worked on: `personal` or `work` | Exactly one | Never |
 | `organization` | One organization's layer on one profile (`company` on `work`) | At most one, with its profile | Yes |
 
-An `organization` entry also declares `"extends": "<profile>"` naming one `profile` entry and lists that
-profile in `requires`, so selecting the organization brings its profile. No other kind uses `extends`.
+An `organization` entry also declares `"extends": "<profile>"` naming one `profile` entry, and its manifest
+depends on that profile, so selecting the organization brings its profile. No other kind uses `extends`.
 Shared plugins and profiles are generic and name no organization. An organization's repository is private.
 
 Generation does not copy `kind` into the host marketplaces. It is consumed by:
 
 | Consumer | Uses `kind` to |
 | --- | --- |
-| `generate.py` | Validate every entry and the organization's `extends` and `requires` |
+| `generate_marketplaces.py` | Validate every entry, its manifest dependencies, and the organization's dependency on the profile it `extends` |
 | Agent's offline lock, `marketplace_plugins.lock.json` | Carry the roster to Agent; refresh it with Agent's `update_marketplace_plugins.py` after a roster change merges |
-| Agent's selector (`agent:plugins`, adoption, `tj install`) | Refuse more than one profile after `requires` expansion, and refuse `personal` on a repository an installed employer declaration matches |
+| Agent's selector (`agent:plugins`, adoption, `tj install`) | Refuse more than one profile after dependency expansion, and refuse `personal` on a repository an installed employer declaration matches |
 
 To add a plugin, publish its producer payload, then add one entry of the right kind and regenerate:
 
 ```json
-{ "name": "example-tool", "repository": "example-tool", "revision": "<40-character commit>", "requires": ["base"], "kind": "shared" },
-{ "name": "example-profile", "repository": "example-profile", "revision": "<40-character commit>", "requires": ["engineering"], "kind": "profile" },
-{ "name": "example-employer", "repository": "example-employer", "revision": "<40-character commit>", "requires": ["work"], "kind": "organization", "extends": "work" }
+{ "name": "example-tool", "repository": "example-tool", "revision": "<40-character commit>", "kind": "shared" },
+{ "name": "example-profile", "repository": "example-profile", "revision": "<40-character commit>", "kind": "profile" },
+{ "name": "example-employer", "repository": "example-employer", "revision": "<40-character commit>", "kind": "organization", "extends": "work" }
 ```

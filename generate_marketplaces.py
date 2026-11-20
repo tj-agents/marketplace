@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
-"""Generate host marketplaces from one canonical TJ Agents plugin roster."""
+"""Generate host marketplaces from one canonical TJ Agents plugin roster.
+
+Each plugin's dependencies are read from its own `.claude-plugin/plugin.json` at the revision the roster
+pins, so the catalog always declares what the pinned plugin itself requires.
+"""
 
 from __future__ import annotations
 
 import argparse
+from collections.abc import Callable, Mapping, Sequence
+from concurrent.futures import ThreadPoolExecutor
 from enum import StrEnum
 import graphlib
 import json
 from pathlib import Path
 import re
+import subprocess
+import tempfile
 
 
 ROOT = Path(__file__).resolve().parent
@@ -18,6 +26,10 @@ OUTPUTS = {
     "codex": ROOT / ".agents" / "plugins" / "marketplace.json",
 }
 IGNORED_DIRS = {".git", ".worktrees", "node_modules", "bin", "obj", "dist"}
+MARKETPLACE = "tj-agents"
+GIT_TIMEOUT_SECONDS = 120
+
+type DependencyReader = Callable[[str, str, Sequence[str]], Mapping[str, list[str]]]
 
 
 class Kind(StrEnum):
@@ -42,7 +54,84 @@ def validate_instruction_pairs() -> None:
             raise ValueError(f"{relative}/CLAUDE.md must contain only @AGENTS.md")
 
 
-def build() -> dict[str, bytes]:
+def _git(directory: Path, *arguments: str) -> bytes:
+    result = subprocess.run(
+        ["git", "-C", str(directory), *arguments],
+        capture_output=True, timeout=GIT_TIMEOUT_SECONDS, check=False,
+    )
+    if result.returncode:
+        detail = result.stderr.decode("utf-8", "replace").strip()
+        raise ValueError(f"git {' '.join(arguments)} failed: {detail}")
+    return result.stdout
+
+
+def manifest_dependency_names(document: object, name: str, repository: str) -> list[str]:
+    if not isinstance(document, dict) or document.get("name") != name:
+        raise ValueError(f"tj-agents/{repository} plugins/{name}/.claude-plugin/plugin.json must name {name}")
+    dependencies = document.get("dependencies", [])
+    if not isinstance(dependencies, list):
+        raise ValueError(f"{name} manifest dependencies must be a list")
+    names = []
+    for dependency in dependencies:
+        if not isinstance(dependency, str):
+            raise ValueError(f"{name} manifest dependency must be a plugin identity: {dependency!r}")
+        plugin, _, marketplace = dependency.partition("@")
+        if marketplace not in ("", MARKETPLACE):
+            raise ValueError(f"{name} depends on {dependency}, which is outside the {MARKETPLACE} marketplace")
+        if not NAME.fullmatch(plugin) or dependency.endswith("@"):
+            raise ValueError(f"{name} manifest dependency is not a plugin identity: {dependency!r}")
+        if plugin in names:
+            raise ValueError(f"{name} manifest repeats dependency: {plugin}")
+        names.append(plugin)
+    return names
+
+
+def read_manifest_dependencies(repository: str, revision: str, names: Sequence[str]) -> dict[str, list[str]]:
+    """Return each named plugin's declared dependencies at one pinned producer revision."""
+    with tempfile.TemporaryDirectory(prefix="tj-agents-marketplace-") as directory:
+        root = Path(directory)
+        _git(root, "init", "--quiet", "--bare")
+        _git(root, "remote", "add", "origin", f"https://github.com/tj-agents/{repository}.git")
+        _git(root, "fetch", "--quiet", "--depth=1", "--filter=blob:none", "origin", revision)
+        paths = {name: f"plugins/{name}/.claude-plugin/plugin.json" for name in names}
+        manifest_tree = _git(
+            root, "ls-tree", "-r", "--format=%(objecttype) %(objectname) %(path)",
+            "FETCH_HEAD", "--", *paths.values(),
+        ).decode("utf-8").splitlines()
+        blobs = {}
+        for row in manifest_tree:
+            kind, object_id, path = row.split(" ", 2)
+            if kind == "blob":
+                blobs[path] = object_id
+        for path in paths.values():
+            if path not in blobs:
+                raise ValueError(f"tj-agents/{repository}@{revision} {path}: manifest is missing")
+        if blobs:
+            _git(root, "fetch", "--quiet", "--no-write-fetch-head", "--filter=blob:none", "origin", *blobs.values())
+        found = {}
+        for name, path in paths.items():
+            try:
+                document = json.loads(_git(root, "cat-file", "blob", blobs[path]).decode("utf-8-sig"))
+                dependencies = manifest_dependency_names(document, name, repository)
+            except ValueError as error:
+                raise ValueError(f"tj-agents/{repository}@{revision} {path}: {error}") from error
+            found[name] = dependencies
+    return found
+
+
+def declared_dependencies(plugins: Sequence[Mapping[str, str]], reader: DependencyReader) -> dict[str, list[str]]:
+    pins: dict[tuple[str, str], list[str]] = {}
+    for plugin in plugins:
+        pins.setdefault((plugin["repository"], plugin["revision"]), []).append(plugin["name"])
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        results = pool.map(lambda pin: reader(pin[0], pin[1], pins[pin]), list(pins))
+        found: dict[str, list[str]] = {}
+        for result in results:
+            found.update(result)
+    return found
+
+
+def build(reader: DependencyReader = read_manifest_dependencies) -> dict[str, bytes]:
     validate_instruction_pairs()
     roster = json.loads((ROOT / "plugins.json").read_text(encoding="utf-8"))
     if roster["name"] != "tj-agents":
@@ -56,7 +145,7 @@ def build() -> dict[str, bytes]:
     for plugin in plugins:
         if not isinstance(plugin, dict):
             raise ValueError(f"Plugin entries must be objects: {plugin!r}")
-        unknown = set(plugin) - {"name", "repository", "requires", "revision", "kind", "extends"}
+        unknown = set(plugin) - {"name", "repository", "revision", "kind", "extends"}
         if unknown:
             raise ValueError(f"Unknown fields in plugin entry: {sorted(unknown)}")
         if "name" not in plugin or "repository" not in plugin or "revision" not in plugin:
@@ -83,24 +172,24 @@ def build() -> dict[str, bytes]:
             continue
         if not isinstance(extends, str) or by_name.get(extends, {}).get("kind") != Kind.PROFILE:
             raise ValueError(f"Organization {name} must extend a profile")
-        if extends not in plugin.get("requires", []):
-            raise ValueError(f"Organization {name} must require {extends}, the profile it extends")
     for repository in sorted({plugin["repository"] for plugin in plugins}):
         if len({plugin["revision"] for plugin in plugins if plugin["repository"] == repository}) != 1:
             raise ValueError(f"Every {repository} entry must use the same immutable revision")
+    dependencies = declared_dependencies(plugins, reader)
+    for plugin in plugins:
+        if plugin["kind"] == Kind.ORGANIZATION and plugin["extends"] not in dependencies[plugin["name"]]:
+            raise ValueError(f"Organization {plugin['name']} must depend on {plugin['extends']}, the profile it extends")
     graph: dict[str, list[str]] = {}
     claude_entries = []
     codex_entries = []
     for plugin in plugins:
         name, repository = plugin["name"], plugin["repository"]
-        requires = plugin.get("requires", [])
-        if not isinstance(requires, list) or any(not isinstance(required, str) for required in requires):
-            raise ValueError(f"requires must be a list of plugin names in {name}")
+        requires = dependencies[name]
         for required in requires:
             if required == name:
                 raise ValueError(f"Plugin cannot require itself: {name}")
             if required not in names:
-                raise ValueError(f"Unknown required plugin: {required!r}")
+                raise ValueError(f"{name} depends on {required!r}, which is not in the roster")
         graph[name] = requires
         source = {
             "source": "git-subdir",
@@ -121,7 +210,7 @@ def build() -> dict[str, bytes]:
     try:
         graphlib.TopologicalSorter(graph).prepare()
     except graphlib.CycleError as error:
-        raise ValueError("Required plugins form a cycle: " + " -> ".join(error.args[1])) from None
+        raise ValueError("Plugin dependencies form a cycle: " + " -> ".join(error.args[1])) from None
     manifests = {
         "claude": {
             "name": roster["name"],

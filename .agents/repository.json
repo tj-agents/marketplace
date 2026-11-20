@@ -1,5 +1,23 @@
 {
   "schema_version": 1,
+  "credentials": [
+    {
+      "name": "marketplace-private-read",
+      "provider": "github-fine-grained",
+      "owner": "tj-agents",
+      "login": "tomjseery",
+      "scopes": [],
+      "permissions": { "contents": "read" },
+      "expires_in": 180,
+      "endpoints": [
+        { "client": "git", "url": "https://github.com/tj-agents/company" }
+      ],
+      "actions_secret": {
+        "repository": "tj-agents/marketplace",
+        "name": "TJ_AGENTS_READ_TOKEN"
+      }
+    }
+  ],
   "merge": {
     "approval": "none",
     "merge": "agents",
