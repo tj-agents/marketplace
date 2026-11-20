@@ -8,7 +8,7 @@
       "login": "tomjseery",
       "scopes": [],
       "permissions": { "contents": "read" },
-      "expires_in": 30,
+      "expires_in": 180,
       "endpoints": [
         { "client": "git", "url": "https://github.com/tj-agents/company" }
       ],
