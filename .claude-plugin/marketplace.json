@@ -277,7 +277,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/github.git",
         "path": "./plugins/github",
-        "sha": "cd018fd557bbdfbeca00218c180325968003b54a"
+        "sha": "5c36d8d84979930187a54a3fb69c743d9175627c"
       },
       "dependencies": [
         "base"
