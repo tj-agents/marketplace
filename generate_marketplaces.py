@@ -98,10 +98,11 @@ def read_manifest_dependencies(repository: str, revision: str, names: Sequence[s
             root, "ls-tree", "-r", "--format=%(objecttype) %(objectname) %(path)",
             "FETCH_HEAD", "--", *paths.values(),
         ).decode("utf-8").splitlines()
-        blobs = {
-            path: object_id for kind, object_id, path in (row.split(" ", 2) for row in manifest_tree)
-            if kind == "blob"
-        }
+        blobs = {}
+        for row in manifest_tree:
+            kind, object_id, path = row.split(" ", 2)
+            if kind == "blob":
+                blobs[path] = object_id
         for path in paths.values():
             if path not in blobs:
                 raise ValueError(f"tj-agents/{repository}@{revision} {path}: manifest is missing")
