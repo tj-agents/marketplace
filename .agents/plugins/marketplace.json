@@ -304,7 +304,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/github.git",
         "path": "./plugins/github",
-        "sha": "5c36d8d84979930187a54a3fb69c743d9175627c"
+        "sha": "8bf21b71ec4ef942c3a6c9ad40e46f1e81f23927"
       },
       "policy": {
         "installation": "AVAILABLE",
