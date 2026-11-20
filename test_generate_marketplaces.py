@@ -354,6 +354,9 @@ def test_manifest_reader_uses_the_pinned_commit_and_rejects_missing_payload(
     manifest = producer / "plugins/work/.claude-plugin/plugin.json"
     manifest.parent.mkdir(parents=True)
     manifest.write_text('{"name":"work","dependencies":["base@tj-agents"]}', encoding="utf-8")
+    dependency = producer / "plugins/base/.claude-plugin/plugin.json"
+    dependency.parent.mkdir(parents=True)
+    dependency.write_text('{"name":"base"}', encoding="utf-8")
     git("add", ".")
     git("commit", "--quiet", "-m", "Published payload")
     revision = git("rev-parse", "HEAD")
@@ -362,7 +365,9 @@ def test_manifest_reader_uses_the_pinned_commit_and_rejects_missing_payload(
     monkeypatch.setenv("GIT_CONFIG_COUNT", "1")
     monkeypatch.setenv("GIT_CONFIG_KEY_0", f"url.{producer.as_uri()}.insteadOf")
     monkeypatch.setenv("GIT_CONFIG_VALUE_0", "https://github.com/tj-agents/work.git")
-    assert generate_marketplaces.read_manifest_dependencies("work", revision, ["work"]) == {"work": ["base"]}
+    assert generate_marketplaces.read_manifest_dependencies("work", revision, ["work", "base"]) == {
+        "work": ["base"], "base": [],
+    }
     with pytest.raises(ValueError, match=f"tj-agents/work@{revision} plugins/absent/"):
         generate_marketplaces.read_manifest_dependencies("work", revision, ["absent"])
 

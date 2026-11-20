@@ -93,11 +93,24 @@ def read_manifest_dependencies(repository: str, revision: str, names: Sequence[s
         _git(root, "init", "--quiet", "--bare")
         _git(root, "remote", "add", "origin", f"https://github.com/tj-agents/{repository}.git")
         _git(root, "fetch", "--quiet", "--depth=1", "--filter=blob:none", "origin", revision)
+        paths = {name: f"plugins/{name}/.claude-plugin/plugin.json" for name in names}
+        manifest_tree = _git(
+            root, "ls-tree", "-r", "--format=%(objecttype) %(objectname) %(path)",
+            "FETCH_HEAD", "--", *paths.values(),
+        ).decode("utf-8").splitlines()
+        blobs = {
+            path: object_id for kind, object_id, path in (row.split(" ", 2) for row in manifest_tree)
+            if kind == "blob"
+        }
+        for path in paths.values():
+            if path not in blobs:
+                raise ValueError(f"tj-agents/{repository}@{revision} {path}: manifest is missing")
+        if blobs:
+            _git(root, "fetch", "--quiet", "--no-write-fetch-head", "--filter=blob:none", "origin", *blobs.values())
         found = {}
-        for name in names:
-            path = f"plugins/{name}/.claude-plugin/plugin.json"
+        for name, path in paths.items():
             try:
-                document = json.loads(_git(root, "cat-file", "blob", f"FETCH_HEAD:{path}").decode("utf-8-sig"))
+                document = json.loads(_git(root, "cat-file", "blob", blobs[path]).decode("utf-8-sig"))
                 dependencies = manifest_dependency_names(document, name, repository)
             except ValueError as error:
                 raise ValueError(f"tj-agents/{repository}@{revision} {path}: {error}") from error
