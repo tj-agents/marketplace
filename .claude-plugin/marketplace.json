@@ -204,7 +204,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/rust",
-        "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
+        "sha": "69bbaff0eb9b1c8df948f3a843abd8ada8be2df4"
       },
       "dependencies": [
         "engineering"
@@ -216,7 +216,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/tauri",
-        "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
+        "sha": "69bbaff0eb9b1c8df948f3a843abd8ada8be2df4"
       },
       "dependencies": [
         "rust"
@@ -228,7 +228,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/rust-sqlx",
-        "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
+        "sha": "69bbaff0eb9b1c8df948f3a843abd8ada8be2df4"
       },
       "dependencies": [
         "rust"
@@ -240,7 +240,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/seaorm",
-        "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
+        "sha": "69bbaff0eb9b1c8df948f3a843abd8ada8be2df4"
       },
       "dependencies": [
         "rust"
@@ -264,7 +264,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/github.git",
         "path": "./plugins/github",
-        "sha": "f2c99f959c50b0f5a5778875852d1dab03f4ccef"
+        "sha": "8bf21b71ec4ef942c3a6c9ad40e46f1e81f23927"
       },
       "dependencies": [
         "base"
@@ -276,7 +276,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/github-actions.git",
         "path": "./plugins/github-actions",
-        "sha": "e44e73539816e5ebf3acb9eb31d59e29b7e7d1c6"
+        "sha": "9c5bd2db704a5790e4fe8642a04b0b9239280442"
       },
       "dependencies": [
         "engineering"
@@ -352,7 +352,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/work.git",
         "path": "./plugins/teams",
-        "sha": "f24dd748ebe551306d1f3e72a551d963949d10f6"
+        "sha": "c4b4335cad1f513f30f974582dd9553f4ef8542a"
       }
     },
     {
@@ -361,7 +361,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/work.git",
         "path": "./plugins/work",
-        "sha": "f24dd748ebe551306d1f3e72a551d963949d10f6"
+        "sha": "c4b4335cad1f513f30f974582dd9553f4ef8542a"
       },
       "dependencies": [
         "engineering",
