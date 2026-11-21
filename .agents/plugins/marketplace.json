@@ -66,7 +66,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/cli.git",
         "path": "./plugins/cli",
-        "sha": "02bee06db48a2b3c219a568b5d71ae7d6d455d5e"
+        "sha": "7d650f875704613e5296f35af9c7c680752ec85b"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -234,7 +234,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/rust",
-        "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
+        "sha": "69bbaff0eb9b1c8df948f3a843abd8ada8be2df4"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -248,7 +248,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/tauri",
-        "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
+        "sha": "69bbaff0eb9b1c8df948f3a843abd8ada8be2df4"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -262,7 +262,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/rust-sqlx",
-        "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
+        "sha": "69bbaff0eb9b1c8df948f3a843abd8ada8be2df4"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -276,7 +276,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/rust.git",
         "path": "./plugins/seaorm",
-        "sha": "9e08a777c1848286ba4de0e8db30e4c3f1964f6e"
+        "sha": "69bbaff0eb9b1c8df948f3a843abd8ada8be2df4"
       },
       "policy": {
         "installation": "AVAILABLE",
