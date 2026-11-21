@@ -112,7 +112,7 @@ Template depends on Skill so selected plugin publishers load the current native-
 | Kind | What it is | A repository selects | Names an organization |
 | --- | --- | --- | --- |
 | `shared` | A capability any repository may use (`base`, `python`, `github`, ...) | Any number | Never |
-| `profile` | How the repository is worked on: `personal` or `work` | Exactly one | Never |
+| `profile` | How the repository is worked on: `personal` or `work` | At most one | Never |
 | `organization` | One organization's layer on one profile (`company` on `work`) | At most one, with its profile | Yes |
 
 An `organization` entry also declares `"extends": "<profile>"` naming one `profile` entry, and its manifest
