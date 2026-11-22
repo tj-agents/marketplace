@@ -1,0 +1,30 @@
+{
+  "authorization_resolution": {
+    "standing": "absent",
+    "stopped_by": {
+      "class": "no-recorded-authorization"
+    }
+  },
+  "bound_at": "2026-10-07T19:28:37.459558+00:00",
+  "branch": "Feature/WorkPlugin",
+  "changed_path_count": 4,
+  "completion_condition": "the bound PR reaches MERGED, or a recorded terminal ends this delivery",
+  "head": "ee868f1966b6e53b4975d6ff88e1378578c78320",
+  "merge_authorization": {
+    "instruction": null,
+    "mode": "absent"
+  },
+  "pending_evidence": [],
+  "pr": 3,
+  "pr_url": "https://github.com/tj-agents/marketplace/pull/3",
+  "repo": "tj-agents/marketplace",
+  "review": {
+    "reviewed_sha": "ee868f1966b6e53b4975d6ff88e1378578c78320",
+    "work_order": "reviews/Feature-WorkPlugin.md",
+    "work_order_order": [
+      "full"
+    ]
+  },
+  "schema_version": 1,
+  "worktree": "C:\\Users\\TommySeery\\source\\repos\\tj-agents\\marketplace"
+}
