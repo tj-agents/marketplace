@@ -352,7 +352,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/work.git",
         "path": "./plugins/teams",
-        "sha": "c4b4335cad1f513f30f974582dd9553f4ef8542a"
+        "sha": "4a05cc53dd081d25c48f3e787b899f2979da65c4"
       }
     },
     {
@@ -361,7 +361,7 @@
         "source": "git-subdir",
         "url": "https://github.com/tj-agents/work.git",
         "path": "./plugins/work",
-        "sha": "c4b4335cad1f513f30f974582dd9553f4ef8542a"
+        "sha": "4a05cc53dd081d25c48f3e787b899f2979da65c4"
       },
       "dependencies": [
         "engineering",
